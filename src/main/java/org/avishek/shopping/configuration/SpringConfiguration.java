@@ -105,6 +105,8 @@ public class SpringConfiguration implements WebMvcConfigurer{
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:messages");
 		messageSource.setDefaultEncoding("UTF-8");
+		//Only for development environment
+		messageSource.setCacheSeconds(1); //Load all the changes in properties file withoutrestart server
 		
 		return messageSource;
 	}

@@ -9,22 +9,40 @@
 
 package org.avishek.shopping.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.validation.Valid;
 
 import org.avishek.shopping.command.CustomerCommand;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
-@RequestMapping(value = "/Customer")
+@RequestMapping(value = "/CustomerRegistration")
 public class CustomerRegistrationController {
 	
-	@RequestMapping(value = "/showRegistrationPage.abhi")
+	/*@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+		binder.registerCustomEditor(Date.class, "birthday", new CustomDateEditor(dateFormat, false));
+	}*/
+	
+	/*@ModelAttribute
+	public void addingCommonObjects(Model model) {
+		model.addAttribute("name", "Common Message");
+	}*/
+	
+	@RequestMapping(value = "/showPage.abhi")
 	public String showRegistrationPage(Map<String, CustomerCommand> model) throws ServletException {
 		String view = "";
 		CustomerCommand customer = new CustomerCommand();
@@ -34,10 +52,20 @@ public class CustomerRegistrationController {
 		return view;
 	}
 	
-	@RequestMapping(value = "/registration.abhi", method = RequestMethod.POST)
-	public String registerCustomer(@ModelAttribute("customer") CustomerCommand customer) {
+	@RequestMapping(value = "/register.abhi", method = RequestMethod.POST)
+	public String registerCustomer(@Valid @ModelAttribute("customer") CustomerCommand customer, BindingResult result) {
+		/*
+		@Valid - Whenever performing the databinding task for Customer object that time consider all form validation 
+		annotation kept in the Customer.
+		*/
 		String view = "";
-		System.out.println(customer);
+		if(result.hasErrors()) {	//Checking is there any data binding error occurs
+			view = "register";
+		} else {
+			System.out.println(customer);
+			view = "";
+		}
+		
 		
 		return view;
 	}

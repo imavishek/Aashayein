@@ -4,23 +4,22 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 
+<jstlCore:set var="contextRoot" value="${pageContext.request.contextPath}" />
+
 <!-- set resources(css, js) path -->
-<spring:url value="/assets/css/jquery/jquery-ui.css" var="jqueryUICss" />
+<spring:url value="/assets/css" var="css" />
 
-<spring:url value="/assets/js/register.js" var="registerJS" />
-<spring:url value="/assets/jquery/jquery-3.3.1.js" var="jqueryJs" />
-<spring:url value="/assets/jquery/jquery-ui.js" var="jqueryUIJs" />
-
-
+<spring:url value="/assets/js" var="js" />
+<spring:url value="/assets/jquery" var="jquery" />
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" type="text/css" href="${jqueryUICss}">
+    <link rel="stylesheet" type="text/css" href="${css}/jquery/jquery-ui.css">
     
-    <script type="text/javascript" src="${jqueryJs}"></script>
-	<script type="text/javascript" src="${jqueryUIJs}"></script>
-	<script type="text/javascript" src="${registerJS}"></script>
+    <script type="text/javascript" src="${jquery}/jquery-3.3.1.js"></script>
+	<script type="text/javascript" src="${jquery}/jquery-ui.js"></script>
+	<script type="text/javascript" src="${js}/register.js"></script>
 	
   	
 </head>
@@ -28,10 +27,10 @@
 	<div align="center">
 	<h1><spring:message code="registration.label.heading"/></h1>
 	
-	<springForm:form action="Customer/registration.abhi" id="" method="POST" modelAttribute="customer">
+	<springForm:form action="${contextRoot}/CustomerRegistration/register.abhi" id="" method="POST" modelAttribute="customer">
 		<spring:message code='registration.label.firstName' var="firstName"/>
 		<springForm:label path="firstName">${firstName} <span>*</span></springForm:label>
-		<springForm:input type="text" path="firstName" name="firstName" id="firstName" maxlength="20" placeholder="${firstName}"/><br>
+		<springForm:input type="text" path="firstName" name="firstName" id="firstName" maxlength="25" placeholder="${firstName}"/><br>
 		<springForm:errors path="firstName" cssClass="" element="span"/><br>
 		
 		<spring:message code='registration.label.lastName' var="lastName"/>
@@ -61,7 +60,7 @@
 		
 		<spring:message code='registration.label.birthday' var="birthday"/>
 		<springForm:label path="birthday">${birthday} <span>*</span></springForm:label>
-		<springForm:input path="birthday"  name="birthday" id="birthday" placeholder="${birthday}"/><br>
+		<springForm:input path="birthday" type="date"  name="birthday" id="birthday" placeholder="${birthday}"/><br>
 		<springForm:errors path="birthday" cssClass="" element="span"/><br>
 		
 		<spring:message code='registration.label.gender' var="gender"/>
@@ -84,9 +83,9 @@
 	</div>
 
 	<h3 align="center">||
-		<a href="?siteLanguage=en">English</a> ||
-		<a href="?siteLanguage=hi">हिन्दी</a> ||
-		<a href="?siteLanguage=od">ଓଡ଼ିଆ</a> ||
+		<a href="${contextRoot}/CustomerRegistration/showPage.abhi?siteLanguage=en">English</a> ||
+		<a href="${contextRoot}/CustomerRegistration/showPage.abhi?siteLanguage=hi">हिन्दी</a> ||
+		<a href="${contextRoot}/CustomerRegistration/showPage.abhi?siteLanguage=od">ଓଡ଼ିଆ</a> ||
 	</h3>
 </body>
 </html>
