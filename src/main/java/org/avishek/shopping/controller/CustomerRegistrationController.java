@@ -17,9 +17,9 @@ import javax.servlet.ServletException;
 import javax.validation.Valid;
 
 import org.avishek.shopping.command.CustomerCommand;
+import org.avishek.shopping.propertyEditor.ReplaceSpaceEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -31,11 +31,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/CustomerRegistration")
 public class CustomerRegistrationController {
 	
-	/*@InitBinder
+	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
-		binder.registerCustomEditor(Date.class, "birthday", new CustomDateEditor(dateFormat, false));
-	}*/
+		binder.registerCustomEditor(String.class, "firstName", new ReplaceSpaceEditor());
+		binder.registerCustomEditor(String.class, "lastName", new ReplaceSpaceEditor());
+		binder.registerCustomEditor(String.class, "email", new ReplaceSpaceEditor());
+	}
 	
 	/*@ModelAttribute
 	public void addingCommonObjects(Model model) {
