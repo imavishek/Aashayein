@@ -10,6 +10,8 @@
 package org.avishek.shopping.command;
 
 import java.util.Date;
+
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
@@ -18,7 +20,7 @@ import org.avishek.shopping.validator.Gender;
 import org.hibernate.validator.constraints.ScriptAssert;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@ScriptAssert(lang = "javascript", script = "_this.password.equals(_this.confirmPassword)", message = "x")
+@ScriptAssert(lang = "javascript", script = "_this.password.equals(_this.confirmPassword)", message = "P")
 public class CustomerCommand {
 	
 	@Pattern(regexp = "^[a-zA-Z\\s]{3,25}$")
@@ -33,9 +35,8 @@ public class CustomerCommand {
 	@Pattern(regexp = "^([a-zA-Z\\d_\\-\\.])+\\@([a-zA-Z])+\\.([a-zA-Z]{2,4})")
 	private String email;
 	
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)\\.{8,15}$")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$")
 	private String password;
-	
 	
 	private String confirmPassword;
 	

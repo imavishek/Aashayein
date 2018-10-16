@@ -8,7 +8,6 @@
 
 <!-- set resources(css, js) path -->
 <spring:url value="/assets/css" var="css" />
-
 <spring:url value="/assets/js" var="js" />
 <spring:url value="/assets/jquery" var="jquery" />
 
@@ -81,7 +80,7 @@
 		<spring:message code='registration.label.signup' var="signup"/>
 		<spring:message code='registration.label.reset' var="reset"/>
 		<input type="submit" value="${signup}" name="signup"/>
-		<input type="reset" value="${reset}" name="reset"/>
+		<button type="button" name="reset" id="reset">${reset}</button>
 		
 	</springForm:form>
 	</div>
