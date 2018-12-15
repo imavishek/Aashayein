@@ -1,3 +1,10 @@
-/DEBIAN/J2EE/shopping/src/main/java/org/avishek/shopping/controller/HomeController.java
-/DEBIAN/J2EE/shopping/src/main/java/org/avishek/shopping/configuration/WebApplicationInitializer.java
-/DEBIAN/J2EE/shopping/src/main/java/org/avishek/shopping/configuration/SpringConfiguration.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/configuration/SpringSecurityConfiguration.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/configuration/SpringConfiguration.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/configuration/WebApplicationInitializer.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/controller/CustomerRegistrationController.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/controller/GlobalExceptionHandlerMethods.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/propertyEditor/ReplaceSpaceEditor.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/validator/GenderValidator.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/validator/Gender.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/configuration/SecurityWebApplicationInitializer.java
+/DEBIAN/J2EE/Shopping/src/main/java/org/avishek/shopping/command/CustomerCommand.java

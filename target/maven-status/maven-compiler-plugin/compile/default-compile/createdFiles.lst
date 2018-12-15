@@ -1,3 +1,2 @@
-org/avishek/shopping/configuration/WebApplicationInitializer.class
-org/avishek/shopping/controller/HomeController.class
 org/avishek/shopping/configuration/SpringConfiguration.class
+org/avishek/shopping/configuration/WebApplicationInitializer.class

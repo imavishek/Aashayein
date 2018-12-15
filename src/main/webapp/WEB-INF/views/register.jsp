@@ -1,4 +1,4 @@
-<%@page language="java" contentType="text/html; charset=utf-8" 
+<%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -27,6 +27,13 @@
   	
 </head>
 <body>
+
+<%-- <jstlCore:url value="/CustomerRegistration/showPage.abhi" var="url"> --%>
+<%--   <jstlCore:param name="yourParamName" value="http://go+ogle.com/index.html" /> --%>
+<%-- </jstlCore:url> --%>
+<%-- ${param.yourParamName} --%>
+<%-- <a href="${url}">Link to your client</a> --%>
+
 	<div align="center">
 	<h1><spring:message code="registration.label.heading"/></h1>
 	
