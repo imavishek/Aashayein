@@ -24,6 +24,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -38,7 +39,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackages = {"org.avishek.aashayein.controller",
 		"org.avishek.aashayein.dao",
 		"org.avishek.aashayein.service"})
-@Import({SpringSecurityConfiguration.class})
+//@Import({SpringSecurityConfiguration.class})
 public class SpringConfiguration implements WebMvcConfigurer{
 	
 	//MySql DATABASE connection information
@@ -126,5 +127,14 @@ public class SpringConfiguration implements WebMvcConfigurer{
 		LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 		localeChangeInterceptor.setParamName("siteLanguage");
 		registry.addInterceptor(localeChangeInterceptor);
+	}
+	
+	//Adding MultipartResolver 
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multipartResolver() {
+	    CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+	    multipartResolver.setMaxUploadSize(300000000);
+	    multipartResolver.setDefaultEncoding("UTF-8");
+	    return multipartResolver;
 	}
 }

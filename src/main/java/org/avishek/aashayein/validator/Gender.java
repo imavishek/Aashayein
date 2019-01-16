@@ -24,8 +24,8 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Gender {
 	
-	String listOfGender() default "Male|Female";
-	String message() default "Please choose a Gender";
+	String listOfGender() default "Male|Female|Other";
+	String message() default "Please select Gender";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

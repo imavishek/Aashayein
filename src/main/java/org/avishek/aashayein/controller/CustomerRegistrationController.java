@@ -33,12 +33,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/CustomerRegistration")
 public class CustomerRegistrationController {
 
+	///Used to customize req, form, command ... parameter
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		
 		//Ignore or skip firstName field during data binding task
 		//binder.setDisallowedFields(new String[] {"firstName"});
 		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		//simpleDateFormat.setLenient(false); //Will check for out of range Date. For Example, If lenient is set to true, Aug 32 will be converted to Sep 1 
 		//binder.registerCustomEditor(Date.class, "dob", new CustomDateEditor( dateFormat, false));
 		binder.registerCustomEditor(String.class, "firstName", new ReplaceSpaceEditor());
 		binder.registerCustomEditor(String.class, "lastName", new ReplaceSpaceEditor());

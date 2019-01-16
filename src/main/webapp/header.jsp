@@ -1,23 +1,28 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="format" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>  
 
-<jsp:useBean id="date" class="java.util.Date" />
-<format:formatDate var="now" value="${date}" pattern="y" />
 
-<jstlCore:set var="contextRoot" value="${pageContext.request.contextPath}" />
+<jstlCore:set var="contextRoot" value="${pageContext.request.contextPath}" scope="application"/>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Aashayein</title>
-	<link rel="shortcut icon" href="assets/img/logos/Aashayein_icon.ico">
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<link rel="shortcut icon" href="${contextRoot}/assets/img/logos/Aashayein_icon.ico">
+	<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/style.css">
 </head>
 <body>
 	<div class="main-menu noprint">
 		<ul class="sf-menu">
+			<li style="margin-right: 30px;">
+				<img src="${contextRoot}/assets/img/logos/Aashayein.png" height="30" width="210" class="noprint" alt="Aashayein"/>
+			</li>
+			
 			<li>
 				<a href="">Reports</a>
 				<ul>
@@ -90,7 +95,7 @@
 			</li>
 			
 			<li>
-				<div>Products</div>
+				<a href="">Products</a>
 				<ul>
 					<li><a href="">Products</a></li>
 					<li><a href="">Posts</a></li>
@@ -102,22 +107,29 @@
 			</li>
 
 			<li>
-				<div>Admin</div>
+				<a href="">Admin</a>
 				<ul>
-					<li><a href="">Employees</a></li>
-					<li><a href="">Roles</a></li>
-					<li><a href="">Allowed IP</a></li>
+					<li><a href='<jstlCore:url value="/EmployeeRegistration/showPage.abhi"/>'>Employees</a></li>
+					<li><a href='<jstlCore:url value="/EmployeeRole/showRoles.abhi"/>'>Roles</a></li>
+					<li><a href='<jstlCore:url value="/EmployeeTitle/showTitles.abhi"/>'>Titles</a></li>
 					<li><a href="">Exceptions</a></li>
 					<li><a href="">Accounting Types</a></li>
 					<li><a href="">Accounting Teams</a></li>
 					<li><a href="">Settings</a></li>
 				</ul>
 			</li>
-
+			
 			<li><a href="">Logout</a></li>
+			
+			<li style="float:right;">
+				<span><img height="30px" width="30px" style="border-radius: 50%;" alt="Avishek" src="${contextRoot}/assets/img/avishek.jpg"></span>
+				<span>Avishek</span>
+			</li>
 		</ul>
 	</div>
+	<div id="breadCrumb" class="noprint">
+		${jstlFn:length(breadcrumb) > 0 ? breadcrumb : "&nbsp;"}
+	</div>
 	<div id="pageContent">
-		<img src="${contextRoot}/assets/img/logos/Aashayein.png" id="pageLogo" height="45" width="210" class="noprint" alt="Aashayein"/>
-		<h1 class="page-title">&nbsp;</h1>
+		<h1 class="page-title">${jstlFn:length(pageTitle) > 0 ? pageTitle : "&nbsp;"}</h1>
 		<div id="content">
