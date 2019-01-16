@@ -2,7 +2,17 @@ package org.avishek.aashayein.dto;
 
 public class EmployeeRoleTO {
 
+	private Integer roleId;
+
 	private String roleName;
+
+	public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
 
 	public String getRoleName() {
 		return roleName;
@@ -14,7 +24,7 @@ public class EmployeeRoleTO {
 
 	@Override
 	public String toString() {
-		return "EmployeeRoleTO [roleName=" + roleName + "]";
+		return "EmployeeRoleTO [roleId=" + roleId + ", roleName=" + roleName + "]";
 	}
 
 }

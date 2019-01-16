@@ -1,5 +1,7 @@
 package org.avishek.aashayein.serviceImpl;
 
+import java.util.List;
+
 import org.avishek.aashayein.dao.EmployeeRoleAccessDao;
 import org.avishek.aashayein.dao.EmployeeRoleDao;
 import org.avishek.aashayein.dto.EmployeeRoleAccessTO;
@@ -29,6 +31,13 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 		Boolean success = employeeRoleAccessDao.addModulePermissions(employeeRoleId, employeeRoleAccessTO);
 
 		return success;
+	}
+
+	
+	@Override
+	public List<EmployeeRoleTO> getAllRoles() {
+		
+		return employeeRoleDao.getAllRoles();
 	}
 
 }

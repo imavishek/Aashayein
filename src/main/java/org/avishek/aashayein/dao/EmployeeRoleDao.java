@@ -1,9 +1,13 @@
 package org.avishek.aashayein.dao;
 
+import java.util.List;
+
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 
 public interface EmployeeRoleDao {
 
-	Integer addEmployeeRole(EmployeeRoleTO employeeRoleTO);
+	public Integer addEmployeeRole(EmployeeRoleTO employeeRoleTO);
+	
+	public List<EmployeeRoleTO> getAllRoles();
 
 }

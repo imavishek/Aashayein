@@ -9,10 +9,9 @@
 
 package org.avishek.aashayein.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,16 +50,12 @@ public class EmployeeRoleController {
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
 				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
 
-		Map<Integer, String> role = new LinkedHashMap<Integer, String>();
-		role.put(11, "Admin");
-		role.put(22, "SuperAdmin");
-		role.put(1, "Sales");
-		role.put(4, "Accounting");
+		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
 		model.addAttribute("pageTitle", "Employee Roles");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("message", message);
-		model.addAttribute("role", role);
+		model.addAttribute("employeeRoles", employeeRoles);
 
 		view = "employeeRole";
 

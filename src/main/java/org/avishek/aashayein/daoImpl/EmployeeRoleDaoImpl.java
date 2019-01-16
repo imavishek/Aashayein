@@ -1,7 +1,9 @@
 package org.avishek.aashayein.daoImpl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.avishek.aashayein.dao.EmployeeRoleDao;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
@@ -16,7 +18,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 	@Autowired
 	HibernateTemplate hibernateTemplate;
-	
+
 	@Autowired
 	CurrentDateTime currentDateTime;
 
@@ -31,6 +33,31 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		hibernateTemplate.save(employeeRole);
 
 		return employeeRole.getRoleId();
+	}
+
+	@Override
+	public List<EmployeeRoleTO> getAllRoles() {
+
+		List<EmployeeRoleTO> employeeRoles = null;
+
+		List<EmployeeRole> roles = (List<EmployeeRole>) hibernateTemplate.find("from EmployeeRole");
+
+		if (!roles.isEmpty()) {
+			employeeRoles = new ArrayList<EmployeeRoleTO>();
+
+			for (EmployeeRole role : roles) {
+				EmployeeRoleTO employeeRoleTO = new EmployeeRoleTO();
+
+				employeeRoleTO.setRoleId(role.getRoleId());
+				employeeRoleTO.setRoleName(role.getRoleName());
+
+				employeeRoles.add(employeeRoleTO);
+
+			}
+
+		}
+
+		return employeeRoles;
 	}
 
 }

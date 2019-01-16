@@ -29,11 +29,11 @@
 </thead>
 <tbody>
 	<jstlCore:choose>
-		<jstlCore:when test="${jstlFn:length(role) > 0}">
-			<jstlCore:forEach items="${role}" var="role" varStatus="loopStatus">
+		<jstlCore:when test="${jstlFn:length(employeeRoles) > 0}">
+			<jstlCore:forEach items="${employeeRoles}" var="role" varStatus="loopStatus">
 				<tr>
-					<td class="alignCenter"><jstlCore:out value="${role.key}"/></td>
-					<td class="alignCenter"><jstlCore:out value="${role.value}"/></td>
+					<td class="alignCenter"><jstlCore:out value="${role.roleId}"/></td>
+					<td class="alignCenter"><jstlCore:out value="${role.roleName}"/></td>
 					<td class="alignCenter">
 						<button type="button" class="auto-button" data-icon="ui-icon-custom-edit">Edit</button>
 						<button type="button" class="auto-button" data-icon="ui-icon-custom-delete">Delete</button>
