@@ -5,5 +5,6 @@ import org.avishek.aashayein.dto.EmployeeRoleTO;
 
 public interface EmployeeRoleAndAccessService {
 
-	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO, EmployeeRoleAccessTO employeeRoleAccessTO);
+	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
+			EmployeeRoleAccessTO employeeRoleAccessTO);
 }

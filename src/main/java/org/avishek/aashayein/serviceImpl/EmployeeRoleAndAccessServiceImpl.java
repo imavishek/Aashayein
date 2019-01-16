@@ -21,11 +21,14 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 
 	// Adding Employee Role With Module Permissions
 	@Override
-	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO, EmployeeRoleAccessTO employeeRoleAccessTO) {
-
+	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
+			EmployeeRoleAccessTO employeeRoleAccessTO) {
 
 		Integer employeeRoleId = employeeRoleDao.addEmployeeRole(employeeRoleTO);
-		return false;
+
+		Boolean success = employeeRoleAccessDao.addModulePermissions(employeeRoleId, employeeRoleAccessTO);
+
+		return success;
 	}
 
 }

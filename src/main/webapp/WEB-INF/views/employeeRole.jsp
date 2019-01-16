@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/tablesorter-theme-ui.css">
 
+<span class="notification-holder">${message}</span>
 
 <div style="margin-bottom:1em;">
 	<a href='<jstlCore:url value="/EmployeeRole/showAddRole.abhi"/>' class="auto-button">Add Employee Role</a>

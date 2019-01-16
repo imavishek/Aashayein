@@ -9,7 +9,9 @@
 
 package org.avishek.aashayein.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/EmployeeRole")
@@ -41,7 +44,8 @@ public class EmployeeRoleController {
 	EmployeeRoleAndAccessService employeeRoleAndAccessService;
 
 	@RequestMapping(value = "/showRoles")
-	public String showEmployeeRoles(Model model, HttpServletRequest request) {
+	public String showEmployeeRoles(Model model, HttpServletRequest request,
+			@RequestParam(required = false) String message) {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
@@ -55,6 +59,7 @@ public class EmployeeRoleController {
 
 		model.addAttribute("pageTitle", "Employee Roles");
 		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("message", message);
 		model.addAttribute("role", role);
 
 		view = "employeeRole";
@@ -95,6 +100,7 @@ public class EmployeeRoleController {
 
 		String view = "";
 		String breadcrumb = "";
+		String redirectUrl = "";
 
 		Map<Integer, String> module = new LinkedHashMap<Integer, String>();
 		module.put(1, "Admin");
@@ -130,19 +136,19 @@ public class EmployeeRoleController {
 			EmployeeRoleAccessTO employeeRoleAccessTO = new EmployeeRoleAccessTO();
 			employeeRoleAccessTO.setModuleIds(moduleIds);
 
-			boolean success = employeeRoleAndAccessService.addEmployeeRoleWithModulePermissions(employeeRoleTO, employeeRoleAccessTO);
+			boolean success = employeeRoleAndAccessService.addEmployeeRoleWithModulePermissions(employeeRoleTO,
+					employeeRoleAccessTO);
 
 			if (success) {
-				logger.info("Employee Role" + addEmployeeRole.getRoleName() + "Added Successfully");
-				model.addAttribute("pageTitle", "Employee Roles");
-				model.addAttribute("breadcrumb", breadcrumb);
+				logger.info("Employee Role " + addEmployeeRole.getRoleName() + " Added Successfully");
 				model.addAttribute("message", "Employee Role Added Successfully");
-				//model.addAttribute("role", role);
 			} else {
 				model.addAttribute("message", "Error While Adding Employee Role");
 			}
 
-			view = "employeeRole";
+			redirectUrl = "/EmployeeRole/showRoles.abhi";
+
+			view = "redirect:" + redirectUrl;
 		}
 
 		return view;
