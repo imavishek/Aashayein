@@ -42,27 +42,27 @@ $(function() {
 			$(element).parent().parent().removeClass('error_message');
 		}
 	});
-	$( "#addTitle" ).button().on( "click", function(e) {
+	$("#addTitle" ).button().on( "click", function(e) {
 		e.preventDefault();
 		dialog.dialog( "open" );
 	});
-	dialog = $( "#dialog-form" ).dialog({
-	      autoOpen: false,
-	      height: 200,
-	      width: 570,
-	      modal: true,
-	      buttons: {
-	        "Add": addTitle,
-	        Cancel: function() {
-	          dialog.dialog( "close" );
-	        }
-	      },
-	      close: function() {
-	        form[ 0 ].reset();
-	        validator.resetForm();
-	        $(".error_box").removeClass("error_box");
-	        $("#addEmployeeTitle tr").removeClass("error_message");
-	      }
+	dialog = $("#dialog-form" ).dialog({
+		autoOpen: false,
+		height: 200,
+		width: 570,
+		modal: true,
+		buttons: {
+			"Add": addTitle,
+			Cancel: function() {
+				dialog.dialog( "close" );
+			}
+		},
+		close: function() {
+			form[ 0 ].reset();
+			validator.resetForm();
+			$(".error_box").removeClass("error_box");
+			$("#addEmployeeTitle tr").removeClass("error_message");
+		}
 	});
 	form = dialog.find( "form" ).on( "submit", function( event ) {
 		event.preventDefault();
@@ -85,30 +85,28 @@ $(function() {
 				type: form.attr('method'),
 				url : form.attr('action'),
 				data : form.serialize(),  //Data to be sent to the server. It is converted to a query string, if not already a string. 
-		        dataType: "json",  //The type of data that you're expecting back from the server.
-		        contentType: 'application/json',  //type of data sending to the server,
-		        mimeType: 'application/json',
-		        async : true, //Default true
-		        
+				dataType: "json",  //The type of data that you're expecting back from the server.
+				contentType: 'application/json',  //type of data sending to the server,
+				mimeType: 'application/json',
+				async : true, //Default true
+
 				success : function(res) {
-			         
-		            if(res.validated){
-		            	console.log(res);
-		               //Set response
-		               $('#resultContainer pre code').text(JSON.stringify(res.employee));
-		               $('#resultContainer').show();
-		            
-		            }else{
-		            	console.log(res);
-		              //Set error messages
-		              $.each(res.errorMessages,function(key,value){
-		  	            $('input[name='+key+']').after('<span class="error">'+value+'</span>');
-		              });
-		            }
-		         }
-			
+
+					if(res.validated){
+						console.log(res);
+						//Set response
+						$('#resultContainer pre code').text(JSON.stringify(res.employee));
+						$('#resultContainer').show();
+					}else{
+						console.log(res);
+						//Set error messages
+						$.each(res.errorMessages,function(key,value){
+							$('input[name='+key+']').after('<span class="error">'+value+'</span>');
+						});
+					}
+				}
 			})
 			dialog.dialog( "close" );
-	    }
+		}
 	}
 })

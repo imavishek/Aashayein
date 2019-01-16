@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/EmployeeTitle")
 public class EmployeeTitleController {
 
-	private static final Logger logger = LogManager.getLogger(EmployeeRegistrationController.class);
+	private static final Logger logger = LogManager.getLogger(EmployeeTitleController.class);
 
 	@RequestMapping(value = "/showTitles")
 	public String showEmployeeRoles(Model model, HttpServletRequest request) {

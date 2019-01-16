@@ -11,14 +11,16 @@ package org.avishek.aashayein.command;
 
 import javax.validation.constraints.Pattern;
 
+import org.avishek.aashayein.validator.ModuleId;
+
+
 public class AddEmployeeRoleCommand {
 	
 	@Pattern(regexp = "[a-zA-Z]{3,25}", message = "Please enter valid RoleName between 3 to 25 character")
 	private String roleName;
 	
-	//@Pattern(regexp = "^[1-9][0-9]{0,25}$", message = "Please select valid Permission")
-	
-	private Integer [] moduleIds;
+	@ModuleId(max = 25, message = "Please select valid Permission")
+	private String [] moduleIds;
 
 	public String getRoleName() {
 		return roleName;
@@ -28,11 +30,11 @@ public class AddEmployeeRoleCommand {
 		this.roleName = roleName;
 	}
 
-	public Integer[] getModuleIds() {
+	public String[] getModuleIds() {
 		return moduleIds;
 	}
 
-	public void setModuleIds(Integer[] moduleIds) {
+	public void setModuleIds(String[] moduleIds) {
 		this.moduleIds = moduleIds;
 	}
 

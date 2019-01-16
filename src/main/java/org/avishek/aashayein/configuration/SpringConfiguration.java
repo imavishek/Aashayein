@@ -37,8 +37,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"org.avishek.aashayein.controller",
-		"org.avishek.aashayein.dao",
-		"org.avishek.aashayein.service"})
+		"org.avishek.aashayein.daoImpl",
+		"org.avishek.aashayein.serviceImpl"})
 //@Import({SpringSecurityConfiguration.class})
 public class SpringConfiguration implements WebMvcConfigurer{
 	
@@ -105,7 +105,7 @@ public class SpringConfiguration implements WebMvcConfigurer{
 	@Bean
 	public MessageSource messageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:messages");
+		messageSource.setBasename("classpath:messages/messages");
 		messageSource.setDefaultEncoding("UTF-8");
 		//Only for development environment
 		messageSource.setCacheSeconds(1); //Load all the changes in properties file withoutrestart server

@@ -9,6 +9,7 @@
 
 package org.avishek.aashayein.controller;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -18,101 +19,132 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.AddEmployeeRoleCommand;
+import org.avishek.aashayein.dto.EmployeeRoleAccessTO;
+import org.avishek.aashayein.dto.EmployeeRoleTO;
+import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/EmployeeRole")
 public class EmployeeRoleController {
-	
-	private static final Logger logger = LogManager.getLogger(EmployeeRegistrationController.class);
+
+	private static final Logger logger = LogManager.getLogger(EmployeeRoleController.class);
+
+	@Autowired
+	EmployeeRoleAndAccessService employeeRoleAndAccessService;
 
 	@RequestMapping(value = "/showRoles")
 	public String showEmployeeRoles(Model model, HttpServletRequest request) {
-		
-		
+
 		String view = "";
-		String breadcrumb = "<a href='"+request.getContextPath()+"'>Home</a> / Admin / <a href='"+request.getContextPath()+"/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
-	
-		Map<Integer,String> role = new LinkedHashMap<Integer,String>();
+		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
+
+		Map<Integer, String> role = new LinkedHashMap<Integer, String>();
 		role.put(11, "Admin");
 		role.put(22, "SuperAdmin");
 		role.put(1, "Sales");
 		role.put(4, "Accounting");
-		
+
 		model.addAttribute("pageTitle", "Employee Roles");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("role", role);
-		
+
 		view = "employeeRole";
-		
+
 		return view;
 	}
-	
+
 	@RequestMapping(value = "/showAddRole")
 	public String showAddEmployeeRole(Model model, HttpServletRequest request) {
-		
-		
+
 		String view = "";
-		String breadcrumb = "<a href='"+request.getContextPath()+"'>Home</a> / Admin / <a href='"+request.getContextPath()+"/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
-	
-		Map<Integer,String> module = new LinkedHashMap<Integer,String>();
+		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+				+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
+
+		Map<Integer, String> module = new LinkedHashMap<Integer, String>();
 		module.put(1, "Admin");
 		module.put(2, "Sales");
-		
+		module.put(3, "Customer Service");
+		module.put(4, "Shipping");
+		module.put(5, "Marketing");
+
 		AddEmployeeRoleCommand addEmployeeRole = new AddEmployeeRoleCommand();
-		//addEmployeeRole.setmoduleIds("1");
-		
+
 		model.addAttribute("pageTitle", "Add Employee Role");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("addEmployeeRole", addEmployeeRole);
 		model.addAttribute("module", module);
-		
+
 		view = "addEmployeeRole";
-		
+
 		return view;
 	}
-	
-	
+
 	@PostMapping(value = "/addEmployeeRole")
-	public String addEmployeeRole(Model model, @Valid @ModelAttribute("addEmployeeRole") AddEmployeeRoleCommand addEmployeeRole, BindingResult result, HttpServletRequest request) {
-		
+	public String addEmployeeRole(Model model,
+			@Valid @ModelAttribute("addEmployeeRole") AddEmployeeRoleCommand addEmployeeRole, BindingResult result,
+			HttpServletRequest request) {
+
 		String view = "";
 		String breadcrumb = "";
-		
-		Map<Integer,String> module = new LinkedHashMap<Integer,String>();
+
+		Map<Integer, String> module = new LinkedHashMap<Integer, String>();
 		module.put(1, "Admin");
 		module.put(2, "Sales");
-		
+		module.put(3, "Customer Service");
+		module.put(4, "Shipping");
+		module.put(5, "Marketing");
+
 		if (result.hasErrors()) {
-			
-			//Logging DataBinding Error
+
+			// Logging DataBinding Error
 			for (FieldError error : result.getFieldErrors()) {
-				logger.error("Error In DataBinding For Field:- "+ error.getField());
+				logger.error("Error In DataBinding For Field:- " + error.getField());
 			}
-			
+
 			view = "addEmployeeRole";
-			breadcrumb = "<a href='"+request.getContextPath()+"'>Home</a> / Admin / <a href='"+request.getContextPath()+"/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
-			model.addAttribute("addEmployeeRole", addEmployeeRole);
+			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+					+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
 			model.addAttribute("pageTitle", "Add Employee Role");
 			model.addAttribute("breadcrumb", breadcrumb);
+			model.addAttribute("addEmployeeRole", addEmployeeRole);
 			model.addAttribute("module", module);
 		} else {
-			for (Integer modules : addEmployeeRole.getModuleIds()) {
-				System.out.println(modules);
+
+			ArrayList<Integer> moduleIds = new ArrayList<Integer>();
+			for (String moduleId : addEmployeeRole.getModuleIds()) {
+				moduleIds.add(Integer.parseInt(moduleId));
 			}
-			System.out.println(addEmployeeRole);
-			view = "";
+
+			EmployeeRoleTO employeeRoleTO = new EmployeeRoleTO();
+			employeeRoleTO.setRoleName(addEmployeeRole.getRoleName());
+
+			EmployeeRoleAccessTO employeeRoleAccessTO = new EmployeeRoleAccessTO();
+			employeeRoleAccessTO.setModuleIds(moduleIds);
+
+			boolean success = employeeRoleAndAccessService.addEmployeeRoleWithModulePermissions(employeeRoleTO, employeeRoleAccessTO);
+
+			if (success) {
+				logger.info("Employee Role" + addEmployeeRole.getRoleName() + "Added Successfully");
+				model.addAttribute("pageTitle", "Employee Roles");
+				model.addAttribute("breadcrumb", breadcrumb);
+				model.addAttribute("message", "Employee Role Added Successfully");
+				//model.addAttribute("role", role);
+			} else {
+				model.addAttribute("message", "Error While Adding Employee Role");
+			}
+
+			view = "employeeRole";
 		}
-		
+
 		return view;
 	}
 }

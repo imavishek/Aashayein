@@ -218,9 +218,9 @@ $(function() {
 			$(this).attr('value', '');
 		})
 		$('input[name="gender"]').attr('checked', false);
-        $("#title, #role").val([]);
-        $("#title, #role").pqSelect('refreshData');
-    });
+		$("#title, #role").val([]);
+		$("#title, #role").pqSelect('refreshData');
+	});
 //	$("#employeeRegistration").submit(function(e){
 //		e.preventDefault();
 //		console.log($('#employeeRegistration').serialize());
@@ -229,29 +229,27 @@ $(function() {
 //		
 //		$.ajax({
 //			url : '/aashayein/EmployeeRegistration/register.abhi',
-//	        dataType: "json",
-//	        type: "POST",
-//	        contentType: 'application/json',
-//	        mimeType: 'application/json',
-//	        enctype: 'multipart/form-data',
-//	        data : $('#employeeRegistration').serialize(),
+//			dataType: "json",
+//			type: "POST",
+//			contentType: 'application/json',
+//			mimeType: 'application/json',
+//			enctype: 'multipart/form-data',
+//			data : $('#employeeRegistration').serialize(),
 //			success : function(res) {
-//		         
-//	            if(res.validated){
-//	            	console.log(res);
-//	               //Set response
-//	               $('#resultContainer pre code').text(JSON.stringify(res.employee));
-//	               $('#resultContainer').show();
-//	            
-//	            }else{
-//	            	console.log(res);
-//	              //Set error messages
-//	              $.each(res.errorMessages,function(key,value){
-//	  	            $('input[name='+key+']').after('<span class="error">'+value+'</span>');
-//	              });
-//	            }
-//	         }
+//				if(res.validated){
+//					console.log(res);
+//					//Set response
+//					$('#resultContainer pre code').text(JSON.stringify(res.employee));
+//					$('#resultContainer').show();
+//
+//				}else{
+//					console.log(res);
+//					//Set error messages
+//					$.each(res.errorMessages,function(key,value){
+//						$('input[name='+key+']').after('<span class="error">'+value+'</span>');
+//					});
+//				}
+//			}
 //		})
-//		
-//    });
+//	});
 })
