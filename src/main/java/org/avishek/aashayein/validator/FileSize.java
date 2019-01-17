@@ -20,12 +20,15 @@ import javax.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = FileSizeValidator.class)
-@Target( { ElementType.METHOD, ElementType.FIELD })
+@Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileSize {
-	
+
 	long size() default 300000;
+
 	String message() default "Please upload file under 300kb";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
 }

@@ -7,7 +7,7 @@ import org.avishek.aashayein.dto.EmployeeRoleTO;
 public interface EmployeeRoleDao {
 
 	public Integer addEmployeeRole(EmployeeRoleTO employeeRoleTO);
-	
+
 	public List<EmployeeRoleTO> getAllRoles();
 
 }

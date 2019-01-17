@@ -12,17 +12,16 @@ package org.avishek.aashayein.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileSizeValidator implements ConstraintValidator<FileSize, MultipartFile>  {
-	
+public class FileSizeValidator implements ConstraintValidator<FileSize, MultipartFile> {
+
 	private Long size;
-	
+
 	@Override
-    public void initialize(FileSize fileSize) {
+	public void initialize(FileSize fileSize) {
 		this.size = fileSize.size();
-    }
+	}
 
 	@Override
 	public boolean isValid(MultipartFile file, ConstraintValidatorContext context) {
@@ -31,7 +30,7 @@ public class FileSizeValidator implements ConstraintValidator<FileSize, Multipar
 			return false;
 		} else {
 			return true;
-		}	
+		}
 	}
 
 }

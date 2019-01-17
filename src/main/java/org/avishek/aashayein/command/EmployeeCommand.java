@@ -22,43 +22,43 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 public class EmployeeCommand {
-	
+
 	@Pattern(regexp = "[a-zA-Z]{3,25}", message = "Please enter valid FirstName between 3 to 25 character")
 	private String firstName;
-	
+
 	@Pattern(regexp = "^$|[a-zA-Z]{2,20}", message = "Please enter valid MiddleName between 2 to 20 character")
 	private String middleName;
-	
+
 	@Pattern(regexp = "[a-zA-Z]{2,15}", message = "Please enter valid LastName between 2 to 15 character")
 	private String lastName;
-	
+
 	@Gender(listOfGender = "Male|Female|Other", message = "Please select Gender")
 	private String gender;
-	
+
 	@NotNull(message = "Please select Title")
 	private Integer title;
-	
+
 	@NotNull(message = "Please select Role")
 	private Integer role;
-	
+
 	@Pattern(regexp = "[6789]\\d{9}", message = "Please enter valid MobileNumber")
 	private String mobileNumber;
-	
+
 	@Pattern(regexp = "^$|[6789]\\d{9}", message = "Please enter valid AlternateMobileNumber")
 	private String alternateMobileNumber;
-	
+
 	@Pattern(regexp = "([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})", message = "Please enter valid Email")
 	private String email;
-	
+
 	@Pattern(regexp = "^$|([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})", message = "Please enter valid AlternateEmail")
 	private String alternateEmail;
-	
+
 	@NotNull(message = "Please enter Joining Date")
 	@FutureOrPresent(message = "Please enter valid Joining Date")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date joiningDate;
-	
-	@FileType(extension = "jpg|jpeg|JPG|JPEG" , message = "Please upload jpg or jpeg image file")
+
+	@FileType(extension = "jpg|jpeg|JPG|JPEG", message = "Please upload jpg or jpeg image file")
 	@FileSize(size = 300000, message = "Please upload file under 300kb")
 	private MultipartFile profilePhoto;
 

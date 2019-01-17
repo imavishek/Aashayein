@@ -2,8 +2,10 @@ package org.avishek.aashayein.serviceImpl;
 
 import java.util.List;
 
+import org.avishek.aashayein.dao.EmployeeModuleDao;
 import org.avishek.aashayein.dao.EmployeeRoleAccessDao;
 import org.avishek.aashayein.dao.EmployeeRoleDao;
+import org.avishek.aashayein.dto.EmployeeModuleTO;
 import org.avishek.aashayein.dto.EmployeeRoleAccessTO;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
@@ -21,6 +23,9 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 	@Autowired
 	EmployeeRoleAccessDao employeeRoleAccessDao;
 
+	@Autowired
+	EmployeeModuleDao employeeModuleDao;
+
 	// Adding Employee Role With Module Permissions
 	@Override
 	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
@@ -33,11 +38,16 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 		return success;
 	}
 
-	
 	@Override
 	public List<EmployeeRoleTO> getAllRoles() {
-		
+
 		return employeeRoleDao.getAllRoles();
+	}
+
+	@Override
+	public List<EmployeeModuleTO> getAllModuless() {
+
+		return employeeModuleDao.getAllModuless();
 	}
 
 }

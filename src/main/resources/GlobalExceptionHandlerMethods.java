@@ -22,8 +22,8 @@ public class GlobalExceptionHandlerMethods {
 	public String handleException(Exception e) {
 		String view = "";
 		view = "error";
-		//Log the exception
+		// Log the exception
 		return view;
-		
+
 	}
 }

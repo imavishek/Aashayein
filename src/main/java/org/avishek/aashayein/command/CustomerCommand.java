@@ -21,33 +21,32 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @ScriptAssert(lang = "javascript", script = "_this.password.equals(_this.confirmPassword)", message = "P")
 public class CustomerCommand {
-	
+
 	@Pattern(regexp = "^[a-zA-Z\\s]{3,25}$")
 	private String firstName;
-	
+
 	@Pattern(regexp = "^[a-zA-Z\\s]{2,20}$")
 	private String lastName;
-	
+
 	@Pattern(regexp = "^[6789]\\d{9}$")
 	private String mobile;
 
 	@Pattern(regexp = "^([a-zA-Z\\d_\\-\\.])+\\@([a-zA-Z])+\\.([a-zA-Z]{2,4})")
 	private String email;
-	
+
 	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$")
 	private String password;
-	
+
 	private String confirmPassword;
-	
+
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@NotNull
 	@Past
 	private Date birthday;
-	
+
 	@Gender(listOfGender = "Male|Female")
 	private String gender;
-	
-	
+
 	public String getFirstName() {
 		return firstName;
 	}
@@ -117,5 +116,5 @@ public class CustomerCommand {
 		return "CustomerCommand [firstName=" + firstName + ", lastName=" + lastName + ", mobile=" + mobile + ", email="
 				+ email + ", password=" + password + ", confirmPassword=" + confirmPassword + ", birthday=" + birthday
 				+ ", gender=" + gender + "]";
-	}	
+	}
 }

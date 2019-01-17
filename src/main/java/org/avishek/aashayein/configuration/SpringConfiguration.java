@@ -19,7 +19,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTemplate;
@@ -47,7 +46,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
 	private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/shopping";
 	private final static String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
 	private final static String DATABASE_USERNAME = "root";
-	private final static String DATABASE_PASSWORD = "root";
+	private final static String DATABASE_PASSWORD = "mindfire";
 
 	// Hibernate Property
 	private final static String HIBERNATE_DIALECT = "org.hibernate.dialect.MySQLDialect";
@@ -87,7 +86,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
 		hibernateProperties.put("hibernate.show_sql", "true");
 		hibernateProperties.put("hibernate.id.new_generator_mappings", "false");
-		
+
 		// hibernateProperties.put("hibernate.format_sql", "true");
 		hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
 

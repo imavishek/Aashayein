@@ -20,12 +20,15 @@ import javax.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = FileTypeValidator.class)
-@Target( { ElementType.METHOD, ElementType.FIELD })
+@Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileType {
-	
+
 	String extension() default "jpg|jpeg|JPG|JPEG";
+
 	String message() default "Please upload jpg or jpeg image file";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
 }

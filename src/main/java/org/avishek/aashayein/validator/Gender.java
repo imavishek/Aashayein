@@ -20,12 +20,15 @@ import javax.validation.Payload;
 
 @Documented
 @Constraint(validatedBy = GenderValidator.class)
-@Target( { ElementType.METHOD, ElementType.FIELD })
+@Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Gender {
-	
+
 	String listOfGender() default "Male|Female|Other";
+
 	String message() default "Please select Gender";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
 }

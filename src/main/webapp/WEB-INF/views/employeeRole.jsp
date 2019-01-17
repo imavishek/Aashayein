@@ -3,6 +3,7 @@
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%> 
 
 
@@ -22,9 +23,12 @@
 <table class="tablesorter">
 <thead>
 	<tr>
-		<th style="width:25%;" class="alignCenter">Role Id</th>
+		<th style="width:25%;" class="alignCenter">Sl No.</th>
 		<th class="alignCenter">Role Name</th>
-		<th class="alignCenter">Edit / Delete</th>
+		<th class="alignCenter">CreatedDate</th>
+		<th class="alignCenter">UpdatedDate</th>
+		<th class="alignCenter">Archive</th>
+		<th class="alignCenter">Action</th>
 	</tr>
 </thead>
 <tbody>
@@ -32,8 +36,12 @@
 		<jstlCore:when test="${jstlFn:length(employeeRoles) > 0}">
 			<jstlCore:forEach items="${employeeRoles}" var="role" varStatus="loopStatus">
 				<tr>
-					<td class="alignCenter"><jstlCore:out value="${role.roleId}"/></td>
+					<td class="alignCenter"><jstlCore:out value="${loopStatus.index+1}"/></td>
 					<td class="alignCenter"><jstlCore:out value="${role.roleName}"/></td>
+					<td class="alignCenter"><jstlFormat:formatDate value="${role.recordCreated}" pattern="dd-MM-yyyy HH:mm:ss" /></td>
+					<jstlFormat:formatDate value="${role.recordUpdated}" pattern="dd-MM-yyyy HH:mm:ss" var="updatedDate" />
+					<td class="alignCenter"><jstlCore:out value="${not empty updatedDate ? updatedDate : 'N/A'}"/></td>
+					<td class="alignCenter"><jstlCore:out value="${role.archive eq 0 ? 'NO' : 'YES'}"/></td>
 					<td class="alignCenter">
 						<button type="button" class="auto-button" data-icon="ui-icon-custom-edit">Edit</button>
 						<button type="button" class="auto-button" data-icon="ui-icon-custom-delete">Delete</button>

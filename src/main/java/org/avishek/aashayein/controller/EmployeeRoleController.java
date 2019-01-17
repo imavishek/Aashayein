@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.AddEmployeeRoleCommand;
+import org.avishek.aashayein.dto.EmployeeModuleTO;
 import org.avishek.aashayein.dto.EmployeeRoleAccessTO;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
@@ -69,19 +70,14 @@ public class EmployeeRoleController {
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
 				+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
 
-		Map<Integer, String> module = new LinkedHashMap<Integer, String>();
-		module.put(1, "Admin");
-		module.put(2, "Sales");
-		module.put(3, "Customer Service");
-		module.put(4, "Shipping");
-		module.put(5, "Marketing");
+		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModuless();
 
 		AddEmployeeRoleCommand addEmployeeRole = new AddEmployeeRoleCommand();
 
 		model.addAttribute("pageTitle", "Add Employee Role");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("addEmployeeRole", addEmployeeRole);
-		model.addAttribute("module", module);
+		model.addAttribute("employeeModules", employeeModules);
 
 		view = "addEmployeeRole";
 

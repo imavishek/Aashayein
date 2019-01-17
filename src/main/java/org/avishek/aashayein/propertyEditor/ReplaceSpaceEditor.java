@@ -12,10 +12,10 @@ package org.avishek.aashayein.propertyEditor;
 import java.beans.PropertyEditorSupport;
 
 public class ReplaceSpaceEditor extends PropertyEditorSupport {
-	
+
 	@Override
-	public void setAsText(String field) throws IllegalArgumentException{
-		field = field.trim().replaceAll("\\s{2,}"," ");
+	public void setAsText(String field) throws IllegalArgumentException {
+		field = field.trim().replaceAll("\\s{2,}", " ");
 		setValue(field);
 	}
 }

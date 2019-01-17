@@ -13,14 +13,13 @@ import javax.validation.constraints.Pattern;
 
 import org.avishek.aashayein.validator.ModuleId;
 
-
 public class AddEmployeeRoleCommand {
-	
+
 	@Pattern(regexp = "[a-zA-Z]{3,25}", message = "Please enter valid RoleName between 3 to 25 character")
 	private String roleName;
-	
+
 	@ModuleId(max = 25, message = "Please select valid Permission")
-	private String [] moduleIds;
+	private String[] moduleIds;
 
 	public String getRoleName() {
 		return roleName;

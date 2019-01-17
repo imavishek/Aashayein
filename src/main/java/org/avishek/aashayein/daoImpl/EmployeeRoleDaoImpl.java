@@ -1,14 +1,14 @@
 package org.avishek.aashayein.daoImpl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.avishek.aashayein.dao.EmployeeRoleDao;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.entities.EmployeeRole;
 import org.avishek.aashayein.utility.CurrentDateTime;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,6 +18,9 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 	@Autowired
 	HibernateTemplate hibernateTemplate;
+
+	@Autowired
+	SessionFactory sessionFactory;
 
 	@Autowired
 	CurrentDateTime currentDateTime;
@@ -39,8 +42,8 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 	public List<EmployeeRoleTO> getAllRoles() {
 
 		List<EmployeeRoleTO> employeeRoles = null;
-
-		List<EmployeeRole> roles = (List<EmployeeRole>) hibernateTemplate.find("from EmployeeRole");
+		Query<EmployeeRole> query = sessionFactory.openSession().createQuery("from EmployeeRole");
+		List<EmployeeRole> roles = query.list();
 
 		if (!roles.isEmpty()) {
 			employeeRoles = new ArrayList<EmployeeRoleTO>();
@@ -50,6 +53,9 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 				employeeRoleTO.setRoleId(role.getRoleId());
 				employeeRoleTO.setRoleName(role.getRoleName());
+				employeeRoleTO.setArchive(role.getArchive());
+				employeeRoleTO.setRecordCreated(role.getRecordCreated());
+				employeeRoleTO.setRecordUpdated(role.getRecordUpdated());
 
 				employeeRoles.add(employeeRoleTO);
 

@@ -15,14 +15,14 @@ import javax.validation.ConstraintValidatorContext;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileTypeValidator implements ConstraintValidator<FileType, MultipartFile>  {
-	
+public class FileTypeValidator implements ConstraintValidator<FileType, MultipartFile> {
+
 	private String extension;
-	
+
 	@Override
-    public void initialize(FileType fileType) {
+	public void initialize(FileType fileType) {
 		this.extension = fileType.extension();
-    }
+	}
 
 	@Override
 	public boolean isValid(MultipartFile file, ConstraintValidatorContext context) {
@@ -31,7 +31,7 @@ public class FileTypeValidator implements ConstraintValidator<FileType, Multipar
 			return false;
 		} else {
 			return true;
-		}	
+		}
 	}
 
 }

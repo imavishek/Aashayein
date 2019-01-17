@@ -10,16 +10,19 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TblEmployeeRole")
-public class EmployeeRole {
+@Table(name = "TblEmployeeModule")
+public class EmployeeModule {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "RoleId", unique = true, nullable = false)
-	private Integer roleId;
+	@Column(name = "ModuleId", unique = true, nullable = false)
+	private Integer moduleId;
 
-	@Column(name = "RoleName", nullable = false, length = 60)
-	private String roleName;
+	@Column(name = "ModuleName", nullable = false, length = 60)
+	private String moduleName;
+
+	@Column(name = "ModuleDirectory", nullable = false, length = 60)
+	private String moduleDirectory;
 
 	@Column(name = "Archive", nullable = false)
 	private Byte archive;
@@ -30,20 +33,28 @@ public class EmployeeRole {
 	@Column(name = "RecordUpdated", nullable = true, insertable = false)
 	private Date recordUpdated;
 
-	public Integer getRoleId() {
-		return roleId;
+	public Integer getModuleId() {
+		return moduleId;
 	}
 
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setModuleId(Integer moduleId) {
+		this.moduleId = moduleId;
 	}
 
-	public String getRoleName() {
-		return roleName;
+	public String getModuleName() {
+		return moduleName;
 	}
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
+
+	public String getModuleDirectory() {
+		return moduleDirectory;
+	}
+
+	public void setModuleDirectory(String moduleDirectory) {
+		this.moduleDirectory = moduleDirectory;
 	}
 
 	public Byte getArchive() {

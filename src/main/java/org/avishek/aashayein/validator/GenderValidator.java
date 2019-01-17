@@ -12,26 +12,25 @@ package org.avishek.aashayein.validator;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class GenderValidator implements ConstraintValidator<Gender, String>  {
-	
+public class GenderValidator implements ConstraintValidator<Gender, String> {
+
 	private String listOfGender;
-	
+
 	@Override
-    public void initialize(Gender gender) {
+	public void initialize(Gender gender) {
 		this.listOfGender = gender.listOfGender();
-    }
+	}
 
 	@Override
 	public boolean isValid(String gender, ConstraintValidatorContext context) {
-	
+
 		if (gender == null) {
 			return false;
-		}
-		else if (gender.matches(listOfGender)) {
+		} else if (gender.matches(listOfGender)) {
 			return true;
 		} else {
 			return false;
-		}	
+		}
 	}
 
 }

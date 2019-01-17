@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/EmployeeRegistration")
 public class EmployeeRegistrationController {
-	
+
 	private static final Logger logger = LogManager.getLogger(EmployeeRegistrationController.class);
-	
+
 	@InitBinder("employee")
 	public void customizeBinding(WebDataBinder binder) {
 
@@ -48,58 +48,61 @@ public class EmployeeRegistrationController {
 		binder.registerCustomEditor(String.class, "alternateMobileNumber", new StringTrimmerEditor(false));
 		binder.registerCustomEditor(String.class, "email", new StringTrimmerEditor(false));
 		binder.registerCustomEditor(String.class, "alternateEmail", new StringTrimmerEditor(false));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, "joiningDate", new CustomDateEditor( dateFormat, false));
-	
+		binder.registerCustomEditor(Date.class, "joiningDate", new CustomDateEditor(dateFormat, false));
+
 	}
-	
+
 	@RequestMapping(value = "/showPage")
 	public String showRegistrationPage(Model model, HttpServletRequest request) {
-		
+
 		logger.info("Showing Employee Registration Page");
-		
+
 		String view = "";
-		String breadcrumb = "<a href='"+request.getContextPath()+"'>Home</a> / Admin / <a href='"+request.getContextPath()+"/EmployeeRegistration/showPage.abhi'>Employee</a>";
-	
-		Map<Integer,String> title = new LinkedHashMap<Integer,String>();
+		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+				+ request.getContextPath() + "/EmployeeRegistration/showPage.abhi'>Employee</a>";
+
+		Map<Integer, String> title = new LinkedHashMap<Integer, String>();
 		title.put(1, "United Stated");
 		title.put(2, "China");
 		title.put(3, "Singapore");
 		title.put(4, "Malaysia");
-		
+
 		EmployeeCommand employee = new EmployeeCommand();
 		model.addAttribute("employee", employee);
 		model.addAttribute("pageTitle", "Add Employee");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("title", title);
-		
+
 		view = "employeeRegistration";
-		
+
 		return view;
 	}
-	
+
 	@PostMapping(value = "/register")
-	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employee, BindingResult result, HttpServletRequest request) {
-		
+	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employee,
+			BindingResult result, HttpServletRequest request) {
+
 		String view = "";
 		String breadcrumb = "";
-		
-		Map<Integer,String> title = new LinkedHashMap<Integer,String>();
+
+		Map<Integer, String> title = new LinkedHashMap<Integer, String>();
 		title.put(1, "United Stated");
 		title.put(2, "China");
 		title.put(3, "Singapore");
 		title.put(4, "Malaysia");
-		
+
 		if (result.hasErrors()) {
-			
-			//Logging DataBinding Error
+
+			// Logging DataBinding Error
 			for (FieldError error : result.getFieldErrors()) {
-				logger.error("Error In DataBinding For Field:- "+ error.getField());
+				logger.error("Error In DataBinding For Field:- " + error.getField());
 			}
-			
+
 			view = "employeeRegistration";
-			breadcrumb = "<a href='"+request.getContextPath()+"'>Home</a> / Admin / <a href='"+request.getContextPath()+"/EmployeeRegistration/showPage.abhi'>Employee</a>";
+			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+					+ request.getContextPath() + "/EmployeeRegistration/showPage.abhi'>Employee</a>";
 			model.addAttribute("employee", employee);
 			model.addAttribute("pageTitle", "Add Employee");
 			model.addAttribute("breadcrumb", breadcrumb);
@@ -108,8 +111,8 @@ public class EmployeeRegistrationController {
 			System.out.println(employee.getJoiningDate());
 			view = "";
 		}
-		
+
 		return view;
-		
+
 	}
 }

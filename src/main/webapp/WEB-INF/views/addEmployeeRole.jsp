@@ -34,8 +34,8 @@
 				<span class="required">*</span>
 			</td>
 			<td>
-				<springForm:checkboxes items="${module}" path="moduleIds" cssStyle="margin-right:10px;"
-					element="div style='margin:0 0 5px 10px;'" />
+				<springForm:checkboxes items="${employeeModules}" path="moduleIds" cssStyle="margin-right:10px;"
+					element="div style='margin:0 0 5px 10px;'" itemLabel="moduleName" itemValue="moduleId" />
 			</td>
 			<td style="vertical-align: top;">
 				<springForm:errors path="moduleIds" cssClass="error_message" element="span" />

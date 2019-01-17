@@ -9,8 +9,6 @@
 
 package org.avishek.aashayein.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -18,14 +16,11 @@ import javax.validation.Valid;
 
 import org.avishek.aashayein.command.CustomerCommand;
 import org.avishek.aashayein.propertyEditor.ReplaceSpaceEditor;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,28 +28,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping(value = "/CustomerRegistration")
 public class CustomerRegistrationController {
 
-	///Used to customize req, form, command ... parameter
+	/// Used to customize req, form, command ... parameter
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
-		
-		//Ignore or skip firstName field during data binding task
-		//binder.setDisallowedFields(new String[] {"firstName"});
-		//SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		//simpleDateFormat.setLenient(false); //Will check for out of range Date. For Example, If lenient is set to true, Aug 32 will be converted to Sep 1 
-		//binder.registerCustomEditor(Date.class, "dob", new CustomDateEditor( dateFormat, false));
+
+		// Ignore or skip firstName field during data binding task
+		// binder.setDisallowedFields(new String[] {"firstName"});
+		// SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		// simpleDateFormat.setLenient(false); //Will check for out of range Date. For
+		// Example, If lenient is set to true, Aug 32 will be converted to Sep 1
+		// binder.registerCustomEditor(Date.class, "dob", new CustomDateEditor(
+		// dateFormat, false));
 		binder.registerCustomEditor(String.class, "firstName", new ReplaceSpaceEditor());
 		binder.registerCustomEditor(String.class, "lastName", new ReplaceSpaceEditor());
 		binder.registerCustomEditor(String.class, "email", new ReplaceSpaceEditor());
 	}
 
 	/*
-	 * @ModelAttribute 
-	 * public void addingCommonObjects(Model model) {
-	 * 	model.addAttribute("name", "Common Message"); 
-	 * }
+	 * @ModelAttribute public void addingCommonObjects(Model model) {
+	 * model.addAttribute("name", "Common Message"); }
 	 */
 
-	//@GetMapping("/showPage.abhi")
+	// @GetMapping("/showPage.abhi")
 	@RequestMapping(value = "/showPage.abhi")
 	public String showRegistrationPage(Map<String, CustomerCommand> model) throws ServletException {
 		String view = "";
@@ -65,7 +60,7 @@ public class CustomerRegistrationController {
 		return view;
 	}
 
-	//@PostMapping("/register.abhi")
+	// @PostMapping("/register.abhi")
 	@RequestMapping(value = "/register.abhi", method = RequestMethod.POST)
 	public String registerCustomer(@Valid @ModelAttribute("customer") CustomerCommand customer, BindingResult result) {
 		/*

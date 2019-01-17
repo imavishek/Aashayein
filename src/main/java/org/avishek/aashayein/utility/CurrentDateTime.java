@@ -17,18 +17,18 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CurrentDateTime {
-	
-	public Date getCurrentDateTime () {
-		
+
+	public Date getCurrentDateTime() {
+
 		String today = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date());
-		
+
 		try {
 			return new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").parse(today);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
