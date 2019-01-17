@@ -7,8 +7,8 @@
 <jsp:include page="/header.jsp" />
 
 
-<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pqselect.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pqSelect/pqselect.css">
 
 
 <springForm:form
@@ -52,10 +52,10 @@
 </springForm:form>
 
 
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery-ui.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery-validate.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery-validate-additional-methods.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/js/addEmployeeRole.js"></script>
 
 

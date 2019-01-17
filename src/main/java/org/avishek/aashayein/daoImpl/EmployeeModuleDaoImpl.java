@@ -6,22 +6,25 @@ import java.util.List;
 import org.avishek.aashayein.dao.EmployeeModuleDao;
 import org.avishek.aashayein.dto.EmployeeModuleTO;
 import org.avishek.aashayein.entities.EmployeeModule;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class EmployeeModuleDaoImpl implements EmployeeModuleDao {
 
 	@Autowired
-	HibernateTemplate hibernateTemplate;
+	SessionFactory sessionFactory;
 
 	@Override
 	public List<EmployeeModuleTO> getAllModuless() {
 
 		List<EmployeeModuleTO> employeeModules = null;
 
-		List<EmployeeModule> modules = (List<EmployeeModule>) hibernateTemplate.find("from EmployeeModule");
+		String hql = "FROM EmployeeModule ORDER BY ModuleName ASC";
+		Query<EmployeeModule> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeModule.class);
+		List<EmployeeModule> modules = query.list();
 
 		if (!modules.isEmpty()) {
 			employeeModules = new ArrayList<EmployeeModuleTO>();

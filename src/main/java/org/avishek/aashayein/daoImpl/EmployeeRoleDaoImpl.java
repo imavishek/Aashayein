@@ -10,14 +10,10 @@ import org.avishek.aashayein.utility.CurrentDateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
-
-	@Autowired
-	HibernateTemplate hibernateTemplate;
 
 	@Autowired
 	SessionFactory sessionFactory;
@@ -33,7 +29,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		employeeRole.setArchive((byte) 0);
 		employeeRole.setRecordCreated(currentDateTime.getCurrentDateTime());
 
-		hibernateTemplate.save(employeeRole);
+		sessionFactory.getCurrentSession().save(employeeRole);
 
 		return employeeRole.getRoleId();
 	}
@@ -42,7 +38,9 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 	public List<EmployeeRoleTO> getAllRoles() {
 
 		List<EmployeeRoleTO> employeeRoles = null;
-		Query<EmployeeRole> query = sessionFactory.openSession().createQuery("from EmployeeRole");
+
+		String hql = "FROM EmployeeRole ORDER BY RoleId DESC";
+		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
 		List<EmployeeRole> roles = query.list();
 
 		if (!roles.isEmpty()) {
