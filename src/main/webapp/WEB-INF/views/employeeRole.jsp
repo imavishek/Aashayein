@@ -12,8 +12,9 @@
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/tableSorter/tablesorter-theme-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/pnotify-custom.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 
-<span class="notification-holder">${message}</span>
 
 <div style="margin-bottom:1em;">
 	<a href='<jstlCore:url value="/EmployeeRole/showAddRole.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee Role</a>
@@ -61,7 +62,22 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/tablesorter.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-uitheme.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/js/employeeRole.js"></script>
+<script type="text/javascript">
+$(function() {
+	var message = '${message}';
+
+	if (message != "") {
+		new PNotify({
+			type : '${jstlFn:toLowerCase(messageType)}', // type : 'Success' not correct so type : 'success'
+			styling : "jqueryui",
+			title : '${messageType}',
+			text : message
+		});
+	}
+})
+</script>
 
 
 <jsp:include page="/footer.jsp" />

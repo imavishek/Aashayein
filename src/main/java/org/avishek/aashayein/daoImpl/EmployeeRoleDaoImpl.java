@@ -39,7 +39,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 		List<EmployeeRoleTO> employeeRoles = null;
 
-		String hql = "FROM EmployeeRole ORDER BY RoleId DESC";
+		String hql = "FROM EmployeeRole ORDER BY RecordCreated DESC";
 		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
 		List<EmployeeRole> roles = query.list();
 

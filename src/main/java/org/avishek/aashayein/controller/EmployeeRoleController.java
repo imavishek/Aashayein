@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/EmployeeRole")
@@ -44,8 +45,7 @@ public class EmployeeRoleController {
 	EmployeeRoleAndAccessService employeeRoleAndAccessService;
 
 	@RequestMapping(value = "/showRoles")
-	public String showEmployeeRoles(Model model, HttpServletRequest request,
-			@RequestParam(required = false) String message) {
+	public String showEmployeeRoles(Model model, HttpServletRequest request) {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
@@ -55,8 +55,10 @@ public class EmployeeRoleController {
 
 		model.addAttribute("pageTitle", "Employee Roles");
 		model.addAttribute("breadcrumb", breadcrumb);
-		model.addAttribute("message", message);
 		model.addAttribute("employeeRoles", employeeRoles);
+		//model.addAttribute("message", "d");
+		
+		
 
 		view = "employeeRole";
 
@@ -87,7 +89,7 @@ public class EmployeeRoleController {
 	@PostMapping(value = "/addEmployeeRole")
 	public String addEmployeeRole(Model model,
 			@Valid @ModelAttribute("addEmployeeRole") AddEmployeeRoleCommand addEmployeeRole, BindingResult result,
-			HttpServletRequest request) {
+			HttpServletRequest request, RedirectAttributes redir) {
 
 		String view = "";
 		String breadcrumb = "";
@@ -132,9 +134,11 @@ public class EmployeeRoleController {
 
 			if (success) {
 				logger.info("Employee Role " + addEmployeeRole.getRoleName() + " Added Successfully");
-				model.addAttribute("message", "Employee Role Added Successfully");
+				redir.addFlashAttribute("message","Employee Role Added Successfully");
+				redir.addFlashAttribute("messageType","Success");
 			} else {
-				model.addAttribute("message", "Error While Adding Employee Role");
+				redir.addFlashAttribute("message","Failed To Add Employee Role");
+				redir.addFlashAttribute("messageType","Error");
 			}
 
 			redirectUrl = "/EmployeeRole/showRoles.abhi";

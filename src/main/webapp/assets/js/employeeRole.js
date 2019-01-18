@@ -1,6 +1,6 @@
 $(function() {
 	"use strict";
-
+	
 	$(".auto-button").button();
 	$(".tablesorter").tablesorter({
 		theme : 'jui',
@@ -11,7 +11,8 @@ $(function() {
 			5 : {
 				sorter : false
 			}
-		}
+		},
+		sortList: [[2,1]],
 	// widgets : ['uitheme', 'filter', 'zebra'],
 	// sortList: [[1,0]],
 	});
