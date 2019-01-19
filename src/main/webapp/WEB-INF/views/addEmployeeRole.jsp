@@ -14,6 +14,9 @@
 <springForm:form
 	action="${contextRoot}/EmployeeRole/addEmployeeRole.abhi"
 	id="addEmployeeRole" method="POST" modelAttribute="addEmployeeRole">
+	
+	<springForm:hidden path="roleId"/>
+	
 	<table>
 		<tr>
 			<td>

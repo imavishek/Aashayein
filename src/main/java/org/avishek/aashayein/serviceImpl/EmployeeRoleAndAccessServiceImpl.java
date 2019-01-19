@@ -28,6 +28,7 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 
 	// Adding Employee Role With Module Permissions
 	@Override
+	@Transactional
 	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
 			EmployeeRoleAccessTO employeeRoleAccessTO) {
 
@@ -39,15 +40,31 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 	}
 
 	@Override
+	@Transactional
 	public List<EmployeeRoleTO> getAllRoles() {
 
 		return employeeRoleDao.getAllRoles();
 	}
 
 	@Override
+	@Transactional
 	public List<EmployeeModuleTO> getAllModuless() {
 
 		return employeeModuleDao.getAllModuless();
+	}
+
+	@Override
+	@Transactional
+	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId) {
+
+		return employeeRoleDao.getEmployeeRoleById(employeeRoleId);
+	}
+
+	@Override
+	@Transactional
+	public EmployeeRoleAccessTO getModuleAccessByRoleId(Integer employeeRoleId) {
+
+		return employeeRoleAccessDao.getModuleAccessByRoleId(employeeRoleId);
 	}
 
 }

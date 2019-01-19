@@ -10,4 +10,6 @@ public interface EmployeeRoleDao {
 
 	public List<EmployeeRoleTO> getAllRoles();
 
+	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId);
+
 }

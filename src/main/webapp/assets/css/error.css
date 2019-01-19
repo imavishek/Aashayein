@@ -14,6 +14,15 @@ body {
   background-color: #222;
 }
 
+#notfound .errorTitle {
+  	text-align: center;
+    line-height: 2.4;
+    color: #ff8700;
+    font-weight: bold;
+    font-size: xx-large;
+}
+
+
 #notfound .notfound {
   position: absolute;
   left: 50%;
@@ -30,22 +39,18 @@ body {
   line-height: 1.4;
 }
 
-.notfound .notfound-404 {
+.notfound-404, .notfound-500 {
   height: 158px;
   line-height: 153px;
 }
 
-.notfound .notfound-404 h1 {
+.notfound-404 h1, .notfound-500 h1 {
   font-family: 'Josefin Sans', sans-serif;
   color: #222;
   font-size: 220px;
   letter-spacing: 10px;
   margin: 0px;
   font-weight: 700;
-  text-shadow: 2px 2px 0px #c9c9c9, -2px -2px 0px #c9c9c9;
-}
-
-.notfound .notfound-404 h1>span {
   text-shadow: 2px 2px 0px #ffab00, -2px -2px 0px #ffab00, 0px 0px 8px #ff8700;
 }
 
@@ -79,12 +84,12 @@ body {
 }
 
 @media only screen and (max-width: 480px) {
-  .notfound .notfound-404 {
+ .notfound-404, .notfound-500 {
     height: 122px;
     line-height: 122px;
   }
 
-  .notfound .notfound-404 h1 {
+ .notfound-404 h1, .notfound-500 h1 {
       font-size: 122px;
   }
 }

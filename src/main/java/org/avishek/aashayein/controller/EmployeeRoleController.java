@@ -9,10 +9,7 @@
 
 package org.avishek.aashayein.controller;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -23,6 +20,7 @@ import org.avishek.aashayein.command.AddEmployeeRoleCommand;
 import org.avishek.aashayein.dto.EmployeeModuleTO;
 import org.avishek.aashayein.dto.EmployeeRoleAccessTO;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
+import org.avishek.aashayein.exception.EmployeeRoleNotFoundException;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,11 +54,47 @@ public class EmployeeRoleController {
 		model.addAttribute("pageTitle", "Employee Roles");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("employeeRoles", employeeRoles);
-		//model.addAttribute("message", "d");
-		
-		
+		// model.addAttribute("message", "d");
 
 		view = "employeeRole";
+
+		return view;
+	}
+
+	@RequestMapping(value = "/showEditRole")
+	public String showEditEmployeeRoles(Model model, HttpServletRequest request, @RequestParam String roleId)
+			throws EmployeeRoleNotFoundException {
+
+		String view = "";
+		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
+				+ request.getContextPath() + "/EmployeeRole/showEditRole.abhi?roleId=" + roleId
+				+ "'> Edit Employee Role</a>";
+
+		Integer employeeRoleId = Integer.parseInt(roleId);
+
+		EmployeeRoleTO employeeRole = employeeRoleAndAccessService.getEmployeeRoleById(employeeRoleId);
+
+		if (employeeRole == null)
+			throw new EmployeeRoleNotFoundException(employeeRoleId.toString());
+
+		EmployeeRoleAccessTO employeeRoleAccessTO = employeeRoleAndAccessService
+				.getModuleAccessByRoleId(employeeRoleId);
+
+		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModuless();
+
+		AddEmployeeRoleCommand addEmployeeRole = new AddEmployeeRoleCommand();
+
+		addEmployeeRole.setRoleId(employeeRole.getRoleId().toString());
+		addEmployeeRole.setRoleName(employeeRole.getRoleName());
+		addEmployeeRole.setModuleIds(employeeRoleAccessTO.getModuleIds());
+
+		model.addAttribute("pageTitle", "Edit Employee Role");
+		model.addAttribute("breadcrumb", breadcrumb);
+		model.addAttribute("addEmployeeRole", addEmployeeRole);
+		model.addAttribute("employeeModules", employeeModules);
+
+		view = "addEmployeeRole";
 
 		return view;
 	}
@@ -70,6 +104,7 @@ public class EmployeeRoleController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
 				+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
 
 		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModuless();
@@ -84,6 +119,7 @@ public class EmployeeRoleController {
 		view = "addEmployeeRole";
 
 		return view;
+
 	}
 
 	@PostMapping(value = "/addEmployeeRole")
@@ -95,13 +131,6 @@ public class EmployeeRoleController {
 		String breadcrumb = "";
 		String redirectUrl = "";
 
-		Map<Integer, String> module = new LinkedHashMap<Integer, String>();
-		module.put(1, "Admin");
-		module.put(2, "Sales");
-		module.put(3, "Customer Service");
-		module.put(4, "Shipping");
-		module.put(5, "Marketing");
-
 		if (result.hasErrors()) {
 
 			// Logging DataBinding Error
@@ -111,34 +140,34 @@ public class EmployeeRoleController {
 
 			view = "addEmployeeRole";
 			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+					+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
 					+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
+
+			List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModuless();
+
 			model.addAttribute("pageTitle", "Add Employee Role");
 			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("addEmployeeRole", addEmployeeRole);
-			model.addAttribute("module", module);
+			model.addAttribute("employeeModules", employeeModules);
 		} else {
-
-			ArrayList<Integer> moduleIds = new ArrayList<Integer>();
-			for (String moduleId : addEmployeeRole.getModuleIds()) {
-				moduleIds.add(Integer.parseInt(moduleId));
-			}
 
 			EmployeeRoleTO employeeRoleTO = new EmployeeRoleTO();
 			employeeRoleTO.setRoleName(addEmployeeRole.getRoleName());
 
 			EmployeeRoleAccessTO employeeRoleAccessTO = new EmployeeRoleAccessTO();
-			employeeRoleAccessTO.setModuleIds(moduleIds);
+			employeeRoleAccessTO.setModuleIds(addEmployeeRole.getModuleIds());
 
 			boolean success = employeeRoleAndAccessService.addEmployeeRoleWithModulePermissions(employeeRoleTO,
 					employeeRoleAccessTO);
 
 			if (success) {
 				logger.info("Employee Role " + addEmployeeRole.getRoleName() + " Added Successfully");
-				redir.addFlashAttribute("message","Employee Role Added Successfully");
-				redir.addFlashAttribute("messageType","Success");
+				redir.addFlashAttribute("message", "Employee Role Added Successfully");
+				redir.addFlashAttribute("messageType", "Success");
 			} else {
-				redir.addFlashAttribute("message","Failed To Add Employee Role");
-				redir.addFlashAttribute("messageType","Error");
+				logger.error("Failed To Add Employee Role " + addEmployeeRole.getRoleName());
+				redir.addFlashAttribute("message", "Failed To Add Employee Role");
+				redir.addFlashAttribute("messageType", "Error");
 			}
 
 			redirectUrl = "/EmployeeRole/showRoles.abhi";

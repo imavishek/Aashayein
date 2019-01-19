@@ -46,7 +46,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
 	private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/shopping";
 	private final static String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
 	private final static String DATABASE_USERNAME = "root";
-	private final static String DATABASE_PASSWORD = "mindfire";
+	private final static String DATABASE_PASSWORD = "root";
 
 	// Hibernate Property
 	private final static String HIBERNATE_DIALECT = "org.hibernate.dialect.MySQLDialect";
@@ -88,7 +88,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		hibernateProperties.put("hibernate.id.new_generator_mappings", "false");
 
 		// hibernateProperties.put("hibernate.format_sql", "true");
-		hibernateProperties.put("hibernate.hbm2ddl.auto", "update");
+		//hibernateProperties.put("hibernate.hbm2ddl.auto", "validate");
 
 		sessionFactory.setHibernateProperties(hibernateProperties);
 

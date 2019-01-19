@@ -1,22 +1,33 @@
 package org.avishek.aashayein.dto;
 
-import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class EmployeeRoleAccessTO {
 
-	private ArrayList<Integer> moduleIds;
+	private String[] moduleIds;
 
-	public ArrayList<Integer> getModuleIds() {
+	private Date recordCreated;
+
+	public String[] getModuleIds() {
 		return moduleIds;
 	}
 
-	public void setModuleIds(ArrayList<Integer> moduleIds) {
+	public void setModuleIds(String[] moduleIds) {
 		this.moduleIds = moduleIds;
+	}
+
+	public Date getRecordCreated() {
+		return recordCreated;
+	}
+
+	public void setRecordCreated(Date recordCreated) {
+		this.recordCreated = recordCreated;
 	}
 
 	@Override
 	public String toString() {
-		return "EmployeeRoleAccessTO [moduleIds=" + moduleIds + "]";
+		return "EmployeeRoleAccessTO [moduleIds=" + moduleIds + ", recordCreated=" + recordCreated + "]";
 	}
 
 }

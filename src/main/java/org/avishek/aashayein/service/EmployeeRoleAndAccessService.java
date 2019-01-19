@@ -14,4 +14,8 @@ public interface EmployeeRoleAndAccessService {
 	public List<EmployeeRoleTO> getAllRoles();
 
 	public List<EmployeeModuleTO> getAllModuless();
+
+	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId);
+
+	public EmployeeRoleAccessTO getModuleAccessByRoleId(Integer employeeRoleId);
 }

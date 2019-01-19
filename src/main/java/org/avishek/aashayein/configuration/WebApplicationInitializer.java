@@ -9,6 +9,9 @@
 
 package org.avishek.aashayein.configuration;
 
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.FrameworkServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -29,6 +32,15 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
 	protected String[] getServletMappings() {
 
 		return new String[] { "*.abhi" };
+	}
+
+	@Override
+	protected FrameworkServlet createDispatcherServlet(WebApplicationContext wac) {
+		DispatcherServlet ds = new DispatcherServlet(wac);
+		// setting this flag to true will throw NoHandlerFoundException instead of 404
+		// page
+		ds.setThrowExceptionIfNoHandlerFound(true);
+		return ds;
 	}
 
 }

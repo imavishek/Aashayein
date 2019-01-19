@@ -26,7 +26,6 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 		EmployeeRole employeeRole = new EmployeeRole();
 		employeeRole.setRoleName(employeeRoleTO.getRoleName());
-		employeeRole.setArchive((byte) 0);
 		employeeRole.setRecordCreated(currentDateTime.getCurrentDateTime());
 
 		sessionFactory.getCurrentSession().save(employeeRole);
@@ -41,27 +40,48 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 		String hql = "FROM EmployeeRole ORDER BY RecordCreated DESC";
 		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
-		List<EmployeeRole> roles = query.list();
+		List<EmployeeRole> employeeRole = query.list();
 
-		if (!roles.isEmpty()) {
+		if (!employeeRole.isEmpty()) {
 			employeeRoles = new ArrayList<EmployeeRoleTO>();
 
-			for (EmployeeRole role : roles) {
-				EmployeeRoleTO employeeRoleTO = new EmployeeRoleTO();
+			for (EmployeeRole role : employeeRole) {
+				EmployeeRoleTO employeeRoleTo = new EmployeeRoleTO();
 
-				employeeRoleTO.setRoleId(role.getRoleId());
-				employeeRoleTO.setRoleName(role.getRoleName());
-				employeeRoleTO.setArchive(role.getArchive());
-				employeeRoleTO.setRecordCreated(role.getRecordCreated());
-				employeeRoleTO.setRecordUpdated(role.getRecordUpdated());
+				employeeRoleTo.setRoleId(role.getRoleId());
+				employeeRoleTo.setRoleName(role.getRoleName());
+				employeeRoleTo.setArchive(role.getArchive());
+				employeeRoleTo.setRecordCreated(role.getRecordCreated());
+				employeeRoleTo.setRecordUpdated(role.getRecordUpdated());
 
-				employeeRoles.add(employeeRoleTO);
+				employeeRoles.add(employeeRoleTo);
 
 			}
 
 		}
 
 		return employeeRoles;
+	}
+
+	@Override
+	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId) {
+
+		EmployeeRoleTO employeeRoleTo = null;
+
+		EmployeeRole employeeRole = sessionFactory.getCurrentSession().get(EmployeeRole.class, employeeRoleId);
+
+		if (employeeRole != null) {
+			employeeRoleTo = new EmployeeRoleTO();
+
+			employeeRoleTo.setRoleId(employeeRole.getRoleId());
+			employeeRoleTo.setRoleName(employeeRole.getRoleName());
+			employeeRoleTo.setArchive(employeeRole.getArchive());
+			employeeRoleTo.setRecordCreated(employeeRole.getRecordCreated());
+			employeeRoleTo.setRecordUpdated(employeeRole.getRecordUpdated());
+		}
+
+		return employeeRoleTo;
+
 	}
 
 }

@@ -17,6 +17,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class RoleId_ModuleId implements Serializable {
 
+	
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "RoleId")
 	private Integer roleId;
 

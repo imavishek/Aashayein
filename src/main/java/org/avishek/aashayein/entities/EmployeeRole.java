@@ -21,7 +21,7 @@ public class EmployeeRole {
 	@Column(name = "RoleName", nullable = false, length = 60)
 	private String roleName;
 
-	@Column(name = "Archive", nullable = false)
+	@Column(name = "Archive", nullable = false, insertable = false)
 	private Byte archive;
 
 	@Column(name = "RecordCreated", nullable = false, updatable = false)
