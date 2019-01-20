@@ -34,6 +34,19 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 	}
 
 	@Override
+	public void editEmployeeRole(EmployeeRoleTO employeeRoleTO) {
+
+		EmployeeRole employeeRole = new EmployeeRole();
+		employeeRole.setRoleId(employeeRoleTO.getRoleId());
+		employeeRole.setRoleName(employeeRoleTO.getRoleName());
+		employeeRole.setArchive((byte) 0);
+		employeeRole.setRecordUpdated(currentDateTime.getCurrentDateTime());
+
+		sessionFactory.getCurrentSession().update(employeeRole);
+
+	}
+
+	@Override
 	public List<EmployeeRoleTO> getAllRoles() {
 
 		List<EmployeeRoleTO> employeeRoles = null;
@@ -55,9 +68,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 				employeeRoleTo.setRecordUpdated(role.getRecordUpdated());
 
 				employeeRoles.add(employeeRoleTo);
-
 			}
-
 		}
 
 		return employeeRoles;
@@ -81,7 +92,6 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		}
 
 		return employeeRoleTo;
-
 	}
 
 }

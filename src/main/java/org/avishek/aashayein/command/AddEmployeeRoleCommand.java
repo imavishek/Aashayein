@@ -16,7 +16,8 @@ import javax.validation.constraints.Pattern;
 import org.avishek.aashayein.validator.ModuleId;
 
 public class AddEmployeeRoleCommand {
-
+	
+	@Pattern(regexp = "^$|[123456789]\\d{0,1}", message = "Invalid RoleId for edit")
 	private String roleId;
 
 	@Pattern(regexp = "[a-zA-Z]{3,25}", message = "Please enter valid RoleName between 3 to 25 character")

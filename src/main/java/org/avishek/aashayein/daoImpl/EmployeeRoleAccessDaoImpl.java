@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.avishek.aashayein.controller.EmployeeRoleController;
 import org.avishek.aashayein.dao.EmployeeRoleAccessDao;
 import org.avishek.aashayein.dto.EmployeeRoleAccessTO;
 import org.avishek.aashayein.entities.EmployeeRoleAccess;
@@ -17,6 +20,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EmployeeRoleAccessDaoImpl implements EmployeeRoleAccessDao {
 
+	private static final Logger logger = LogManager.getLogger(EmployeeRoleController.class);
+
 	@Autowired
 	SessionFactory sessionFactory;
 
@@ -25,6 +30,8 @@ public class EmployeeRoleAccessDaoImpl implements EmployeeRoleAccessDao {
 
 	@Override
 	public Boolean addModulePermissions(Integer employeeRoleId, EmployeeRoleAccessTO employeeRoleAccessTO) {
+
+		Boolean success = false;
 
 		ArrayList<EmployeeRoleAccess> employeeRoleAccessObject = new ArrayList<EmployeeRoleAccess>();
 
@@ -44,7 +51,26 @@ public class EmployeeRoleAccessDaoImpl implements EmployeeRoleAccessDao {
 			sessionFactory.getCurrentSession().save(employeeRoleAccess);
 		}
 
-		return true;
+		success = true;
+
+		return success;
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Boolean editModulePermissions(Integer employeeRoleId, EmployeeRoleAccessTO employeeRoleAccessTO) {
+
+		// Delete the old ModulePermissions for the employeeRoleId
+		String hql = "DELETE FROM EmployeeRoleAccess roleAccess WHERE roleAccess.roleId_ModuleId.roleId=?1";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, employeeRoleId);
+		int noOfRecordDeleted = query.executeUpdate();
+
+		logger.info(
+				noOfRecordDeleted + " no of Module Permissions are deleted for Employee RoleId:- " + employeeRoleId);
+		
+		// Then insert new ModulePermissions for the employeeRoleId
+		return addModulePermissions(employeeRoleId, employeeRoleAccessTO);
 	}
 
 	@Override

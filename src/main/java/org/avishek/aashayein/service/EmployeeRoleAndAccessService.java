@@ -8,14 +8,17 @@ import org.avishek.aashayein.dto.EmployeeRoleTO;
 
 public interface EmployeeRoleAndAccessService {
 
-	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
-			EmployeeRoleAccessTO employeeRoleAccessTO);
-
 	public List<EmployeeRoleTO> getAllRoles();
 
-	public List<EmployeeModuleTO> getAllModuless();
+	public List<EmployeeModuleTO> getAllModules();
 
 	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId);
 
 	public EmployeeRoleAccessTO getModuleAccessByRoleId(Integer employeeRoleId);
+
+	public boolean addEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
+			EmployeeRoleAccessTO employeeRoleAccessTO);
+
+	public boolean editEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
+			EmployeeRoleAccessTO employeeRoleAccessTO);
 }

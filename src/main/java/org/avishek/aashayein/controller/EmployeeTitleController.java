@@ -29,7 +29,7 @@ public class EmployeeTitleController {
 
 	private static final Logger logger = LogManager.getLogger(EmployeeTitleController.class);
 
-	@RequestMapping(value = "/showTitles")
+	@RequestMapping(value = "/showTitles.abhi")
 	public String showEmployeeRoles(Model model, HttpServletRequest request) {
 
 		String view = "";
@@ -51,7 +51,7 @@ public class EmployeeTitleController {
 		return view;
 	}
 
-	@GetMapping(value = "/addEmployeeTitle")
+	@GetMapping(value = "/addEmployeeTitle.abhi")
 	@ResponseBody
 	public String addEmployeeRole(@RequestParam String titleName) {
 		System.out.println(titleName);

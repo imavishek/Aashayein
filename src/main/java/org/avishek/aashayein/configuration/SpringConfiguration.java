@@ -15,13 +15,15 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -30,26 +32,22 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
+@PropertySource({ "classpath:properties/database.properties", "classpath:properties/hibernate.properties" })
 @EnableWebMvc
 @ComponentScan(basePackages = { "org.avishek.aashayein.*" })
 @EnableTransactionManagement
 //@Import({SpringSecurityConfiguration.class})
 public class SpringConfiguration implements WebMvcConfigurer {
 
-	// MySql DATABASE connection information
-	private final static String DATABASE_URL = "jdbc:mysql://localhost:3306/shopping";
-	private final static String DATABASE_DRIVER = "com.mysql.cj.jdbc.Driver";
-	private final static String DATABASE_USERNAME = "root";
-	private final static String DATABASE_PASSWORD = "root";
-
-	// Hibernate Property
-	private final static String HIBERNATE_DIALECT = "org.hibernate.dialect.MySQLDialect";
+	@Autowired
+	private Environment env;
 
 	// Creating ViewResolver Bean
 	@Bean
@@ -62,14 +60,22 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		return viewResolver;
 	}
 
+	/*
+	 * Any request with url mapping /assets/** will directly look for /assets
+	 * folder.
+	 */
+	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/assets/**").addResourceLocations("/assets/");
+	}
+
 	// Creating DataSource Bean
 	@Bean
 	public DataSource getDataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setUrl(DATABASE_URL);
-		dataSource.setDriverClassName(DATABASE_DRIVER);
-		dataSource.setUsername(DATABASE_USERNAME);
-		dataSource.setPassword(DATABASE_PASSWORD);
+		dataSource.setUrl(env.getProperty("database.url"));
+		dataSource.setDriverClassName(env.getProperty("database.driver"));
+		dataSource.setUsername(env.getProperty("database.user"));
+		dataSource.setPassword(env.getProperty("database.password"));
 
 		return dataSource;
 	}
@@ -83,24 +89,17 @@ public class SpringConfiguration implements WebMvcConfigurer {
 
 		// Setting Hibernate Properties
 		Properties hibernateProperties = new Properties();
-		hibernateProperties.put("hibernate.dialect", HIBERNATE_DIALECT);
-		hibernateProperties.put("hibernate.show_sql", "true");
-		hibernateProperties.put("hibernate.id.new_generator_mappings", "false");
+		hibernateProperties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
+		hibernateProperties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+		hibernateProperties.put("hibernate.id.new_generator_mappings",
+				env.getProperty("hibernate.id.new_generator_mappings"));
 
-		// hibernateProperties.put("hibernate.format_sql", "true");
-		//hibernateProperties.put("hibernate.hbm2ddl.auto", "validate");
+		// hibernateProperties.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
+		// hibernateProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
 
 		sessionFactory.setHibernateProperties(hibernateProperties);
 
 		return sessionFactory;
-	}
-
-	// Creating HibernateTemplate Bean
-	@Bean
-	public HibernateTemplate getHibernateTemplate(SessionFactory sessionFactory) {
-		HibernateTemplate hibernateTemplate = new HibernateTemplate(sessionFactory);
-
-		return hibernateTemplate;
 	}
 
 	// Creating MessageSource Bean

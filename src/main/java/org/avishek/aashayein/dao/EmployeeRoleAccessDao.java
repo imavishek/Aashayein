@@ -6,6 +6,8 @@ public interface EmployeeRoleAccessDao {
 
 	public Boolean addModulePermissions(Integer employeeRoleId, EmployeeRoleAccessTO employeeRoleAccessTO);
 
+	public Boolean editModulePermissions(Integer employeeRoleId, EmployeeRoleAccessTO employeeRoleAccessTO);
+
 	EmployeeRoleAccessTO getModuleAccessByRoleId(Integer employeeRoleId);
 
 }

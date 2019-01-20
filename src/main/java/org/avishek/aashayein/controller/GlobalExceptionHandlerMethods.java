@@ -23,8 +23,12 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandlerMethods {
 
-	private static final Logger logger = LogManager.getLogger(EmployeeRoleController.class);
+	private static final Logger logger = LogManager.getLogger(GlobalExceptionHandlerMethods.class);
 
+	/*
+	 * Handler Not Found Exception And Missing Servlet Request Parameter Exception
+	 * Handler
+	 */
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	/*
 	 * Consider missing parameter of handler (Controller) as
@@ -48,12 +52,13 @@ public class GlobalExceptionHandlerMethods {
 		return view;
 	}
 
+	// Generic Exception Handler
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = Exception.class)
 	public String handleException(Model model, Exception e) {
 
 		String view = "";
-e.printStackTrace();
+
 		logger.error(e.getMessage() + " [Exception " + e.getClass() + "]");
 
 		model.addAttribute("title", "Server Error");
@@ -67,6 +72,7 @@ e.printStackTrace();
 
 	}
 
+	// Employee Role Not Found Exception Handler
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(value = EmployeeRoleNotFoundException.class)
 	public String handleEmployeeRoleNotFoundException(EmployeeRoleNotFoundException e, Model model) {

@@ -31,14 +31,16 @@ public class WebApplicationInitializer extends AbstractAnnotationConfigDispatche
 	@Override
 	protected String[] getServletMappings() {
 
-		return new String[] { "*.abhi" };
+		return new String[] { "/" };
 	}
 
 	@Override
 	protected FrameworkServlet createDispatcherServlet(WebApplicationContext wac) {
 		DispatcherServlet ds = new DispatcherServlet(wac);
-		// setting this flag to true will throw NoHandlerFoundException instead of 404
-		// page
+		/*
+		 * setting this flag to true will throw NoHandlerFoundException instead of 404
+		 * page
+		 */
 		ds.setThrowExceptionIfNoHandlerFound(true);
 		return ds;
 	}

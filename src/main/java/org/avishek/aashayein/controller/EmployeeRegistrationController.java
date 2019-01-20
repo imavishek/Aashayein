@@ -54,7 +54,7 @@ public class EmployeeRegistrationController {
 
 	}
 
-	@RequestMapping(value = "/showPage")
+	@RequestMapping(value = "/showPage.abhi")
 	public String showRegistrationPage(Model model, HttpServletRequest request) {
 
 		logger.info("Showing Employee Registration Page");
@@ -80,7 +80,7 @@ public class EmployeeRegistrationController {
 		return view;
 	}
 
-	@PostMapping(value = "/register")
+	@PostMapping(value = "/register.abhi")
 	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employee,
 			BindingResult result, HttpServletRequest request) {
 

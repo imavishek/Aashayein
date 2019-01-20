@@ -6,5 +6,5 @@ import org.avishek.aashayein.dto.EmployeeModuleTO;
 
 public interface EmployeeModuleDao {
 
-	public List<EmployeeModuleTO> getAllModuless();
+	public List<EmployeeModuleTO> getAllModules();
 }

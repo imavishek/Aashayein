@@ -16,6 +16,7 @@
 	id="addEmployeeRole" method="POST" modelAttribute="addEmployeeRole">
 	
 	<springForm:hidden path="roleId"/>
+	<springForm:errors path="roleId" cssClass="error_message" element="span" />
 	
 	<table>
 		<tr>

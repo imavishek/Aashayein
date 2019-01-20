@@ -85,12 +85,12 @@ $(function() {
 				type : form.attr('method'),
 				url : form.attr('action'),
 				data : form.serialize(), // Data to be sent to the server. It
-											// is converted to a query string,
-											// if not already a string.
+				// is converted to a query string,
+				// if not already a string.
 				dataType : "json", // The type of data that you're expecting
-									// back from the server.
+				// back from the server.
 				contentType : 'application/json', // type of data sending to
-													// the server,
+				// the server,
 				mimeType : 'application/json',
 				async : true, // Default true
 

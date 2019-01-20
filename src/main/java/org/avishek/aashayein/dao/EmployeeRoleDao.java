@@ -12,4 +12,6 @@ public interface EmployeeRoleDao {
 
 	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId);
 
+	public void editEmployeeRole(EmployeeRoleTO employeeRoleTO);
+
 }

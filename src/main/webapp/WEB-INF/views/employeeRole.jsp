@@ -45,7 +45,7 @@
 					<td class="alignCenter"><jstlCore:out value="${role.archive eq 0 ? 'NO' : 'YES'}"/></td>
 					<td class="alignCenter">
 						<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit">Edit</a>
-						<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-delete">Delete</a>
+						<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete">Delete</a>
 					</td>
 				</tr>
 		  	</jstlCore:forEach>
@@ -56,6 +56,16 @@
 	</jstlCore:choose>
 </tbody>
 </table>
+
+<!-- Dialog for delete role -->
+<div id="dialog-confirm" title="Delete Employee Role">
+	<div style="padding-top:15px;float:left;">
+		<img alt="alert" height="80px" width="80px" src="${contextRoot}/assets/css/images/alert.png">
+	</div>
+	<div style="display:flex;">
+		<h2 style="margin-left:1.5em; margin-top:1em;">This role will be permanently deleted and cannot be recovered.<p>Are you sure ?</p></h2>
+	</div>
+</div>
 
 
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery.js"></script>

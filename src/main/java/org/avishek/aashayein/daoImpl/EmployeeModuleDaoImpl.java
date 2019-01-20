@@ -18,7 +18,7 @@ public class EmployeeModuleDaoImpl implements EmployeeModuleDao {
 	SessionFactory sessionFactory;
 
 	@Override
-	public List<EmployeeModuleTO> getAllModuless() {
+	public List<EmployeeModuleTO> getAllModules() {
 
 		List<EmployeeModuleTO> employeeModules = null;
 

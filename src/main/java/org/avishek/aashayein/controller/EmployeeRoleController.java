@@ -42,26 +42,28 @@ public class EmployeeRoleController {
 	@Autowired
 	EmployeeRoleAndAccessService employeeRoleAndAccessService;
 
-	@RequestMapping(value = "/showRoles")
+	// Shows the list of employee role page
+	@RequestMapping(value = "/showRoles.abhi")
 	public String showEmployeeRoles(Model model, HttpServletRequest request) {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
 				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
 
+		// Getting all the employee role details
 		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
 		model.addAttribute("pageTitle", "Employee Roles");
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("employeeRoles", employeeRoles);
-		// model.addAttribute("message", "d");
 
 		view = "employeeRole";
 
 		return view;
 	}
 
-	@RequestMapping(value = "/showEditRole")
+	// Shows the page to edit employee role
+	@RequestMapping(value = "/showEditRole.abhi")
 	public String showEditEmployeeRoles(Model model, HttpServletRequest request, @RequestParam String roleId)
 			throws EmployeeRoleNotFoundException {
 
@@ -73,20 +75,24 @@ public class EmployeeRoleController {
 
 		Integer employeeRoleId = Integer.parseInt(roleId);
 
-		EmployeeRoleTO employeeRole = employeeRoleAndAccessService.getEmployeeRoleById(employeeRoleId);
+		// Checking the existence of the employee role
+		EmployeeRoleTO employeeRoleTo = employeeRoleAndAccessService.getEmployeeRoleById(employeeRoleId);
 
-		if (employeeRole == null)
+		// If employee role not found then throw EmployeeRoleNotFoundException
+		if (employeeRoleTo == null)
 			throw new EmployeeRoleNotFoundException(employeeRoleId.toString());
 
+		// Get the modules accessed by the role
 		EmployeeRoleAccessTO employeeRoleAccessTO = employeeRoleAndAccessService
 				.getModuleAccessByRoleId(employeeRoleId);
 
-		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModuless();
-
 		AddEmployeeRoleCommand addEmployeeRole = new AddEmployeeRoleCommand();
 
-		addEmployeeRole.setRoleId(employeeRole.getRoleId().toString());
-		addEmployeeRole.setRoleName(employeeRole.getRoleName());
+		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModules();
+
+		// Setting the field value in AddEmployeeRoleCommand
+		addEmployeeRole.setRoleId(employeeRoleTo.getRoleId().toString());
+		addEmployeeRole.setRoleName(employeeRoleTo.getRoleName());
 		addEmployeeRole.setModuleIds(employeeRoleAccessTO.getModuleIds());
 
 		model.addAttribute("pageTitle", "Edit Employee Role");
@@ -99,7 +105,8 @@ public class EmployeeRoleController {
 		return view;
 	}
 
-	@RequestMapping(value = "/showAddRole")
+	// Shows the page to add employee role
+	@RequestMapping(value = "/showAddRole.abhi")
 	public String showAddEmployeeRole(Model model, HttpServletRequest request) {
 
 		String view = "";
@@ -107,8 +114,10 @@ public class EmployeeRoleController {
 				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
 				+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
 
-		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModuless();
+		// Getting all the modules present in application
+		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModules();
 
+		// Creating empty AddEmployeeRoleCommand object
 		AddEmployeeRoleCommand addEmployeeRole = new AddEmployeeRoleCommand();
 
 		model.addAttribute("pageTitle", "Add Employee Role");
@@ -122,52 +131,107 @@ public class EmployeeRoleController {
 
 	}
 
-	@PostMapping(value = "/addEmployeeRole")
+	// Adding and editing employee role in database
+	@PostMapping(value = "/addEmployeeRole.abhi")
 	public String addEmployeeRole(Model model,
 			@Valid @ModelAttribute("addEmployeeRole") AddEmployeeRoleCommand addEmployeeRole, BindingResult result,
-			HttpServletRequest request, RedirectAttributes redir) {
+			HttpServletRequest request, RedirectAttributes redir) throws EmployeeRoleNotFoundException {
 
 		String view = "";
 		String breadcrumb = "";
 		String redirectUrl = "";
 
+		// Checking in data binding error
 		if (result.hasErrors()) {
 
 			// Logging DataBinding Error
 			for (FieldError error : result.getFieldErrors()) {
-				logger.error("Error In DataBinding For Field:- " + error.getField());
+				logger.error("Error In DataBinding For Field:- " + error.getField() + " FieldValue:- "
+						+ error.getRejectedValue());
 			}
 
+			// Getting all the modules present in application
+			List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModules();
+
 			view = "addEmployeeRole";
-			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-					+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
-					+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
 
-			List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModuless();
+			if (addEmployeeRole.getRoleId() == "") {
 
-			model.addAttribute("pageTitle", "Add Employee Role");
+				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+						+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
+						+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
+
+				model.addAttribute("pageTitle", "Add Employee Role");
+			} else {
+
+				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+						+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
+						+ request.getContextPath() + "/EmployeeRole/showEditRole.abhi?roleId="
+						+ addEmployeeRole.getRoleId() + "'> Edit Employee Role</a>";
+
+				model.addAttribute("pageTitle", "Edit Employee Role");
+			}
+
 			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("addEmployeeRole", addEmployeeRole);
 			model.addAttribute("employeeModules", employeeModules);
 		} else {
 
+			// Setting value in EmployeeRole Transfer Object
 			EmployeeRoleTO employeeRoleTO = new EmployeeRoleTO();
 			employeeRoleTO.setRoleName(addEmployeeRole.getRoleName());
 
+			// Setting value in EmployeeRoleAccess Transfer Object
 			EmployeeRoleAccessTO employeeRoleAccessTO = new EmployeeRoleAccessTO();
 			employeeRoleAccessTO.setModuleIds(addEmployeeRole.getModuleIds());
 
-			boolean success = employeeRoleAndAccessService.addEmployeeRoleWithModulePermissions(employeeRoleTO,
-					employeeRoleAccessTO);
+			// Add employee role if roleId is empty otherwise edit
+			if (addEmployeeRole.getRoleId() == "") {
 
-			if (success) {
-				logger.info("Employee Role " + addEmployeeRole.getRoleName() + " Added Successfully");
-				redir.addFlashAttribute("message", "Employee Role Added Successfully");
-				redir.addFlashAttribute("messageType", "Success");
+				// Adding the employee role with modules accessed by the role
+				boolean success = employeeRoleAndAccessService.addEmployeeRoleWithModulePermissions(employeeRoleTO,
+						employeeRoleAccessTO);
+
+				if (success) {
+					logger.info("Employee Role " + addEmployeeRole.getRoleName() + " Added Successfully");
+
+					// Sending the message and message type to the corresponding jsp page
+					redir.addFlashAttribute("message", "Employee Role Added Successfully");
+					redir.addFlashAttribute("messageType", "Success");
+				} else {
+					logger.error("Failed To Add Employee Role " + addEmployeeRole.getRoleName());
+					redir.addFlashAttribute("message", "Failed To Add Employee Role");
+					redir.addFlashAttribute("messageType", "Error");
+				}
 			} else {
-				logger.error("Failed To Add Employee Role " + addEmployeeRole.getRoleName());
-				redir.addFlashAttribute("message", "Failed To Add Employee Role");
-				redir.addFlashAttribute("messageType", "Error");
+
+				Integer employeeRoleId = Integer.parseInt(addEmployeeRole.getRoleId());
+
+				// Checking the existence of the employee role
+				EmployeeRoleTO employeeRoleTo = employeeRoleAndAccessService.getEmployeeRoleById(employeeRoleId);
+
+				// If employee role not found then throw EmployeeRoleNotFoundException
+				if (employeeRoleTo == null)
+					throw new EmployeeRoleNotFoundException(employeeRoleId.toString());
+
+				employeeRoleTO.setRoleId(employeeRoleId);
+
+				// Edit the employee role with modules accessed by the role
+				boolean success = employeeRoleAndAccessService.editEmployeeRoleWithModulePermissions(employeeRoleTO,
+						employeeRoleAccessTO);
+
+				if (success) {
+					logger.info("Employee Role " + addEmployeeRole.getRoleName() + " Edited Successfully");
+
+					// Sending the message and message type to the corresponding jsp page
+					redir.addFlashAttribute("message", "Employee Role Edited Successfully");
+					redir.addFlashAttribute("messageType", "Success");
+				} else {
+					logger.error("Failed To Edit Employee Role " + addEmployeeRole.getRoleName());
+					redir.addFlashAttribute("message", "Failed To Edit Employee Role");
+					redir.addFlashAttribute("messageType", "Error");
+				}
+
 			}
 
 			redirectUrl = "/EmployeeRole/showRoles.abhi";
