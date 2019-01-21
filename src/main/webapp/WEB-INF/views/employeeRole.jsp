@@ -81,16 +81,20 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-uitheme.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/js/employeeRole.js"></script>
 <script type="text/javascript">
 
 var contextRoot = '${contextRoot}';
+
+var check = false;
 
 $(function() {
 	
 	var message = '${message}';
 
+console.log(check);
 	if (message != "") {
+		check = true;
+		console.log(check);
 		new PNotify({
 			type : '${jstlFn:toLowerCase(messageType)}', // type : 'Success' not correct so type : 'success'
 			styling : "jqueryui",
@@ -100,6 +104,7 @@ $(function() {
 	}
 })
 </script>
+<script type="text/javascript" src="${contextRoot}/assets/js/employeeRole.js"></script>
 
 
 <jsp:include page="/footer.jsp" />

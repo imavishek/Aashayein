@@ -140,11 +140,11 @@
 		</dependency>
 		
 		<!-- JacksonDatabind Dependency -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.fasterxml.jackson.core</groupId> -->
-<!-- 			<artifactId>jackson-databind</artifactId> -->
-<!-- 			<version>${jacksonDatabind.version}</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jacksonDatabind.version}</version>
+		</dependency>
 		
 
 	</dependencies>

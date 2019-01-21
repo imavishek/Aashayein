@@ -10,6 +10,7 @@
 package org.avishek.aashayein.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -46,7 +46,7 @@ public class EmployeeRoleController {
 	// Shows the list of employee role page
 	@RequestMapping(value = "/showRoles.abhi")
 	public String showEmployeeRoles(Model model, HttpServletRequest request) {
-
+		
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
 				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
@@ -58,6 +58,11 @@ public class EmployeeRoleController {
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("employeeRoles", employeeRoles);
 
+		Map md = model.asMap();
+	    for (Object modelKey : md.keySet()) {
+	        Object modelValue = md.get(modelKey);
+	        System.out.println(modelKey + " -- " + modelValue);
+	    }
 		view = "employeeRole";
 
 		return view;
@@ -245,9 +250,11 @@ public class EmployeeRoleController {
 
 	// Delete employee role
 	@RequestMapping(value = "/deleteRole.abhi")
-	@ResponseBody
 	public String deleteEmployeeRole(Model model, HttpServletRequest request, @RequestParam String roleId,
 			RedirectAttributes redir) throws EmployeeRoleNotFoundException {
+
+		String view = "";
+		String redirectUrl = "";
 
 		Integer employeeRoleId = Integer.parseInt(roleId);
 
@@ -264,6 +271,10 @@ public class EmployeeRoleController {
 		redir.addFlashAttribute("message", "Employee Role Deleted Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
-		return "Employee Role Deleted Successfully";
+		redirectUrl = "/EmployeeRole/showRoles.abhi";
+
+		view = "redirect:" + redirectUrl;
+
+		return view;
 	}
 }

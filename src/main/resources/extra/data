@@ -1,0 +1,289 @@
+<jstlCore:choose>
+		<jstlCore:when test="${jstlFn:length(employeeRoles) > 0}">
+			<jstlCore:forEach items="${employeeRoles}" var="role" varStatus="loopStatus">
+				<tr>
+					<td class="alignCenter"><jstlCore:out value="${loopStatus.index+1}"/></td>
+					<td class="alignCenter"><jstlCore:out value="${role.roleName}"/></td>
+					<td class="alignCenter"><jstlFormat:formatDate value="${role.recordCreated}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+					<jstlFormat:formatDate value="${role.recordUpdated}" pattern="yyyy-MM-dd HH:mm:ss" var="updatedDate" />
+					<td class="alignCenter"><jstlCore:out value="${not empty updatedDate ? updatedDate : 'N/A'}"/></td>
+					<td class="alignCenter"><jstlCore:out value="${role.archive eq 0 ? 'NO' : 'YES'}"/></td>
+					<jstlCore:choose>
+						<jstlCore:when test="${role.archive eq 0}">
+							<td class="alignCenter">
+								<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit">Edit</a>
+								<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete">Delete</a>
+							</td>
+						</jstlCore:when>
+						<jstlCore:otherwise>
+							<td class="alignCenter" colspan="2">
+								<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-tick">Active</a>
+							</td>
+						</jstlCore:otherwise>
+					</jstlCore:choose>
+				</tr>
+		  	</jstlCore:forEach>
+		</jstlCore:when>
+		<jstlCore:otherwise>
+			<tr><td colspan="3" class="alignCenter error_message">No Employee Role Found</td></tr>
+		</jstlCore:otherwise>
+	</jstlCore:choose>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	function getAllRoles(){
+
+$.ajax({
+		type : "GET",
+		url : '' + contextRoot + '/EmployeeRole/getAllRoles.abhi',
+		dataType : "json",
+		contentType : 'application/json',
+		start_time: new Date().getTime(),
+		//timeout: 3000, // sets timeout to 3 seconds
+		beforeSend : function() {
+			// Show loader
+			$('.autoreport-spinner').show(); 
+			$(".notification-holder").hide();
+		},
+		success : function(data) {
+			
+			console.log(data);
+			var html = "";
+			$.each(data, function(key, value) {
+				
+				var slNo = key+1;
+				var archive = (value.archive == 0) ? "NO":"YES";
+				
+				html += "<tr>" +
+							"<td class='alignCenter'>"+slNo+"</td>" +
+							"<td class='alignCenter'>"+value.roleName+"</td>" +
+							"<td class='alignCenter'>"+new Date(parseInt(value.createdDate))+"</td>" +
+							"<td class='alignCenter'>"+value.updatedDate+"</td>" +
+							"<td class='alignCenter'>"+archive+"</td>";
+				if(value.archive == 0){
+					html +=	"<td class='alignCenter'>" +
+								"<a href='" + contextRoot + "/EmployeeRole/showEditRole.abhi?roleId="+value.roleId+"' class='auto-button' data-icon='ui-icon-custom-edit'>Edit</a>" +
+								"<a href='" + contextRoot + "/EmployeeRole/deleteRole.abhi?roleId="+value.roleId+"' class='auto-button deleteRole' data-icon='ui-icon-custom-delete'>Delete</a>" +
+							"</td>";
+				}else { 
+					html +=	"<td class='alignCenter' colspan='2'>" +
+								"<a href=''" + contextRoot + "/EmployeeRole/activeRole.abhi?roleId="+value.roleId+"' class='auto-button' data-icon='ui-icon-custom-tick'>Active</a>" +
+							"</td>";
+				}
+			})
+			$(".tablesorter tbody").html(html); 
+		},
+		error : function(xhr) {
+
+			var message = "";
+
+			switch (xhr.status) {
+				case 404:
+					message = "No Handler Found Exception";
+					break;
+				case 500:
+					message = "Error in Deleting Employee Role";
+					break;
+				case 0:
+					message = "Request timeout";
+					break;
+				default:
+					message = "Error in Deleting Employee Role";
+			}
+			$(".notification-holder").show();
+			$(".notification-holder").notification({
+				type : 'error',
+				message : message
+			});
+		},
+		complete : function() {
+			console.log('This request took '+(new Date().getTime() - this.start_time)+' ms');
+			// Hide loader
+			$(".autoreport-spinner").hide();
+		},
+	})
+}
+
+getAllRoles();
+$(function() {
+
+	"use strict";
+	
+	$(".auto-button").button();
+	$(".tablesorter").tablesorter({
+		theme : 'jui',
+		headerTemplate : '{content} {icon}',
+		delayInit : true,
+		widgets : [ 'uitheme' ],
+		sortList : [ [ 2, 1 ] ],
+	});
+	
+	//$("table").trigger("updateAll", [ resort, callback ]);
+	$("#dialog").dialog({
+		autoOpen : false,
+		title : 'Delete Employee Role',
+		draggable : true,
+		resizable : false,
+		height : "auto",
+		width : 500,
+		modal : true,
+		buttons : {
+			"Delete" : {
+				text : 'Ok',
+				'data-icon' : 'ui-icon-custom-tick',
+
+				click : function() {
+					$.ajax({
+						type : "GET",
+						url : $(this).data('url'),
+						dataType : "html",
+						contentType : 'application/json',
+						start_time: new Date().getTime(),
+						//timeout: 3000, // sets timeout to 3 seconds
+						beforeSend : function() {
+							// Show loader
+							$('.autoreport-spinner').show(); 
+							$(".notification-holder").hide();
+						},
+						success : function(data) {
+							getAllRoles();
+							$(".tablesorter").tablesorter().trigger('update');
+							
+							//window.location = '' + contextRoot + '/EmployeeRole/showRoles.abhi?message='+data+'';
+						},
+						error : function(xhr) {
+
+							var message = "";
+
+							switch (xhr.status) {
+								case 404:
+									message = "No Handler Found Exception";
+									break;
+								case 500:
+									message = "Error in Deleting Employee Role";
+									break;
+								case 0:
+									message = "Request timeout";
+									break;
+								default:
+									message = "Error in Deleting Employee Role";
+							}
+							$(".notification-holder").show();
+							$(".notification-holder").notification({
+								type : 'error',
+								message : message
+							});
+						},
+						complete : function() {
+							console.log('This request took '+(new Date().getTime() - this.start_time)+' ms');
+							// Hide loader
+							$(".autoreport-spinner").hide();
+						},
+					})
+					$(this).dialog("close");
+				},
+			},
+			"Cancel" : {
+				text : 'Cancel',
+				'data-icon' : 'ui-icon-custom-delete',
+
+				click : function() {
+					$(this).dialog("close");
+				},
+			}
+		}
+	});
+	$(".deleteRole").button().on("click", function(e) {
+
+		e.preventDefault();
+
+		var url = $(this).attr("href");
+
+		$("#dialog").load('' + contextRoot + '/Common/showDeleteDialog?message=role', function() {
+			$("#dialog").data('url', url).dialog("open");
+		});
+	});
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					$.ajax({
+						type : "GET",
+						url : $(this).data('url'),
+						dataType : "html",
+						contentType : 'application/json',
+						start_time: new Date().getTime(),
+						//timeout: 3000, // sets timeout to 3 seconds
+						beforeSend : function() {
+							// Show loader
+							//$('.autoreport-spinner').show(); 
+							$(".notification-holder").hide();
+						},
+						success : function(data) {
+							
+							window.location = '' + contextRoot + '/EmployeeRole/showRoles.abhi?message='+data+'';
+							new PNotify({
+								type : 'success', // type : 'Success' not correct so type : 'success'
+								styling : "jqueryui",
+								title : 'success',
+								text : data
+							});
+						},
+						error : function(xhr) {
+
+							var message = "";
+
+							switch (xhr.status) {
+								case 404:
+									message = "No Handler Found Exception";
+									break;
+								case 500:
+									message = "Error in Deleting Employee Role";
+									break;
+								case 0:
+									message = "Request timeout";
+									break;
+								default:
+									message = "Error in Deleting Employee Role";
+							}
+							$(".notification-holder").show();
+							$(".notification-holder").notification({
+								type : 'error',
+								message : message
+							});
+						},
+						complete : function() {
+							console.log('This request took '+(new Date().getTime() - this.start_time)+' ms');
+							// Hide loader
+							//$(".autoreport-spinner").hide();
+						},
+					})
