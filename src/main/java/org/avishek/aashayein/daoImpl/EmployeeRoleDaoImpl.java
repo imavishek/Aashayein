@@ -47,6 +47,22 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
+	public Integer deleteEmployeeRole(Integer employeeRoleId) {
+
+		Integer noOfRecordUpdated = 0;
+
+		String hql = "UPDATE EmployeeRole role SET role.archive=?1, role.recordUpdated=?2 WHERE role.roleId=?3";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, (byte)1);
+		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(3, employeeRoleId);
+		noOfRecordUpdated = query.executeUpdate();
+
+		return noOfRecordUpdated;
+	}
+
+	@Override
 	public List<EmployeeRoleTO> getAllRoles() {
 
 		List<EmployeeRoleTO> employeeRoles = null;

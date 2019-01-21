@@ -14,4 +14,6 @@ public interface EmployeeRoleDao {
 
 	public void editEmployeeRole(EmployeeRoleTO employeeRoleTO);
 
+	public Integer deleteEmployeeRole(Integer employeeRoleId);
+
 }

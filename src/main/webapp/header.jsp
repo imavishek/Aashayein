@@ -13,8 +13,13 @@
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
+	<!-- Common css file for every page -->
 	<link rel="shortcut icon" href="${contextRoot}/assets/img/logos/Aashayein_icon.ico">
 	<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/style.css">
+	
+	<!-- Common js file for every page -->
+	<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery.js"></script>
+	<script type="text/javascript" src="${contextRoot}/assets/js/common.js"></script>
 </head>
 <body>
 	<div class="main-menu noprint">

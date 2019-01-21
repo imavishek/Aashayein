@@ -21,4 +21,6 @@ public interface EmployeeRoleAndAccessService {
 
 	public boolean editEmployeeRoleWithModulePermissions(EmployeeRoleTO employeeRoleTO,
 			EmployeeRoleAccessTO employeeRoleAccessTO);
+
+	public Integer deleteEmployeeRole(Integer employeeRoleId);
 }

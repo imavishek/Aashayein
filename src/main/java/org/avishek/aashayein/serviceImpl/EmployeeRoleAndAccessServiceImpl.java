@@ -56,6 +56,14 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 		return success;
 	}
 
+	// Deleting Employee Role By Updating Archive to 1
+	@Override
+	@Transactional
+	public Integer deleteEmployeeRole(Integer employeeRoleId) {
+
+		return employeeRoleDao.deleteEmployeeRole(employeeRoleId);
+	}
+
 	// Getting list of all employee roles
 	@Override
 	@Transactional

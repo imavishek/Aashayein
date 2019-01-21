@@ -16,6 +16,12 @@
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 
 
+<!-- Div for spinner loader -->
+<div class="fa fa-spinner fa-spin autoreport-spinner"></div>
+
+<!-- Div for showing error -->
+<div class="notification-holder"></div>
+
 <div style="margin-bottom:1em;">
 	<a href='<jstlCore:url value="/EmployeeRole/showAddRole.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee Role</a>
 </div>
@@ -43,10 +49,19 @@
 					<jstlFormat:formatDate value="${role.recordUpdated}" pattern="yyyy-MM-dd HH:mm:ss" var="updatedDate" />
 					<td class="alignCenter"><jstlCore:out value="${not empty updatedDate ? updatedDate : 'N/A'}"/></td>
 					<td class="alignCenter"><jstlCore:out value="${role.archive eq 0 ? 'NO' : 'YES'}"/></td>
-					<td class="alignCenter">
-						<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit">Edit</a>
-						<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete">Delete</a>
-					</td>
+					<jstlCore:choose>
+						<jstlCore:when test="${role.archive eq 0}">
+							<td class="alignCenter">
+								<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit">Edit</a>
+								<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete">Delete</a>
+							</td>
+						</jstlCore:when>
+						<jstlCore:otherwise>
+							<td class="alignCenter" colspan="2">
+								<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-tick">Active</a>
+							</td>
+						</jstlCore:otherwise>
+					</jstlCore:choose>
 				</tr>
 		  	</jstlCore:forEach>
 		</jstlCore:when>
@@ -58,24 +73,21 @@
 </table>
 
 <!-- Dialog for delete role -->
-<div id="dialog-confirm" title="Delete Employee Role">
-	<div style="padding-top:15px;float:left;">
-		<img alt="alert" height="80px" width="80px" src="${contextRoot}/assets/css/images/alert.png">
-	</div>
-	<div style="display:flex;">
-		<h2 style="margin-left:1.5em; margin-top:1em;">This role will be permanently deleted and cannot be recovered.<p>Are you sure ?</p></h2>
-	</div>
-</div>
+<div id="dialog"></div>
 
 
-<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/tablesorter.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-uitheme.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/js/employeeRole.js"></script>
 <script type="text/javascript">
+
+var contextRoot = '${contextRoot}';
+
 $(function() {
+	
 	var message = '${message}';
 
 	if (message != "") {

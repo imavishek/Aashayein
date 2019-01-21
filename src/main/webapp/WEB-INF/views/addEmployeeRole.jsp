@@ -13,7 +13,7 @@
 
 <springForm:form
 	action="${contextRoot}/EmployeeRole/addEmployeeRole.abhi"
-	id="addEmployeeRole" method="POST" modelAttribute="addEmployeeRole">
+	id="saveEmployeeRole" method="POST" modelAttribute="addEmployeeRole">
 	
 	<springForm:hidden path="roleId"/>
 	<springForm:errors path="roleId" cssClass="error_message" element="span" />

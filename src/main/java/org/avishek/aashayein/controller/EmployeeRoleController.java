@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -132,8 +133,8 @@ public class EmployeeRoleController {
 	}
 
 	// Adding and editing employee role in database
-	@PostMapping(value = "/addEmployeeRole.abhi")
-	public String addEmployeeRole(Model model,
+	@PostMapping(value = "/saveEmployeeRole.abhi")
+	public String saveEmployeeRole(Model model,
 			@Valid @ModelAttribute("addEmployeeRole") AddEmployeeRoleCommand addEmployeeRole, BindingResult result,
 			HttpServletRequest request, RedirectAttributes redir) throws EmployeeRoleNotFoundException {
 
@@ -240,5 +241,29 @@ public class EmployeeRoleController {
 		}
 
 		return view;
+	}
+
+	// Delete employee role
+	@RequestMapping(value = "/deleteRole.abhi")
+	@ResponseBody
+	public String deleteEmployeeRole(Model model, HttpServletRequest request, @RequestParam String roleId,
+			RedirectAttributes redir) throws EmployeeRoleNotFoundException {
+
+		Integer employeeRoleId = Integer.parseInt(roleId);
+
+		// Delete the employee role
+		Integer noOfRecordDeleted = employeeRoleAndAccessService.deleteEmployeeRole(employeeRoleId);
+
+		// If employee role not found then throw EmployeeRoleNotFoundException
+		if (noOfRecordDeleted == 0)
+			throw new EmployeeRoleNotFoundException(employeeRoleId.toString());
+
+		logger.info("Employee RoleId " + roleId + " Deleted Successfully");
+
+		// Sending the message and message type to the corresponding jsp page
+		redir.addFlashAttribute("message", "Employee Role Deleted Successfully");
+		redir.addFlashAttribute("messageType", "Success");
+
+		return "Employee Role Deleted Successfully";
 	}
 }
