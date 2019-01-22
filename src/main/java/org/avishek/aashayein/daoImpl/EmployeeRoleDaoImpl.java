@@ -52,9 +52,26 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 		Integer noOfRecordUpdated = 0;
 
+		String hql = "UPDATE EmployeeRole role SET role.archive=?1, role.recordUpdated=?2 WHERE role.roleId=?3 AND role.archive=?4";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, (byte) 1);
+		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(3, employeeRoleId);
+		query.setParameter(4, (byte) 0);
+		noOfRecordUpdated = query.executeUpdate();
+
+		return noOfRecordUpdated;
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Integer activeEmployeeRole(Integer employeeRoleId) {
+
+		Integer noOfRecordUpdated = 0;
+
 		String hql = "UPDATE EmployeeRole role SET role.archive=?1, role.recordUpdated=?2 WHERE role.roleId=?3";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		query.setParameter(1, (byte)1);
+		query.setParameter(1, (byte) 0);
 		query.setParameter(2, currentDateTime.getCurrentDateTime());
 		query.setParameter(3, employeeRoleId);
 		noOfRecordUpdated = query.executeUpdate();
@@ -90,12 +107,17 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		return employeeRoles;
 	}
 
+	// Get Employee Role Details If It's Not Archived
 	@Override
 	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId) {
 
 		EmployeeRoleTO employeeRoleTo = null;
 
-		EmployeeRole employeeRole = sessionFactory.getCurrentSession().get(EmployeeRole.class, employeeRoleId);
+		String hql = "FROM EmployeeRole role WHERE role.roleId=?1 AND role.archive=?2";
+		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
+		query.setParameter(1, employeeRoleId);
+		query.setParameter(2, (byte) 0);
+		EmployeeRole employeeRole = query.uniqueResult();
 
 		if (employeeRole != null) {
 			employeeRoleTo = new EmployeeRoleTO();

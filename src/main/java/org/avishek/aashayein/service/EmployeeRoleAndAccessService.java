@@ -23,4 +23,6 @@ public interface EmployeeRoleAndAccessService {
 			EmployeeRoleAccessTO employeeRoleAccessTO);
 
 	public Integer deleteEmployeeRole(Integer employeeRoleId);
+
+	public Integer activeEmployeeRole(Integer employeeRoleId);
 }

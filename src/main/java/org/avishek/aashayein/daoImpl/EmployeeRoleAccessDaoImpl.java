@@ -68,7 +68,7 @@ public class EmployeeRoleAccessDaoImpl implements EmployeeRoleAccessDao {
 
 		logger.info(
 				noOfRecordDeleted + " no of Module Permissions are deleted for Employee RoleId:- " + employeeRoleId);
-		
+
 		// Then insert new ModulePermissions for the employeeRoleId
 		return addModulePermissions(employeeRoleId, employeeRoleAccessTO);
 	}

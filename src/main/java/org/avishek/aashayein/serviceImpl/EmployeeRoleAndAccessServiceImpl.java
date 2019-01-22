@@ -64,6 +64,14 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 		return employeeRoleDao.deleteEmployeeRole(employeeRoleId);
 	}
 
+	// Active Employee Role By Updating Archive to 0
+	@Override
+	@Transactional
+	public Integer activeEmployeeRole(Integer employeeRoleId) {
+
+		return employeeRoleDao.activeEmployeeRole(employeeRoleId);
+	}
+
 	// Getting list of all employee roles
 	@Override
 	@Transactional

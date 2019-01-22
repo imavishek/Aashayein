@@ -9,8 +9,10 @@
 <jsp:include page="/header.jsp" />
 
 
-<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/tablesorter-theme-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/tableSorter/tablesorter-theme-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/pnotify-custom.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 
 
 <div style="margin-bottom:1em;">
@@ -21,7 +23,7 @@
 <table class="tablesorter">
 <thead>
 	<tr>
-		<th style="width:25%;" class="alignCenter">Title Id</th>
+		<th class="alignCenter">Sl No.</th>
 		<th class="alignCenter">Title Name</th>
 		<th class="alignCenter">Edit / Delete</th>
 	</tr>
@@ -63,12 +65,11 @@
 
 
 
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery-ui.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery-validate.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/jquery-validate-additional-methods.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/tablesorter.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/jquery/tablesorter-widgets.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/tablesorter.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-uitheme.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/js/employeeTitle.js"></script>
 
 

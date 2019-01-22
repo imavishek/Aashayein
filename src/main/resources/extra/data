@@ -1,3 +1,9 @@
+Map md = model.asMap();
+	    for (Object modelKey : md.keySet()) {
+	        Object modelValue = md.get(modelKey);
+	        System.out.println(modelKey + " -- " + modelValue);
+	    }
+
 <jstlCore:choose>
 		<jstlCore:when test="${jstlFn:length(employeeRoles) > 0}">
 			<jstlCore:forEach items="${employeeRoles}" var="role" varStatus="loopStatus">

@@ -12,6 +12,7 @@
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/tableSorter/tablesorter-theme-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/tableSorter/filter-formatter.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/pnotify-custom.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 
@@ -22,20 +23,26 @@
 <!-- Div for showing error -->
 <div class="notification-holder"></div>
 
-<div style="margin-bottom:1em;">
+<div style="margin-bottom:.5em;float: left;">
 	<a href='<jstlCore:url value="/EmployeeRole/showAddRole.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee Role</a>
 </div>
 
+<div style="margin-bottom:.5em;float: right;">
+	<button class="auto-button resetFilter" data-icon="ui-icon-custom-reset" title="Reset Filter">Reset Filter</button>
+</div>
+<div style="clear: both;"></div>
 
+
+<div class="wrapper">
 <table class="tablesorter">
 <thead>
 	<tr>
-		<th class="alignCenter">Sl No.</th>
-		<th class="alignCenter">Role Name</th>
-		<th class="alignCenter">CreatedDate</th>
-		<th class="alignCenter">UpdatedDate</th>
-		<th class="alignCenter">Archive</th>
-		<th class="alignCenter">Action</th>
+		<th class="alignCenter" data-placeholder="Search Sl.No">Sl No.</th>
+		<th class="alignCenter" data-placeholder="Search RoleName">Role Name</th>
+		<th class="alignCenter" data-placeholder="Search CreatedDate">CreatedDate</th>
+		<th class="alignCenter" data-placeholder="Search UpdatedDate">UpdatedDate</th>
+		<th class="alignCenter" data-placeholder="All">Archive</th>
+		<th class="alignCenter" data-placeholder="Search Action">Action</th>
 	</tr>
 </thead>
 <tbody>
@@ -47,18 +54,18 @@
 					<td class="alignCenter"><jstlCore:out value="${role.roleName}"/></td>
 					<td class="alignCenter"><jstlFormat:formatDate value="${role.recordCreated}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 					<jstlFormat:formatDate value="${role.recordUpdated}" pattern="yyyy-MM-dd HH:mm:ss" var="updatedDate" />
-					<td class="alignCenter"><jstlCore:out value="${not empty updatedDate ? updatedDate : 'N/A'}"/></td>
+					<td class="alignCenter"><jstlCore:out value="${not empty updatedDate ? updatedDate : ''}"/></td>
 					<td class="alignCenter"><jstlCore:out value="${role.archive eq 0 ? 'NO' : 'YES'}"/></td>
 					<jstlCore:choose>
 						<jstlCore:when test="${role.archive eq 0}">
 							<td class="alignCenter">
-								<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit">Edit</a>
-								<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete">Delete</a>
+								<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit" title="Edit Role">Edit</a>
+								<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete" title="Delete Role">Delete</a>
 							</td>
 						</jstlCore:when>
 						<jstlCore:otherwise>
 							<td class="alignCenter" colspan="2">
-								<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-tick">Active</a>
+								<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-tick" title="Active Role">Active</a>
 							</td>
 						</jstlCore:otherwise>
 					</jstlCore:choose>
@@ -72,6 +79,7 @@
 </tbody>
 </table>
 
+</div>
 <!-- Dialog for delete role -->
 <div id="dialog"></div>
 
@@ -79,22 +87,20 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/tablesorter.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-uitheme.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-stickyHeaders.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-filter.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-filter-formatter-jui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 <script type="text/javascript">
 
 var contextRoot = '${contextRoot}';
 
-var check = false;
-
 $(function() {
-	
+
 	var message = '${message}';
 
-console.log(check);
 	if (message != "") {
-		check = true;
-		console.log(check);
 		new PNotify({
 			type : '${jstlFn:toLowerCase(messageType)}', // type : 'Success' not correct so type : 'success'
 			styling : "jqueryui",

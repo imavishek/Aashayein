@@ -79,11 +79,11 @@ public class GlobalExceptionHandlerMethods {
 
 		String view = "";
 
-		logger.error("Employee Role Not Found For RoleId - " + e.getMessage());
+		logger.error("Employee Role Not Found (Either Unavailable Or Deactivated) For RoleId - " + e.getMessage());
 
 		model.addAttribute("title", "Role UnAvailable");
 		model.addAttribute("errorTitle", "Employee Role Not Found");
-		model.addAttribute("errorMessage", "The employee role you are looking for is not available");
+		model.addAttribute("errorMessage", "The employee role you are looking for might have been deactivated or unavailable");
 
 		view = "error500";
 

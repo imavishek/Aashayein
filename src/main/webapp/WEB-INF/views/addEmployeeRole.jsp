@@ -8,11 +8,13 @@
 
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pqSelect/pqselect.css">
 
+
+<!-- Div for spinner loader -->
+<div class="fa fa-spinner fa-spin autoreport-spinner"></div>
 
 <springForm:form
-	action="${contextRoot}/EmployeeRole/addEmployeeRole.abhi"
+	action="${contextRoot}/EmployeeRole/saveEmployeeRole.abhi"
 	id="saveEmployeeRole" method="POST" modelAttribute="addEmployeeRole">
 	
 	<springForm:hidden path="roleId"/>
@@ -50,13 +52,13 @@
 			<td style="padding-top: 10px;"></td>
 			<td style="text-align: left;">
 				<button type="submit" class="auto-button actionButton" data-icon="ui-icon-custom-save">Save</button>
+				<a href='<jstlCore:url value="/EmployeeRole/showRoles.abhi"/>' class="auto-button" data-icon="ui-icon-custom-cancel">Cancel</a>
 			</td>
 		</tr>
 	</table>
 </springForm:form>
 
 
-<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>

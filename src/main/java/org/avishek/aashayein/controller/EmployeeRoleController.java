@@ -10,7 +10,6 @@
 package org.avishek.aashayein.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -46,7 +45,7 @@ public class EmployeeRoleController {
 	// Shows the list of employee role page
 	@RequestMapping(value = "/showRoles.abhi")
 	public String showEmployeeRoles(Model model, HttpServletRequest request) {
-		
+
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
 				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
@@ -58,11 +57,6 @@ public class EmployeeRoleController {
 		model.addAttribute("breadcrumb", breadcrumb);
 		model.addAttribute("employeeRoles", employeeRoles);
 
-		Map md = model.asMap();
-	    for (Object modelKey : md.keySet()) {
-	        Object modelValue = md.get(modelKey);
-	        System.out.println(modelKey + " -- " + modelValue);
-	    }
 		view = "employeeRole";
 
 		return view;
@@ -269,6 +263,36 @@ public class EmployeeRoleController {
 
 		// Sending the message and message type to the corresponding jsp page
 		redir.addFlashAttribute("message", "Employee Role Deleted Successfully");
+		redir.addFlashAttribute("messageType", "Success");
+
+		redirectUrl = "/EmployeeRole/showRoles.abhi";
+
+		view = "redirect:" + redirectUrl;
+
+		return view;
+	}
+
+	// Active employee role
+	@RequestMapping(value = "/activeRole.abhi")
+	public String activeEmployeeRole(Model model, HttpServletRequest request, @RequestParam String roleId,
+			RedirectAttributes redir) throws EmployeeRoleNotFoundException {
+
+		String view = "";
+		String redirectUrl = "";
+
+		Integer employeeRoleId = Integer.parseInt(roleId);
+
+		// Active the employee role
+		Integer noOfRecordDeleted = employeeRoleAndAccessService.activeEmployeeRole(employeeRoleId);
+
+		// If employee role not found then throw EmployeeRoleNotFoundException
+		if (noOfRecordDeleted == 0)
+			throw new EmployeeRoleNotFoundException(employeeRoleId.toString());
+
+		logger.info("Employee RoleId " + roleId + " Activated Successfully");
+
+		// Sending the message and message type to the corresponding jsp page
+		redir.addFlashAttribute("message", "Employee Role Activated Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
 		redirectUrl = "/EmployeeRole/showRoles.abhi";

@@ -7,8 +7,45 @@ $(function() {
 		theme : 'jui',
 		headerTemplate : '{content} {icon}',
 		delayInit : true,
-		widgets : [ 'uitheme' ],
+		widgets : [ 'uitheme', 'filter', 'stickyHeaders' ],
 		sortList : [ [ 2, 1 ] ],
+		headers : {
+			5 : {
+				sorter : false,
+				filter : false
+			}
+		},
+		widgetOptions : {
+			stickyHeaders_attachTo : '.wrapper',
+			filter_reset: '.resetFilter',
+			filter_functions : {
+				4 : {
+					"YES" : function(e, n, f, i, $r, c, data) {
+						console.log(e);
+						return 'YES' == e;
+					},
+					"NO" : function(e, n, f, i, $r, c, data) {
+						return 'NO' == e;
+					}
+				}
+			},
+			filter_formatter : {
+				2 : function($cell, indx) {
+						return $.tablesorter.filterFormatter.uiDateCompare($cell, indx, {
+							selected : 3,
+							changeMonth : true,
+							changeYear : true,
+						});
+				},
+				3 : function($cell, indx) {
+					return $.tablesorter.filterFormatter.uiDateCompare($cell, indx, {
+						selected : 3,
+						changeMonth : true,
+						changeYear : true,
+					});
+				}
+			}
+		}
 	});
 	$("#dialog").dialog({
 		autoOpen : false,
@@ -30,7 +67,7 @@ $(function() {
 			},
 			"Cancel" : {
 				text : 'Cancel',
-				'data-icon' : 'ui-icon-custom-delete',
+				'data-icon' : 'ui-icon-custom-cancel',
 
 				click : function() {
 					$(this).dialog("close");

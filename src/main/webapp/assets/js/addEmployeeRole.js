@@ -1,6 +1,6 @@
 $(function() {
 	$(".auto-button").button();
-	$("#addEmployeeRole").validate({
+	$("#saveEmployeeRole").validate({
 		rules : {
 			roleName : {
 				normalizer : function(value) {
