@@ -8,4 +8,10 @@ public interface EmployeeTitleService {
 
 	List<EmployeeTitleTO> getAllJobTitles();
 
+	boolean addEmployeeTitle(EmployeeTitleTO employeeTitleTo);
+
+	boolean editEmployeeTitle(EmployeeTitleTO employeeTitleTo);
+
+	EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId);
+
 }

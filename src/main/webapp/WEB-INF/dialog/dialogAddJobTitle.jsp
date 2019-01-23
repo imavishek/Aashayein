@@ -1,7 +1,7 @@
 <!-- Dialog for add job title -->
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 
-
+<script type="text/javascript" src="${contextRoot}/assets/js/dialogAddJobTitle.js"></script>
 
 <springForm:form
 		action="${contextRoot}/EmployeeTitle/saveEmployeeTitle.abhi"

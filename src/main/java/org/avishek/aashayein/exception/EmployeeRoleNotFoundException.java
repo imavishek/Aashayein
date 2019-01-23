@@ -26,5 +26,4 @@ public class EmployeeRoleNotFoundException extends Exception {
 	public String getMessage() {
 		return message;
 	}
-
 }

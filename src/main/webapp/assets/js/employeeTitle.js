@@ -80,7 +80,7 @@ $(function() {
 
 		e.preventDefault();
 
-		$("#dialog").load('' + contextRoot + '/Dialog/showJobTitleDialog', function() {
+		$("#dialog").load('' + contextRoot + '/EmployeeTitle/showJobTitleDialog', function() {
 			$("#dialog").dialog("open");
 		});
 	});

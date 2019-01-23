@@ -21,15 +21,4 @@ public class DialogController {
 
 		return "../dialog/dialogDelete";
 	}
-
-	// Shows the add job title dialog
-	@RequestMapping(value = "/showJobTitleDialog")
-	public String showJobTitleDialog(Model model, HttpServletRequest request) {
-
-		EmployeeTitleCommand employeeTitle = new EmployeeTitleCommand();
-
-		model.addAttribute("employeeTitle", employeeTitle);
-
-		return "../dialog/dialogAddJobTitle";
-	}
 }
