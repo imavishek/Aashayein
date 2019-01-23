@@ -14,7 +14,7 @@ $(function() {
 		width : 265
 	});
 	$("#joiningDate").datepicker({
-		dateFormat : "dd/mm/yy",
+		dateFormat : "dd-mm-yy",
 		minDate : "0D",
 		setDate : new Date(),
 		changeMonth : true,

@@ -1,7 +1,7 @@
 $(function() {
 
 	"use strict";
-
+	
 	$(".auto-button").button();
 	$(".tablesorter").tablesorter({
 		theme : 'jui',
@@ -21,7 +21,6 @@ $(function() {
 			filter_functions : {
 				4 : {
 					"YES" : function(e, n, f, i, $r, c, data) {
-						console.log(e);
 						return 'YES' == e;
 					},
 					"NO" : function(e, n, f, i, $r, c, data) {
@@ -81,7 +80,7 @@ $(function() {
 
 		var url = $(this).attr("href");
 
-		$("#dialog").load('' + contextRoot + '/Common/showDeleteDialog?message=role', function() {
+		$("#dialog").load('' + contextRoot + '/Dialog/showDeleteDialog?message=role', function() {
 			$("#dialog").data('url', url).dialog("open");
 		});
 	});
