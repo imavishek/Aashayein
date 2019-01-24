@@ -46,7 +46,7 @@ $(function() {
 			}
 		}
 	});
-	$("#dialog").dialog({
+	$("#dialogAddJobTitle").dialog({
 		autoOpen : false,
 		title : 'Add Job Title',
 		draggable : true,
@@ -76,12 +76,90 @@ $(function() {
 			}
 		}
 	});
+	$("#dialogDelete").dialog({
+		autoOpen : false,
+		title : 'Delete Employee Title',
+		draggable : true,
+		resizable : false,
+		height : "auto",
+		width : 500,
+		modal : true,
+		buttons : {
+			"Delete" : {
+				text : 'Ok',
+				'data-icon' : 'ui-icon-custom-tick',
+
+				click : function() {
+					window.location = $(this).data('url')
+					$(this).dialog("close");
+				},
+			},
+			"Cancel" : {
+				text : 'Cancel',
+				'data-icon' : 'ui-icon-custom-cancel',
+
+				click : function() {
+					$(this).dialog("close");
+				},
+			}
+		}
+	});
 	$("#addTitle").button().on("click", function(e) {
 
 		e.preventDefault();
 
-		$("#dialog").load('' + contextRoot + '/EmployeeTitle/showJobTitleDialog', function() {
-			$("#dialog").dialog("open");
+		$("#dialogAddJobTitle").load('' + contextRoot + '/EmployeeTitle/showJobTitleDialog', function( response, status, xhr ) {
+			if ( status == "error" ) {
+				var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
+				
+				$(".notification-holder").notification({
+					type : 'error',
+					message : errorText
+				});
+			} else if (status == "success") {
+				$("#dialogAddJobTitle").dialog("open");
+			}
+		});
+	});
+	
+	$(".editTitle").button().on("click", function(e) {
+
+		e.preventDefault();
+
+		$("#dialogAddJobTitle").load($(this).attr("href"), function( response, status, xhr ) {
+			if ( status == "error" ) {
+
+				/*
+				* If error occurred then response is an error page (HTML content). Get the errorTitle from
+				* the response (HTML content) and use this as notification message
+				*/
+				$(".notification-holder").notification({
+					type : 'error',
+					message : $(response).find(".errorTitle").html()
+				});
+			} else if (status == "success") {
+				$("#dialogAddJobTitle").dialog("open");
+			}
+		});
+	});
+	
+	$(".deleteTitle").button().on("click", function(e) {
+
+		e.preventDefault();
+
+		var url = $(this).attr("href");
+
+		$("#dialogDelete").load('' + contextRoot + '/Dialog/showDeleteDialog?message=title', function( response, status, xhr ) {
+			if ( status == "error" ) {
+				var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
+				
+				$(".notification-holder").notification({
+					type : 'error',
+					message : errorText
+				});
+			} else if (status == "success") {
+				$("#dialogDelete").data('url', url).dialog("open");
+			}
 		});
 	});
 })

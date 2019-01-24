@@ -46,7 +46,7 @@ $(function() {
 			}
 		}
 	});
-	$("#dialog").dialog({
+	$("#dialogDelete").dialog({
 		autoOpen : false,
 		title : 'Delete Employee Role',
 		draggable : true,
@@ -80,8 +80,17 @@ $(function() {
 
 		var url = $(this).attr("href");
 
-		$("#dialog").load('' + contextRoot + '/Dialog/showDeleteDialog?message=role', function() {
-			$("#dialog").data('url', url).dialog("open");
+		$("#dialogDelete").load('' + contextRoot + '/Dialog/showDeleteDialog?message=title', function( response, status, xhr ) {
+			if ( status == "error" ) {
+				var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
+				
+				$(".notification-holder").notification({
+					type : 'error',
+					message : errorText
+				});
+			} else if (status == "success") {
+				$("#dialogDelete").data('url', url).dialog("open");
+			}
 		});
 	});
 })

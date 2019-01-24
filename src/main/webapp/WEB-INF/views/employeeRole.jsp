@@ -84,11 +84,12 @@
 	</div>
 	
 	<!-- Dialog for delete role -->
-	<div id="dialog"></div>
+	<div id="dialogDelete"></div>
 </div>
 
 
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/tablesorter.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-uitheme.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-stickyHeaders.js"></script>

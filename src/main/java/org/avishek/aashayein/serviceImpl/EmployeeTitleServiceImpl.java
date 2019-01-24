@@ -23,4 +23,28 @@ public class EmployeeTitleServiceImpl implements EmployeeTitleService {
 		return employeeTitleDao.getAllJobTitles();
 	}
 
+	// Adding Employee Title
+	@Override
+	@Transactional
+	public boolean addEmployeeTitle(EmployeeTitleTO employeeTitleTo) {
+
+		return employeeTitleDao.addEmployeeTitle(employeeTitleTo);
+	}
+
+	// Editing Employee Title
+	@Override
+	@Transactional
+	public boolean editEmployeeTitle(EmployeeTitleTO employeeTitleTo) {
+
+		return employeeTitleDao.editEmployeeTitle(employeeTitleTo);
+	}
+
+	// Getting employee title details by titleId
+	@Override
+	@Transactional
+	public EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId) {
+
+		return employeeTitleDao.getEmployeeTitleById(employeeTitleId);
+	}
+
 }

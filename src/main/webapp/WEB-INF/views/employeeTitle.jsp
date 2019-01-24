@@ -1,8 +1,6 @@
 <%@page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%> 
 <%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -22,6 +20,9 @@
 
 <!-- Show InnerContent After Window Load -->
 <div class="innerContent">
+
+	<!-- Div for showing error -->
+	<div class="notification-holder"></div>
 
 	<div style="margin-bottom:.5em;float: left;">
 		<button id="addTitle" class="auto-button" data-icon="ui-icon-plusthick">Add Job Title</button>
@@ -58,7 +59,7 @@
 							<jstlCore:choose>
 								<jstlCore:when test="${title.archive eq 0}">
 									<td class="alignCenter">
-										<a href='<jstlCore:url value="/EmployeeTitle/showEditTitle.abhi?titleId=${title.titleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit" title="Edit Title">Edit</a>
+										<a href='<jstlCore:url value="/EmployeeTitle/showEditJobTitleDialog.abhi?titleId=${title.titleId}"/>' class="auto-button editTitle" data-icon="ui-icon-custom-edit" title="Edit Title">Edit</a>
 										<a href='<jstlCore:url value="/EmployeeTitle/deleteTitle.abhi?titleId=${title.titleId}"/>' class="auto-button deleteTitle" data-icon="ui-icon-custom-delete" title="Delete Title">Delete</a>
 									</td>
 								</jstlCore:when>
@@ -80,7 +81,10 @@
 	</div>
 	
 	<!-- Dialog for add job title -->
-	<div id="dialog"></div>
+	<div id="dialogAddJobTitle"></div>
+	
+	<!-- Dialog for delete title -->
+	<div id="dialogDelete"></div>
 </div>
 
 
@@ -88,6 +92,7 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/tablesorter.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-uitheme.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/tableSorter/widget-stickyHeaders.js"></script>

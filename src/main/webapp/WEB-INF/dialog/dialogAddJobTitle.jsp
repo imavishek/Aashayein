@@ -7,7 +7,6 @@
 		action="${contextRoot}/EmployeeTitle/saveEmployeeTitle.abhi"
 		id="saveEmployeeTitle" method="POST" modelAttribute="employeeTitle">
 		<springForm:hidden path="titleId"/>
-		<springForm:errors path="titleId" cssClass="error_message" element="span" />
 	
 	<table>
 		<tr>
@@ -22,7 +21,6 @@
 		<tr>
 			<td></td>
 			<td>
-				<springForm:errors path="titleName" cssClass="error_message" element="span" />
 				<div class="errorContainer" style="padding-left:15px;"></div>
 			</td>
 		</tr>

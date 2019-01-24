@@ -12,6 +12,7 @@ package org.avishek.aashayein.controller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.exception.EmployeeRoleNotFoundException;
+import org.avishek.aashayein.exception.EmployeeTitleNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -83,7 +84,28 @@ public class GlobalExceptionHandlerMethods {
 
 		model.addAttribute("title", "Role UnAvailable");
 		model.addAttribute("errorTitle", "Employee Role Not Found");
-		model.addAttribute("errorMessage", "The employee role you are looking for might have been deactivated or unavailable");
+		model.addAttribute("errorMessage",
+				"The employee role you are looking for might have been deactivated or unavailable");
+
+		view = "error500";
+
+		return view;
+
+	}
+
+	// Employee Title Not Found Exception Handler
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = EmployeeTitleNotFoundException.class)
+	public String handleEmployeeTitleNotFoundException(EmployeeTitleNotFoundException e, Model model) {
+
+		String view = "";
+
+		logger.error("Employee Title Not Found (Either Unavailable Or Deactivated) For TitleId - " + e.getMessage());
+
+		model.addAttribute("title", "JobTitle UnAvailable");
+		model.addAttribute("errorTitle", "Employee Title Not Found");
+		model.addAttribute("errorMessage",
+				"The employee title you are looking for might have been deactivated or unavailable");
 
 		view = "error500";
 
