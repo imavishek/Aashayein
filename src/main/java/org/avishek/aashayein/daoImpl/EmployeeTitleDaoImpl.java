@@ -49,6 +49,31 @@ public class EmployeeTitleDaoImpl implements EmployeeTitleDao {
 		return employeeTitles;
 	}
 
+	// Get Employee Title Details If It's Not Archived
+	@Override
+	public EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId) {
+
+		EmployeeTitleTO employeeTitleTo = null;
+
+		String hql = "FROM EmployeeTitle title WHERE title.titleId=?1 AND title.archive=?2";
+		Query<EmployeeTitle> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeTitle.class);
+		query.setParameter(1, employeeTitleId);
+		query.setParameter(2, (byte) 0);
+		EmployeeTitle employeeTitle = query.uniqueResult();
+
+		if (employeeTitle != null) {
+			employeeTitleTo = new EmployeeTitleTO();
+
+			employeeTitleTo.setTitleId(employeeTitle.getTitleId());
+			employeeTitleTo.setTitleName(employeeTitle.getTitleName());
+			employeeTitleTo.setArchive(employeeTitle.getArchive());
+			employeeTitleTo.setRecordCreated(employeeTitle.getRecordCreated());
+			employeeTitleTo.setRecordUpdated(employeeTitle.getRecordUpdated());
+		}
+
+		return employeeTitleTo;
+	}
+
 	@Override
 	public boolean addEmployeeTitle(EmployeeTitleTO employeeTitleTo) {
 
@@ -83,29 +108,37 @@ public class EmployeeTitleDaoImpl implements EmployeeTitleDao {
 		return success;
 	}
 
-	// Get Employee Title Details If It's Not Archived
 	@Override
-	public EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId) {
+	@SuppressWarnings("rawtypes")
+	public Integer deleteEmployeeTitle(Integer employeeTitleId) {
 
-		EmployeeTitleTO employeeTitleTo = null;
+		Integer noOfRecordUpdated = 0;
 
-		String hql = "FROM EmployeeTitle title WHERE title.titleId=?1 AND title.archive=?2";
-		Query<EmployeeTitle> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeTitle.class);
-		query.setParameter(1, employeeTitleId);
-		query.setParameter(2, (byte) 0);
-		EmployeeTitle employeeTitle = query.uniqueResult();
+		String hql = "UPDATE EmployeeTitle title SET title.archive=?1, title.recordUpdated=?2 WHERE title.titleId=?3 AND title.archive=?4";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, (byte) 1);
+		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(3, employeeTitleId);
+		query.setParameter(4, (byte) 0);
+		noOfRecordUpdated = query.executeUpdate();
 
-		if (employeeTitle != null) {
-			employeeTitleTo = new EmployeeTitleTO();
+		return noOfRecordUpdated;
+	}
 
-			employeeTitleTo.setTitleId(employeeTitle.getTitleId());
-			employeeTitleTo.setTitleName(employeeTitle.getTitleName());
-			employeeTitleTo.setArchive(employeeTitle.getArchive());
-			employeeTitleTo.setRecordCreated(employeeTitle.getRecordCreated());
-			employeeTitleTo.setRecordUpdated(employeeTitle.getRecordUpdated());
-		}
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Integer activeEmployeeTitle(Integer employeeTitleId) {
 
-		return employeeTitleTo;
+		Integer noOfRecordUpdated = 0;
+
+		String hql = "UPDATE EmployeeTitle title SET title.archive=?1, title.recordUpdated=?2 WHERE title.titleId=?3";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, (byte) 0);
+		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(3, employeeTitleId);
+		noOfRecordUpdated = query.executeUpdate();
+
+		return noOfRecordUpdated;
 	}
 
 }

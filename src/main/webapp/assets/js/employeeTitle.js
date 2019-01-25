@@ -107,11 +107,13 @@ $(function() {
 	$("#addTitle").button().on("click", function(e) {
 
 		e.preventDefault();
+		$(".notification-holder").hide();
 
 		$("#dialogAddJobTitle").load('' + contextRoot + '/EmployeeTitle/showJobTitleDialog', function( response, status, xhr ) {
 			if ( status == "error" ) {
 				var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
 				
+				$(".notification-holder").show();
 				$(".notification-holder").notification({
 					type : 'error',
 					message : errorText
@@ -125,6 +127,7 @@ $(function() {
 	$(".editTitle").button().on("click", function(e) {
 
 		e.preventDefault();
+		$(".notification-holder").hide();
 
 		$("#dialogAddJobTitle").load($(this).attr("href"), function( response, status, xhr ) {
 			if ( status == "error" ) {
@@ -133,6 +136,7 @@ $(function() {
 				* If error occurred then response is an error page (HTML content). Get the errorTitle from
 				* the response (HTML content) and use this as notification message
 				*/
+				$(".notification-holder").show();
 				$(".notification-holder").notification({
 					type : 'error',
 					message : $(response).find(".errorTitle").html()
@@ -146,6 +150,7 @@ $(function() {
 	$(".deleteTitle").button().on("click", function(e) {
 
 		e.preventDefault();
+		$(".notification-holder").hide();
 
 		var url = $(this).attr("href");
 
@@ -153,6 +158,7 @@ $(function() {
 			if ( status == "error" ) {
 				var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
 				
+				$(".notification-holder").show();
 				$(".notification-holder").notification({
 					type : 'error',
 					message : errorText

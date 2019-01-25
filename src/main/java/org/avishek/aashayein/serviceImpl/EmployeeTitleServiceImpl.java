@@ -23,6 +23,14 @@ public class EmployeeTitleServiceImpl implements EmployeeTitleService {
 		return employeeTitleDao.getAllJobTitles();
 	}
 
+	// Getting employee title details by titleId
+	@Override
+	@Transactional
+	public EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId) {
+
+		return employeeTitleDao.getEmployeeTitleById(employeeTitleId);
+	}
+
 	// Adding Employee Title
 	@Override
 	@Transactional
@@ -39,12 +47,19 @@ public class EmployeeTitleServiceImpl implements EmployeeTitleService {
 		return employeeTitleDao.editEmployeeTitle(employeeTitleTo);
 	}
 
-	// Getting employee title details by titleId
+	// Deleting Employee Title By Updating Archive to 1
 	@Override
 	@Transactional
-	public EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId) {
+	public Integer deleteEmployeeTitle(Integer employeeTitleId) {
 
-		return employeeTitleDao.getEmployeeTitleById(employeeTitleId);
+		return employeeTitleDao.deleteEmployeeTitle(employeeTitleId);
 	}
 
+	// Active Employee Title By Updating Archive to 0
+	@Override
+	@Transactional
+	public Integer activeEmployeeTitle(Integer employeeTitleId) {
+
+		return employeeTitleDao.activeEmployeeTitle(employeeTitleId);
+	}
 }

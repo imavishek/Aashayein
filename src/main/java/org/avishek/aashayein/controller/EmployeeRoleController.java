@@ -283,10 +283,10 @@ public class EmployeeRoleController {
 		Integer employeeRoleId = Integer.parseInt(roleId);
 
 		// Active the employee role
-		Integer noOfRecordDeleted = employeeRoleAndAccessService.activeEmployeeRole(employeeRoleId);
+		Integer noOfRecordUpdated = employeeRoleAndAccessService.activeEmployeeRole(employeeRoleId);
 
 		// If employee role not found then throw EmployeeRoleNotFoundException
-		if (noOfRecordDeleted == 0)
+		if (noOfRecordUpdated == 0)
 			throw new EmployeeRoleNotFoundException(employeeRoleId.toString());
 
 		logger.info("Employee RoleId " + roleId + " Activated Successfully");

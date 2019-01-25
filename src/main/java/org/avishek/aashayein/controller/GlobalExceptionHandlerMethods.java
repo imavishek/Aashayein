@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.exception.EmployeeRoleNotFoundException;
 import org.avishek.aashayein.exception.EmployeeTitleNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.TransactionException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -53,19 +54,18 @@ public class GlobalExceptionHandlerMethods {
 		return view;
 	}
 
-	// Generic Exception Handler
+	// Unable to acquire JDBC Connection
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(value = Exception.class)
-	public String handleException(Model model, Exception e) {
+	@ExceptionHandler(value = TransactionException.class)
+	public String handleGenericJDBCException(Model model, TransactionException e) {
 
 		String view = "";
 
 		logger.error(e.getMessage() + " [Exception " + e.getClass() + "]");
 
-		model.addAttribute("title", "Server Error");
-		model.addAttribute("errorTitle", "Internal Server Error");
-		model.addAttribute("errorMessage",
-				"The server has encountered an unexpected error. Please contact administrator");
+		model.addAttribute("title", "Database Error");
+		model.addAttribute("errorTitle", "Failed to connect with Database");
+		model.addAttribute("errorMessage", "The server failed to connect with database. Please contact administrator");
 
 		view = "error500";
 
@@ -113,4 +113,23 @@ public class GlobalExceptionHandlerMethods {
 
 	}
 
+	// Generic Exception Handler
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = Exception.class)
+	public String handleException(Model model, Exception e) {
+
+		String view = "";
+
+		logger.error(e.getMessage() + " [Exception " + e.getClass() + "]");
+
+		model.addAttribute("title", "Server Error");
+		model.addAttribute("errorTitle", "Internal Server Error");
+		model.addAttribute("errorMessage",
+				"The server has encountered an unexpected error. Please contact administrator");
+
+		view = "error500";
+
+		return view;
+
+	}
 }

@@ -8,10 +8,14 @@ public interface EmployeeTitleDao {
 
 	List<EmployeeTitleTO> getAllJobTitles();
 
+	EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId);
+
 	boolean addEmployeeTitle(EmployeeTitleTO employeeTitleTo);
 
 	boolean editEmployeeTitle(EmployeeTitleTO employeeTitleTo);
 
-	EmployeeTitleTO getEmployeeTitleById(Integer employeeTitleId);
+	Integer deleteEmployeeTitle(Integer employeeTitleId);
+
+	Integer activeEmployeeTitle(Integer employeeTitleId);
 
 }

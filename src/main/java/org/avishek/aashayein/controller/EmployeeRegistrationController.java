@@ -12,6 +12,7 @@ package org.avishek.aashayein.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,11 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.EmployeeCommand;
+import org.avishek.aashayein.dto.EmployeeRoleTO;
+import org.avishek.aashayein.dto.EmployeeTitleTO;
+import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
+import org.avishek.aashayein.service.EmployeeTitleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -38,6 +44,12 @@ public class EmployeeRegistrationController {
 
 	private static final Logger logger = LogManager.getLogger(EmployeeRegistrationController.class);
 
+	@Autowired
+	EmployeeTitleService employeeTitleService;
+
+	@Autowired
+	EmployeeRoleAndAccessService employeeRoleAndAccessService;
+
 	@InitBinder("employee")
 	public void customizeBinding(WebDataBinder binder) {
 
@@ -54,26 +66,29 @@ public class EmployeeRegistrationController {
 
 	}
 
-	@RequestMapping(value = "/showPage.abhi")
+	// Shows the employee registration page
+	@RequestMapping(value = "/showRegistration.abhi")
 	public String showRegistrationPage(Model model, HttpServletRequest request) {
 
 		logger.info("Showing Employee Registration Page");
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/EmployeeRegistration/showPage.abhi'>Employee</a>";
+				+ request.getContextPath() + "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
 
-		Map<Integer, String> title = new LinkedHashMap<Integer, String>();
-		title.put(1, "United Stated");
-		title.put(2, "China");
-		title.put(3, "Singapore");
-		title.put(4, "Malaysia");
+		// Getting all the job title details
+		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
+
+		// Getting all the employee role details
+		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
 		EmployeeCommand employee = new EmployeeCommand();
-		model.addAttribute("employee", employee);
+
 		model.addAttribute("pageTitle", "Add Employee");
 		model.addAttribute("breadcrumb", breadcrumb);
-		model.addAttribute("title", title);
+		model.addAttribute("employee", employee);
+		model.addAttribute("jobTitles", jobTitles);
+		model.addAttribute("employeeRoles", employeeRoles);
 
 		view = "employeeRegistration";
 

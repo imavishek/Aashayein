@@ -22,6 +22,59 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 	CurrentDateTime currentDateTime;
 
 	@Override
+	public List<EmployeeRoleTO> getAllRoles() {
+
+		List<EmployeeRoleTO> employeeRoles = null;
+
+		String hql = "FROM EmployeeRole ORDER BY RecordCreated DESC";
+		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
+		List<EmployeeRole> employeeRole = query.list();
+
+		if (!employeeRole.isEmpty()) {
+			employeeRoles = new ArrayList<EmployeeRoleTO>();
+
+			for (EmployeeRole role : employeeRole) {
+				EmployeeRoleTO employeeRoleTo = new EmployeeRoleTO();
+
+				employeeRoleTo.setRoleId(role.getRoleId());
+				employeeRoleTo.setRoleName(role.getRoleName());
+				employeeRoleTo.setArchive(role.getArchive());
+				employeeRoleTo.setRecordCreated(role.getRecordCreated());
+				employeeRoleTo.setRecordUpdated(role.getRecordUpdated());
+
+				employeeRoles.add(employeeRoleTo);
+			}
+		}
+
+		return employeeRoles;
+	}
+
+	// Get Employee Role Details If It's Not Archived
+	@Override
+	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId) {
+
+		EmployeeRoleTO employeeRoleTo = null;
+
+		String hql = "FROM EmployeeRole role WHERE role.roleId=?1 AND role.archive=?2";
+		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
+		query.setParameter(1, employeeRoleId);
+		query.setParameter(2, (byte) 0);
+		EmployeeRole employeeRole = query.uniqueResult();
+
+		if (employeeRole != null) {
+			employeeRoleTo = new EmployeeRoleTO();
+
+			employeeRoleTo.setRoleId(employeeRole.getRoleId());
+			employeeRoleTo.setRoleName(employeeRole.getRoleName());
+			employeeRoleTo.setArchive(employeeRole.getArchive());
+			employeeRoleTo.setRecordCreated(employeeRole.getRecordCreated());
+			employeeRoleTo.setRecordUpdated(employeeRole.getRecordUpdated());
+		}
+
+		return employeeRoleTo;
+	}
+
+	@Override
 	public Integer addEmployeeRole(EmployeeRoleTO employeeRoleTO) {
 
 		EmployeeRole employeeRole = new EmployeeRole();
@@ -77,59 +130,6 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		noOfRecordUpdated = query.executeUpdate();
 
 		return noOfRecordUpdated;
-	}
-
-	@Override
-	public List<EmployeeRoleTO> getAllRoles() {
-
-		List<EmployeeRoleTO> employeeRoles = null;
-
-		String hql = "FROM EmployeeRole ORDER BY RecordCreated DESC";
-		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
-		List<EmployeeRole> employeeRole = query.list();
-
-		if (!employeeRole.isEmpty()) {
-			employeeRoles = new ArrayList<EmployeeRoleTO>();
-
-			for (EmployeeRole role : employeeRole) {
-				EmployeeRoleTO employeeRoleTo = new EmployeeRoleTO();
-
-				employeeRoleTo.setRoleId(role.getRoleId());
-				employeeRoleTo.setRoleName(role.getRoleName());
-				employeeRoleTo.setArchive(role.getArchive());
-				employeeRoleTo.setRecordCreated(role.getRecordCreated());
-				employeeRoleTo.setRecordUpdated(role.getRecordUpdated());
-
-				employeeRoles.add(employeeRoleTo);
-			}
-		}
-
-		return employeeRoles;
-	}
-
-	// Get Employee Role Details If It's Not Archived
-	@Override
-	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId) {
-
-		EmployeeRoleTO employeeRoleTo = null;
-
-		String hql = "FROM EmployeeRole role WHERE role.roleId=?1 AND role.archive=?2";
-		Query<EmployeeRole> query = sessionFactory.getCurrentSession().createQuery(hql, EmployeeRole.class);
-		query.setParameter(1, employeeRoleId);
-		query.setParameter(2, (byte) 0);
-		EmployeeRole employeeRole = query.uniqueResult();
-
-		if (employeeRole != null) {
-			employeeRoleTo = new EmployeeRoleTO();
-
-			employeeRoleTo.setRoleId(employeeRole.getRoleId());
-			employeeRoleTo.setRoleName(employeeRole.getRoleName());
-			employeeRoleTo.setArchive(employeeRole.getArchive());
-			employeeRoleTo.setRecordCreated(employeeRole.getRecordCreated());
-			employeeRoleTo.setRecordUpdated(employeeRole.getRecordUpdated());
-		}
-
-		return employeeRoleTo;
 	}
 
 }

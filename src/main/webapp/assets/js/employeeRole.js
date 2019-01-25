@@ -77,6 +77,7 @@ $(function() {
 	$(".deleteRole").button().on("click", function(e) {
 
 		e.preventDefault();
+		$(".notification-holder").hide();
 
 		var url = $(this).attr("href");
 
@@ -84,6 +85,7 @@ $(function() {
 			if ( status == "error" ) {
 				var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
 				
+				$(".notification-holder").show();
 				$(".notification-holder").notification({
 					type : 'error',
 					message : errorText

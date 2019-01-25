@@ -97,7 +97,7 @@ public class EmployeeTitleController {
 	}
 
 	@PostMapping(value = "/saveEmployeeTitle.abhi")
-	public String addEmployeeRole(Model model,
+	public String saveEmployeeTitle(Model model,
 			@Valid @ModelAttribute("employeeTitle") EmployeeTitleCommand employeeTitle, BindingResult result,
 			HttpServletRequest request, RedirectAttributes redir) throws EmployeeTitleNotFoundException {
 
@@ -172,6 +172,66 @@ public class EmployeeTitleController {
 				}
 			}
 		}
+
+		redirectUrl = "/EmployeeTitle/showTitles.abhi";
+
+		view = "redirect:" + redirectUrl;
+
+		return view;
+	}
+
+	// Delete employee title
+	@RequestMapping(value = "/deleteTitle.abhi")
+	public String deleteEmployeeTitle(Model model, HttpServletRequest request, @RequestParam String titleId,
+			RedirectAttributes redir) throws EmployeeTitleNotFoundException {
+
+		String view = "";
+		String redirectUrl = "";
+
+		Integer employeeTitleId = Integer.parseInt(titleId);
+
+		// Delete the employee title
+		Integer noOfRecordDeleted = employeeTitleService.deleteEmployeeTitle(employeeTitleId);
+
+		// If employee title not found then throw EmployeeTitleNotFoundException
+		if (noOfRecordDeleted == 0)
+			throw new EmployeeTitleNotFoundException(employeeTitleId.toString());
+
+		logger.info("Employee TitleId " + employeeTitleId + " Deleted Successfully");
+
+		// Sending the message and message type to the corresponding jsp page
+		redir.addFlashAttribute("message", "Employee Title Deleted Successfully");
+		redir.addFlashAttribute("messageType", "Success");
+
+		redirectUrl = "/EmployeeTitle/showTitles.abhi";
+
+		view = "redirect:" + redirectUrl;
+
+		return view;
+	}
+
+	// Active employee title
+	@RequestMapping(value = "/activeTitle.abhi")
+	public String activeEmployeeTitle(Model model, HttpServletRequest request, @RequestParam String titleId,
+			RedirectAttributes redir) throws EmployeeTitleNotFoundException {
+
+		String view = "";
+		String redirectUrl = "";
+
+		Integer employeeTitleId = Integer.parseInt(titleId);
+
+		// Active the employee title
+		Integer noOfRecordUpdated = employeeTitleService.activeEmployeeTitle(employeeTitleId);
+
+		// If employee title not found then throw EmployeeTitleNotFoundException
+		if (noOfRecordUpdated == 0)
+			throw new EmployeeTitleNotFoundException(employeeTitleId.toString());
+
+		logger.info("Employee TitleId " + employeeTitleId + " Activated Successfully");
+
+		// Sending the message and message type to the corresponding jsp page
+		redir.addFlashAttribute("message", "Employee Title Activated Successfully");
+		redir.addFlashAttribute("messageType", "Success");
 
 		redirectUrl = "/EmployeeTitle/showTitles.abhi";
 

@@ -26,6 +26,38 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 	@Autowired
 	EmployeeModuleDao employeeModuleDao;
 
+	// Getting list of all employee roles
+	@Override
+	@Transactional
+	public List<EmployeeRoleTO> getAllRoles() {
+
+		return employeeRoleDao.getAllRoles();
+	}
+
+	// Getting list of all Modules
+	@Override
+	@Transactional
+	public List<EmployeeModuleTO> getAllModules() {
+
+		return employeeModuleDao.getAllModules();
+	}
+
+	// Getting employee role details by roldId
+	@Override
+	@Transactional
+	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId) {
+
+		return employeeRoleDao.getEmployeeRoleById(employeeRoleId);
+	}
+
+	// Getting modules accessed by roleId
+	@Override
+	@Transactional
+	public EmployeeRoleAccessTO getModuleAccessByRoleId(Integer employeeRoleId) {
+
+		return employeeRoleAccessDao.getModuleAccessByRoleId(employeeRoleId);
+	}
+
 	// Adding Employee Role With Module Permissions
 	@Override
 	@Transactional
@@ -70,38 +102,6 @@ public class EmployeeRoleAndAccessServiceImpl implements EmployeeRoleAndAccessSe
 	public Integer activeEmployeeRole(Integer employeeRoleId) {
 
 		return employeeRoleDao.activeEmployeeRole(employeeRoleId);
-	}
-
-	// Getting list of all employee roles
-	@Override
-	@Transactional
-	public List<EmployeeRoleTO> getAllRoles() {
-
-		return employeeRoleDao.getAllRoles();
-	}
-
-	// Getting list of all Modules
-	@Override
-	@Transactional
-	public List<EmployeeModuleTO> getAllModules() {
-
-		return employeeModuleDao.getAllModules();
-	}
-
-	// Getting employee role details by roldId
-	@Override
-	@Transactional
-	public EmployeeRoleTO getEmployeeRoleById(Integer employeeRoleId) {
-
-		return employeeRoleDao.getEmployeeRoleById(employeeRoleId);
-	}
-
-	// Getting modules accessed by roleId
-	@Override
-	@Transactional
-	public EmployeeRoleAccessTO getModuleAccessByRoleId(Integer employeeRoleId) {
-
-		return employeeRoleAccessDao.getModuleAccessByRoleId(employeeRoleId);
 	}
 
 }

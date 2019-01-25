@@ -1,4 +1,7 @@
 $(function() {
+	
+	"use strict";
+	
 	$(".auto-button").button();
 	$("input[type=radio]").checkboxradio();
 	$("#title").pqSelect({
@@ -24,19 +27,20 @@ $(function() {
 	if ($("#joiningDate").datepicker('getDate') == null) {
 		$("#joiningDate").datepicker("setDate", new Date());
 	}
-	$(document).tooltip(
-			{
-				position : {
-					my : "center bottom-20",
-					at : "center top",
-					using : function(position, feedback) {
-						$(this).css(position);
-						$("<div>").addClass("arrow")
-								.addClass(feedback.vertical).addClass(
-										feedback.horizontal).appendTo(this);
-					}
-				}
-			});
+	$(document).tooltip({
+		hide: {
+			effect: "highlight",
+			delay: 250
+		},
+		position : {
+			my : "center bottom-20",
+			at : "center top",
+			using : function(position, feedback) {
+				$(this).css(position);
+				$("<div>").addClass("arrow").addClass(feedback.vertical).addClass(feedback.horizontal).appendTo(this);
+			}
+		}
+	});
 
 	/*
 	 * $.validator.addMethod("emailField", function(value, element) {
