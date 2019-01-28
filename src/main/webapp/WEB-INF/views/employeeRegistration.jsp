@@ -2,6 +2,8 @@
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<jsp:useBean id="now" class="java.util.Date" />
 
 
 <jsp:include page="/header.jsp" />
@@ -88,16 +90,28 @@
 			<tr>
 				<td><springForm:label path="joiningDate" cssClass="field_label">Joining Date</springForm:label><span class="required">*</span></td>
 				<td>
+					<jstlFormat:formatDate value="${now}" pattern="dd-MM-yyyy" var="today" />
 					<jsp:include page="/WEB-INF/tags/date_picker.jsp">
     					<jsp:param name="fieldName" value="joiningDate"/>
+    					<jsp:param name="defaultDate" value='${today}'/>
+    					<jsp:param name="minDate" value="0D"/>
+    					<jsp:param name="yearRange" value="+0:+10"/>
 					</jsp:include>
-					<span class="ui-icon ui-icon-info" title="Default date set to today and enter date greater or same today"></span>
+					<span class="ui-icon ui-icon-custom-info-faded" title="Default date set to today and enter date greater or same today"></span>
 				</td>
 				<td><springForm:errors path="joiningDate" cssClass="error_message" element="span"/></td>
 			</tr>
 			<tr>
 				<td><springForm:label path="profilePhoto" cssClass="field_label">Profile Picture</springForm:label></td>
-				<td><springForm:input type="file" path="profilePhoto" accept="image/jpg,image/jpeg" cssClass="inputfile" placeholder="Upload Photo"/>&nbsp;<span class="ui-icon ui-icon-info" title="Image file must be in .jpg or .jpeg format and  must be within 300KB"></span></td>
+				<td>
+					<jsp:include page="/WEB-INF/tags/file_upload.jsp">
+    					<jsp:param name="fieldName" value="profilePhoto"/>
+    					<jsp:param name="accept" value="image/jpg,image/jpeg"/>
+    					<jsp:param name="icon" value="images"/>
+    					<jsp:param name="placeHolder" value="Choose a picture"/>
+					</jsp:include>
+					<span class="ui-icon ui-icon-custom-info-faded" title="Image file must be in .jpg or .jpeg format and  must be within 300KB"></span>
+				</td>
 				<td><springForm:errors path="profilePhoto" cssClass="error_message" element="span"/></td>
 			</tr>
 			
@@ -105,7 +119,7 @@
 				<td style="padding-top:10px;"></td>
 				<td style="text-align:right;padding-top:10px;">
 					<button type="submit" class="auto-button actionButton" data-icon="ui-icon-custom-save">Save</button>
-					<button type="reset" class="auto-button actionButton" id="reset" data-icon="ui-icon-custom-cancel">Reset</button>
+					<button type="reset" class="auto-button actionButton" id="reset" data-icon="ui-icon-custom-reset">Reset</button>
 				</td>
 			</tr>
 			

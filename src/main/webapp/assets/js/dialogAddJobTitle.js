@@ -24,16 +24,16 @@ $(function() {
 			}
 		},
 		errorPlacement : function(error, element) {
-			error.addClass("ui red pointing label transition error_message");
+			error.addClass("ui red pointing label transition error_row");
 			$('.errorContainer').html(error);
 		},
 		highlight : function(element, errorClass, validClass) {
 			$(element).addClass('error_box');
-			$(element).parent().parent().addClass('error_message');
+			$(element).parent().parent().addClass('error_row');
 		},
 		unhighlight : function(element, errorClass, validClass) {
 			$(element).removeClass('error_box');
-			$(element).parent().parent().removeClass('error_message');
+			$(element).parent().parent().removeClass('error_row');
 		}
 	});
 })

@@ -33,7 +33,7 @@ $(function() {
 			}
 		},
 		errorPlacement : function(error, element) {
-			error.addClass("ui red pointing label transition error_message");
+			error.addClass("ui red pointing label transition error_row");
 			$('.' + element.attr("name") + 'Error').html(error);
 		},
 		highlight : function(element, errorClass, validClass) {
