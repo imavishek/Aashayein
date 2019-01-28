@@ -377,7 +377,7 @@ button.ui-button::-moz-focus-inner {
 }
 
 .ui-checkboxradio-label .ui-icon-background {
-	box-shadow: inset 1px 1px 1px #ccc;
+	box-shadow: inset 1px 1px 20px #ccc;
 	border-radius: .12em;
 	border: none;
 }
@@ -929,7 +929,7 @@ body .ui-tooltip {
 works properly when clicked or hovered */
 html .ui-button.ui-state-disabled:hover,
 html .ui-button.ui-state-disabled:active {
-	border: 1px solid #cccccc;
+	border: 1px solid #aaa;
 	background: #f6f6f6 url("images/ui-bg_glass_100_f6f6f6_1x400.png") 50% 50% repeat-x;
 	font-weight: bold;
 	color: #1c94c4;
@@ -981,14 +981,14 @@ a.ui-button:active,
 .ui-button:active,
 .ui-button.ui-state-active:hover {
 	border: 1px solid #fbd850;
-	background: #ffffff url("images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
+	background: #eb8f00 url("images/ui-bg_glass_65_ffffff_1x400.png") 50% 50% repeat-x;
 	font-weight: bold;
 	color: #eb8f00;
 }
 .ui-icon-background,
 .ui-state-active .ui-icon-background {
-	border: #fbd850;
-	background-color: #eb8f00;
+/* 	border: #fbd850; */
+/* 	background-color: #eb8f00; */
 }
 .ui-state-active a,
 .ui-state-active a:link,
@@ -1108,7 +1108,7 @@ a.ui-button:active,
 .ui-icon-triangle-1-ne { background-position: -16px -16px; }
 .ui-icon-triangle-1-e { background-position: -32px -16px; }
 .ui-icon-triangle-1-se { background-position: -48px -16px; }
-.ui-icon-triangle-1-s { background-position: -65px -16px; }
+.ui-icon-triangle-1-s { background-position: -65px -14px; }
 .ui-icon-triangle-1-sw { background-position: -80px -16px; }
 .ui-icon-triangle-1-w { background-position: -96px -16px; }
 .ui-icon-triangle-1-nw { background-position: -112px -16px; }

@@ -55,7 +55,7 @@ public class EmployeeCommand {
 
 	@NotNull(message = "Please enter Joining Date")
 	@FutureOrPresent(message = "Please enter valid Joining Date")
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM-yyyy")
 	private Date joiningDate;
 
 	@FileType(extension = "jpg|jpeg|JPG|JPEG", message = "Please upload jpg or jpeg image file")

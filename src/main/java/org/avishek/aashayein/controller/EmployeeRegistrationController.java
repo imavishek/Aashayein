@@ -11,9 +11,7 @@ package org.avishek.aashayein.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -60,7 +58,7 @@ public class EmployeeRegistrationController {
 		binder.registerCustomEditor(String.class, "alternateMobileNumber", new StringTrimmerEditor(false));
 		binder.registerCustomEditor(String.class, "email", new StringTrimmerEditor(false));
 		binder.registerCustomEditor(String.class, "alternateEmail", new StringTrimmerEditor(false));
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, "joiningDate", new CustomDateEditor(dateFormat, false));
 
@@ -102,11 +100,11 @@ public class EmployeeRegistrationController {
 		String view = "";
 		String breadcrumb = "";
 
-		Map<Integer, String> title = new LinkedHashMap<Integer, String>();
-		title.put(1, "United Stated");
-		title.put(2, "China");
-		title.put(3, "Singapore");
-		title.put(4, "Malaysia");
+		// Getting all the job title details
+		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
+
+		// Getting all the employee role details
+		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
 		if (result.hasErrors()) {
 
@@ -117,11 +115,13 @@ public class EmployeeRegistrationController {
 
 			view = "employeeRegistration";
 			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-					+ request.getContextPath() + "/EmployeeRegistration/showPage.abhi'>Employee</a>";
+					+ request.getContextPath()
+					+ "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
 			model.addAttribute("employee", employee);
 			model.addAttribute("pageTitle", "Add Employee");
 			model.addAttribute("breadcrumb", breadcrumb);
-			model.addAttribute("title", title);
+			model.addAttribute("jobTitles", jobTitles);
+			model.addAttribute("employeeRoles", employeeRoles);
 		} else {
 			System.out.println(employee.getJoiningDate());
 			view = "";

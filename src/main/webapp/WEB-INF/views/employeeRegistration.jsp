@@ -87,12 +87,17 @@
 			</tr>
 			<tr>
 				<td><springForm:label path="joiningDate" cssClass="field_label">Joining Date</springForm:label><span class="required">*</span></td>
-				<td><springForm:input path="joiningDate" readonly="true" cssClass="inputfield" placeholder="Joining Date"/><span class="ui-icon ui-icon-info" title="Default date set to today and enter date greater or same today"></span></td>
+				<td>
+					<jsp:include page="/WEB-INF/tags/date_picker.jsp">
+    					<jsp:param name="fieldName" value="joiningDate"/>
+					</jsp:include>
+					<span class="ui-icon ui-icon-info" title="Default date set to today and enter date greater or same today"></span>
+				</td>
 				<td><springForm:errors path="joiningDate" cssClass="error_message" element="span"/></td>
 			</tr>
 			<tr>
 				<td><springForm:label path="profilePhoto" cssClass="field_label">Profile Picture</springForm:label></td>
-				<td><springForm:input type="file" path="profilePhoto" accept="image/jpg,image/jpeg" cssClass="inputfile" placeholder="Upload Photo"/><span class="ui-icon ui-icon-info" title="Image file must be in .jpg or .jpeg format and  must be within 300KB"></span></td>
+				<td><springForm:input type="file" path="profilePhoto" accept="image/jpg,image/jpeg" cssClass="inputfile" placeholder="Upload Photo"/>&nbsp;<span class="ui-icon ui-icon-info" title="Image file must be in .jpg or .jpeg format and  must be within 300KB"></span></td>
 				<td><springForm:errors path="profilePhoto" cssClass="error_message" element="span"/></td>
 			</tr>
 			
@@ -109,11 +114,11 @@
 </div>
 
 
+
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pqSelect/pqselect.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/js/employeeRegistration.js"></script>
-
 
 <jsp:include page="/footer.jsp" />

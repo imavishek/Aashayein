@@ -16,16 +16,19 @@ $(function() {
 		deselect : false,
 		width : 265
 	});
-	$("#joiningDate").datepicker({
-		dateFormat : "dd-mm-yy",
-		minDate : "0D",
-		setDate : new Date(),
-		changeMonth : true,
-		changeYear : true,
-		yearRange : "+0:+10"
-	});
+//	$("#joiningDate").datepicker({
+//		dateFormat : "dd-mm-yy",
+//		minDate : "0D",
+//		setDate : new Date(),
+//		changeMonth : true,
+//		changeYear : true,
+//		yearRange : "+0:+10"
+//	});
 	if ($("#joiningDate").datepicker('getDate') == null) {
 		$("#joiningDate").datepicker("setDate", new Date());
+		$("#joiningDate_display").html($("#joiningDate").attr('value'));
+	} else{
+		$("#joiningDate_display").html($("#joiningDate").attr('value'));
 	}
 	$(document).tooltip({
 		hide: {
@@ -53,10 +56,10 @@ $(function() {
 	// Date Format Validation
 	$.validator.addMethod("dateFormat", function(value, element) {
 		var check = false;
-		var format = /^\d{1,2}\/\d{1,2}\/\d{4}$/;
+		var format = /^\d{1,2}\-\d{1,2}\-\d{4}$/;
 
 		if (format.test(value)) {
-			var splitDate = value.split('/');
+			var splitDate = value.split('-');
 			var dd = parseInt(splitDate[0], 10);
 			var mm = parseInt(splitDate[1], 10);
 			var yyyy = parseInt(splitDate[2], 10);
@@ -75,12 +78,16 @@ $(function() {
 			check = false;
 		}
 		return this.optional(element) || check;
-	}, "Please enter valid Date   Ex. dd/mm/yyyy");
+	}, "Please enter valid Date   Ex. dd-mm-yyyy");
 
 	// Employee Registration Form Validation
-	$("#employeeRegistration")
+	$('#title, #role').pqSelect({}).on("change", function (e) {
+        $(this).valid();
+    })
+	var validator = $("#employeeRegistration")
 			.validate(
 					{
+						
 						rules : {
 							firstName : {
 								normalizer : function(value) {
@@ -144,6 +151,7 @@ $(function() {
 								dateFormat : true
 							},
 							profilePhoto : {
+								accept: "image/jpg,image/jpeg",
 								extension : "jpg|jpeg",
 								maxsize : 300000
 							}
@@ -196,25 +204,35 @@ $(function() {
 								dateFormat : "Please enter valid Joining Date"
 							},
 							profilePhoto : {
+								accept : "Please upload jpg or jpeg image file",
 								extension : "Please upload jpg or jpeg image file",
 								maxsize : "Image size must be within 300kb"
 							}
 						},
-						ignore : ':hidden:not("#title, #role")',
+						ignore : ':hidden:not("#title, #role, #joiningDate")',
 						errorPlacement : function(error, element) {
-							error
-									.addClass("ui red pointing label transition error_message");
+							error.addClass("ui red pointing label transition error_row");
 							element.parent().next().html(error);
 						},
 						highlight : function(element, errorClass, validClass) {
-							$(element).addClass('error_box');
-							$(element).parent().parent().addClass(
-									'error_message');
+							if($(element).attr("name") == 'title'
+								|| $(element).attr("name") == 'role'
+								|| $(element).attr("name") == 'joiningDate'){
+								$(element).next().addClass('error_box');
+							} else{
+								$(element).addClass('error_box');
+							}
+							$(element).parent().parent().addClass('error_row');
 						},
 						unhighlight : function(element, errorClass, validClass) {
-							$(element).removeClass('error_box');
-							$(element).parent().parent().removeClass(
-									'error_message');
+							if($(element).attr("name") == 'title'
+								|| $(element).attr("name") == 'role'
+								|| $(element).attr("name") == 'joiningDate'){
+								$(element).next().removeClass('error_box');
+							} else{
+								$(element).removeClass('error_box');
+							}
+							$(element).parent().parent().removeClass('error_row');
 						}
 					});
 
@@ -224,8 +242,13 @@ $(function() {
 			$(this).attr('value', '');
 		})
 		$('input[name="gender"]').attr('checked', false);
+		$("#title option, #role option").attr("selected", false);
 		$("#title, #role").val([]);
 		$("#title, #role").pqSelect('refreshData');
+		$("#joiningDate").attr('value', '');
+		$("#joiningDate_display").html('&nbsp;');
+		$(".error_message").html('');
+		validator.resetForm();
 	});
 	// $("#employeeRegistration").submit(function(e){
 	// e.preventDefault();
