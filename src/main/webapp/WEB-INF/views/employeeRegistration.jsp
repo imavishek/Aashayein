@@ -19,6 +19,10 @@
 <div class="innerContent">
 
 	<springForm:form action="${contextRoot}/EmployeeRegistration/saveEmployee.abhi" id="employeeRegistration" method="POST" modelAttribute="employee" enctype="multipart/form-data">
+		
+		<springForm:hidden path="employeeId"/>
+		<springForm:errors path="employeeId" cssClass="error_message" element="span" />
+		
 		<table>
 			<tr>
 				<td><springForm:label path="firstName" cssClass="field_label">First Name</springForm:label><span class="required">*</span></td>

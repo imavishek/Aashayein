@@ -10,9 +10,17 @@
 package org.avishek.aashayein.service;
 
 import org.avishek.aashayein.dto.EmployeeTO;
+import org.avishek.aashayein.exception.EmployeeEmailExistsException;
+import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
 
 public interface EmployeeService {
 
-	boolean addEmployee(EmployeeTO employeeTo);
+	String getNextEmployeeCode();
+
+	boolean addEmployee(EmployeeTO employeeTo) throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException;
+
+	boolean emailExist(String email);
+
+	boolean mobileNumberExist(String mobileNumber);
 
 }

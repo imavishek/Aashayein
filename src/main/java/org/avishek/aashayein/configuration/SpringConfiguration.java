@@ -26,6 +26,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -94,8 +96,10 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		hibernateProperties.put("hibernate.id.new_generator_mappings",
 				env.getProperty("hibernate.id.new_generator_mappings"));
 
-		// hibernateProperties.put("hibernate.format_sql", env.getProperty("hibernate.format_sql"));
-		// hibernateProperties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+		// hibernateProperties.put("hibernate.format_sql",
+		// env.getProperty("hibernate.format_sql"));
+		// hibernateProperties.put("hibernate.hbm2ddl.auto",
+		// env.getProperty("hibernate.hbm2ddl.auto"));
 
 		sessionFactory.setHibernateProperties(hibernateProperties);
 
@@ -137,6 +141,12 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		multipartResolver.setMaxUploadSize(10000000); // Max 10Mb file
 		multipartResolver.setDefaultEncoding("UTF-8");
 		return multipartResolver;
+	}
+
+	// Adding BCryptPasswordEncoder
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	// Adding HibernateTransactionManager

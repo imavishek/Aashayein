@@ -11,7 +11,6 @@ package org.avishek.aashayein.entities;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -57,6 +56,9 @@ public class Employee {
 	@Column(name = "AlternateEmail")
 	private String alternateEmail;
 
+	@Column(name = "Password")
+	private String password;
+
 	@Column(name = "JoiningDate")
 	private Date joiningDate;
 
@@ -72,12 +74,12 @@ public class Employee {
 	@Column(name = "RecordUpdated", nullable = true, insertable = false)
 	private Date recordUpdated;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "JobTitleId")
+	@OneToOne
+	@JoinColumn(name = "JobTitleId", referencedColumnName = "JobTitleId")
 	private EmployeeTitle title;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "RoleId")
+	@OneToOne
+	@JoinColumn(name = "RoleId", referencedColumnName = "RoleId")
 	private EmployeeRole role;
 
 	public Integer getEmployeeId() {
@@ -160,6 +162,14 @@ public class Employee {
 		this.alternateEmail = alternateEmail;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Date getJoiningDate() {
 		return joiningDate;
 	}
@@ -221,9 +231,9 @@ public class Employee {
 		return "Employee [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
 				+ ", middleName=" + middleName + ", lastName=" + lastName + ", gender=" + gender + ", mobileNumber="
 				+ mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber + ", email=" + email
-				+ ", alternateEmail=" + alternateEmail + ", joiningDate=" + joiningDate + ", profilePhoto="
-				+ profilePhoto + ", archive=" + archive + ", recordCreated=" + recordCreated + ", recordUpdated="
-				+ recordUpdated + ", title=" + title + ", role=" + role + "]";
+				+ ", alternateEmail=" + alternateEmail + ", password=" + password + ", joiningDate=" + joiningDate
+				+ ", profilePhoto=" + profilePhoto + ", archive=" + archive + ", recordCreated=" + recordCreated
+				+ ", recordUpdated=" + recordUpdated + ", title=" + title + ", role=" + role + "]";
 	}
 
 }

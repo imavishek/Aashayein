@@ -11,6 +11,8 @@ package org.avishek.aashayein.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.avishek.aashayein.exception.EmployeeEmailExistsException;
+import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
 import org.avishek.aashayein.exception.EmployeeRoleNotFoundException;
 import org.avishek.aashayein.exception.EmployeeTitleNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -65,7 +67,7 @@ public class GlobalExceptionHandlerMethods {
 
 		model.addAttribute("title", "Database Error");
 		model.addAttribute("errorTitle", "Failed to connect with Database");
-		model.addAttribute("errorMessage", "The server failed to connect with database. Please contact administrator");
+		model.addAttribute("errorMessage", "The server failed to connect with database. Please contact administrator.");
 
 		view = "error500";
 
@@ -85,7 +87,7 @@ public class GlobalExceptionHandlerMethods {
 		model.addAttribute("title", "Role UnAvailable");
 		model.addAttribute("errorTitle", "Employee Role Not Found");
 		model.addAttribute("errorMessage",
-				"The employee role you are looking for might have been deactivated or unavailable");
+				"The employee role you are looking for might have been deactivated or unavailable.");
 
 		view = "error500";
 
@@ -105,13 +107,53 @@ public class GlobalExceptionHandlerMethods {
 		model.addAttribute("title", "JobTitle UnAvailable");
 		model.addAttribute("errorTitle", "Employee Title Not Found");
 		model.addAttribute("errorMessage",
-				"The employee title you are looking for might have been deactivated or unavailable");
+				"The employee title you are looking for might have been deactivated or unavailable.");
 
 		view = "error500";
 
 		return view;
 
 	}
+
+	// Employee Email Exists Exception Handler
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = EmployeeEmailExistsException.class)
+	public String handleEmployeeEmailExistsException(EmployeeEmailExistsException e, Model model) {
+
+		String view = "";
+
+		logger.error("Employee Email Exists - " + e.getMessage());
+
+		model.addAttribute("title", "Email Exists");
+		model.addAttribute("errorTitle", "Employee Email Exists");
+		model.addAttribute("errorMessage",
+				"The emailId through which you want to register is already exists, Please register with a different emailId.");
+
+		view = "error500";
+
+		return view;
+
+	}
+	
+	// Employee MobileNumber Exists Exception Handler
+		@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+		@ExceptionHandler(value = EmployeeMobileNumberExistsException.class)
+		public String handleEmployeeMobileNumberExistsException(EmployeeMobileNumberExistsException e, Model model) {
+
+			String view = "";
+
+			logger.error("Employee MobileNumber Exists - " + e.getMessage());
+
+			model.addAttribute("title", "MobileNumber Exists");
+			model.addAttribute("errorTitle", "Employee MobileNumber Exists");
+			model.addAttribute("errorMessage",
+					"The mobileNumber through which you want to register is already exists, Please register with a different mobileNumber.");
+
+			view = "error500";
+
+			return view;
+
+		}
 
 	// Generic Exception Handler
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -125,7 +167,7 @@ public class GlobalExceptionHandlerMethods {
 		model.addAttribute("title", "Server Error");
 		model.addAttribute("errorTitle", "Internal Server Error");
 		model.addAttribute("errorMessage",
-				"The server has encountered an unexpected error. Please contact administrator");
+				"The server has encountered an unexpected error. Please contact administrator.");
 
 		view = "error500";
 

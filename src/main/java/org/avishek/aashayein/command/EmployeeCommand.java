@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class EmployeeCommand {
 
-	@Pattern(regexp = "^$|[123456789]\\d{0,2}", message = "Invalid EmployeeId for edit")
+	@Pattern(regexp = "^$|[123456789]\\d{0,1}", message = "Invalid EmployeeId for edit")
 	private String employeeId;
 
 	@Pattern(regexp = "[a-zA-Z]{3,25}", message = "Please enter valid FirstName between 3 to 25 character")
