@@ -20,8 +20,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.EmployeeCommand;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
+import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.EmployeeTitleTO;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
+import org.avishek.aashayein.service.EmployeeService;
 import org.avishek.aashayein.service.EmployeeTitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/EmployeeRegistration")
@@ -47,6 +50,9 @@ public class EmployeeRegistrationController {
 
 	@Autowired
 	EmployeeRoleAndAccessService employeeRoleAndAccessService;
+
+	@Autowired
+	EmployeeService employeeService;
 
 	@InitBinder("employee")
 	public void customizeBinding(WebDataBinder binder) {
@@ -67,8 +73,6 @@ public class EmployeeRegistrationController {
 	// Shows the employee registration page
 	@RequestMapping(value = "/showRegistration.abhi")
 	public String showRegistrationPage(Model model, HttpServletRequest request) {
-
-		logger.info("Showing Employee Registration Page");
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
@@ -93,38 +97,98 @@ public class EmployeeRegistrationController {
 		return view;
 	}
 
-	@PostMapping(value = "/register.abhi")
-	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employee,
-			BindingResult result, HttpServletRequest request) {
+	// Adding and editing employee in database
+	@PostMapping(value = "/saveEmployee.abhi")
+	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employeeCommand,
+			BindingResult result, HttpServletRequest request, RedirectAttributes redir) {
 
 		String view = "";
 		String breadcrumb = "";
+		String redirectUrl = "";
 
-		// Getting all the job title details
-		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
-
-		// Getting all the employee role details
-		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
-
+		// Checking data binding error
 		if (result.hasErrors()) {
 
 			// Logging DataBinding Error
 			for (FieldError error : result.getFieldErrors()) {
-				logger.error("Error In DataBinding For Field:- " + error.getField());
+				logger.error("Error In DataBinding For Field:- " + error.getField() + " FieldValue:- "
+						+ error.getRejectedValue());
 			}
 
-			view = "employeeRegistration";
-			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-					+ request.getContextPath()
-					+ "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
-			model.addAttribute("employee", employee);
-			model.addAttribute("pageTitle", "Add Employee");
+			// Getting all the job title details
+			List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
+
+			// Getting all the employee role details
+			List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
+
+			if (employeeCommand.getEmployeeId() == "") {
+
+				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+						+ request.getContextPath()
+						+ "/EmployeeRegistration/showEmployees.abhi'>Employees</a> / <a href='"
+						+ request.getContextPath() + "/EmployeeRegistration/showRegistration.abhi'>Add Employee</a>";
+
+				model.addAttribute("pageTitle", "Add Employee");
+			} else {
+
+				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+						+ request.getContextPath()
+						+ "/EmployeeRegistration/showEmployees.abhi'>Employees</a> / <a href='"
+						+ request.getContextPath() + "/EmployeeRegistration/showEditEmployee.abhi?employeeId="
+						+ employeeCommand.getEmployeeId() + "'> Edit Employee</a>";
+
+				model.addAttribute("pageTitle", "Edit Employee");
+			}
+
 			model.addAttribute("breadcrumb", breadcrumb);
+			model.addAttribute("employee", employeeCommand);
 			model.addAttribute("jobTitles", jobTitles);
 			model.addAttribute("employeeRoles", employeeRoles);
 		} else {
-			System.out.println(employee.getJoiningDate());
-			view = "";
+
+			// Setting value in Employee Transfer Object
+			EmployeeTO employeeTo = new EmployeeTO();
+
+			employeeTo.setFirstName(employeeCommand.getFirstName());
+			employeeTo.setMiddleName(employeeCommand.getMiddleName());
+			employeeTo.setLastName(employeeCommand.getLastName());
+			employeeTo.setGender(employeeCommand.getGender());
+			employeeTo.setJobTitleId(employeeCommand.getTitle());
+			employeeTo.setRoleId(employeeCommand.getRole());
+			employeeTo.setMobileNumber(employeeCommand.getMobileNumber());
+			employeeTo.setAlternateMobileNumber(employeeCommand.getAlternateMobileNumber());
+			employeeTo.setEmail(employeeCommand.getEmail());
+			employeeTo.setAlternateEmail(employeeCommand.getAlternateEmail());
+			employeeTo.setJoiningDate(employeeCommand.getJoiningDate());
+			employeeTo.setProfilePhotoFile(employeeCommand.getProfilePhoto());
+
+			// Add employee if employeeId is empty otherwise edit
+			if (employeeCommand.getEmployeeId() == "") {
+
+				// Adding the employee
+				boolean success = employeeService.addEmployee(employeeTo);
+
+				if (success) {
+					logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName()
+							+ " " + employeeCommand.getLastName() + " Added Successfully");
+
+					// Sending the message and message type to the corresponding jsp page
+					redir.addFlashAttribute("message", "Employee Added Successfully");
+					redir.addFlashAttribute("messageType", "Success");
+				} else {
+					logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
+							+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
+					redir.addFlashAttribute("message", "Failed To Add Employee");
+					redir.addFlashAttribute("messageType", "Error");
+				}
+			} else {
+
+				System.out.println(employeeCommand);
+			}
+
+			redirectUrl = "/EmployeeRegistration/showEmployees.abhi";
+
+			view = "redirect:" + redirectUrl;
 		}
 
 		return view;

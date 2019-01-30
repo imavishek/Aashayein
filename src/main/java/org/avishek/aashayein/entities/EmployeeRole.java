@@ -70,4 +70,10 @@ public class EmployeeRole {
 		this.recordUpdated = recordUpdated;
 	}
 
+	@Override
+	public String toString() {
+		return "EmployeeRole [roleId=" + roleId + ", roleName=" + roleName + ", archive=" + archive + ", recordCreated="
+				+ recordCreated + ", recordUpdated=" + recordUpdated + "]";
+	}
+
 }

@@ -192,7 +192,8 @@ $(function() {
 		highlight : function(element, errorClass, validClass) {
 			if($(element).attr("name") == 'title'
 				|| $(element).attr("name") == 'role'
-				|| $(element).attr("name") == 'joiningDate'){
+				|| $(element).attr("name") == 'joiningDate'
+				|| $(element).attr("name") == 'profilePhoto'){
 				$(element).next().addClass('error_box');
 			} else{
 				$(element).addClass('error_box');
@@ -202,7 +203,8 @@ $(function() {
 		unhighlight : function(element, errorClass, validClass) {
 			if($(element).attr("name") == 'title'
 				|| $(element).attr("name") == 'role'
-				|| $(element).attr("name") == 'joiningDate'){
+				|| $(element).attr("name") == 'joiningDate'
+				|| $(element).attr("name") == 'profilePhoto'){
 				$(element).next().removeClass('error_box');
 			} else{
 				$(element).removeClass('error_box');
