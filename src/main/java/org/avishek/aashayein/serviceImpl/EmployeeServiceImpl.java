@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
@@ -45,7 +46,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		} else {
 			code = Integer.parseInt(lastEmployeeCode.split("-")[1]);
 			code += 1;
-			employeeCode = "asha-" + code;
+
+			if (code <= 9) {
+				employeeCode = "asha-0000" + code;
+			} else if (code <= 99) {
+				employeeCode = "asha-000" + code;
+			} else if (code <= 999) {
+				employeeCode = "asha-00" + code;
+			} else if (code <= 9999) {
+				employeeCode = "asha-0" + code;
+			} else {
+				employeeCode = "asha-" + code;
+			}
 		}
 
 		return employeeCode;
