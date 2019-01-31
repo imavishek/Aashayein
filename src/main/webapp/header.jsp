@@ -127,7 +127,7 @@
 			<li><a href="">Logout</a></li>
 			
 			<li style="float:right;">
-				<span><img height="30px" width="30px" style="border-radius: 50%; padding-top: 2px;" alt="Avishek" src="${contextRoot}/assets/img/avishek.jpg"></span>
+				<span><img height="30px" width="30px" style="border-radius: 50%; padding-top: 2px;" alt="Avishek" src="${contextRoot}/profilePictures/cf03512d-72ed-4e7a-b25f-5afaa721aa78.jpg"></span>
 				<span style="position: relative; bottom: 11px; margin: 0px 4px 0px 7px; font-weight: bold;">Avishek</span>
 			</li>
 		</ul>

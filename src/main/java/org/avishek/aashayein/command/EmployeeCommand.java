@@ -62,7 +62,7 @@ public class EmployeeCommand {
 	private Date joiningDate;
 
 	@FileType(extension = "jpg|jpeg|JPG|JPEG", message = "Please upload jpg or jpeg image file")
-	@FileSize(size = 300000, message = "Please upload file under 300kb")
+	@FileSize(size = 1048576, message = "Please upload file under 1Mb")
 	private MultipartFile profilePhoto;
 
 	public String getEmployeeId() {

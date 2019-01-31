@@ -6,16 +6,36 @@ tomcat 404 and 500 error
 future date not working
 overflow of input type file
 datepicker issue
-file uploaded in different directory
 on register mail to employee Event listener
 create a mail template
+null value in middle name field
+rearrange the jsp files
 
 
 
 
 
 
+			// Creating the directory to store file
+			webContentPath = getRootPath();
+			File directory = new File(webContentPath + File.separator + "profilePictures");
+			System.out.println(directory);
 
+			// If directory not exists then create the same
+			if (!directory.exists())
+				directory.mkdirs();
+
+			// Create a file in the directory with UUID name
+			File file = new File(directory, fileName);
+
+			// Writing data into the file
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+			byte[] data = profilePhotoFile.getBytes();
+			stream.write(data);
+			stream.close();
+			
+			
+			
 
 
 Map md = model.asMap();

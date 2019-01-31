@@ -128,7 +128,7 @@ $(function() {
 			profilePhoto : {
 				accept: "image/jpg,image/jpeg",
 				extension : "jpg|jpeg",
-				maxsize : 300000
+				maxsize : 1048576
 			}
 		},
 		messages : {
@@ -181,7 +181,7 @@ $(function() {
 			profilePhoto : {
 				accept : "Please upload jpg or jpeg image file",
 				extension : "Please upload jpg or jpeg image file",
-				maxsize : "Image size must be within 300kb"
+				maxsize : "Image size must be within 1Mb"
 			}
 		},
 		ignore : ':hidden:not("#title, #role, #joiningDate")',

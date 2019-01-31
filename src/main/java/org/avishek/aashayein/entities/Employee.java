@@ -35,7 +35,7 @@ public class Employee {
 	@Column(name = "FirstName")
 	private String firstName;
 
-	@Column(name = "MiddleName")
+	@Column(name = "MiddleName", nullable = true)
 	private String middleName;
 
 	@Column(name = "LastName")
