@@ -162,7 +162,7 @@
 			<version>${javaxMail.version}</version>
 		</dependency>
 
-		<!-- Freemarker Dependency -->
+		<!-- Freemarker Template Engines Dependency -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
