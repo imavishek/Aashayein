@@ -24,6 +24,7 @@ import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.EmployeeTitleTO;
 import org.avishek.aashayein.exception.EmployeeEmailExistsException;
 import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
+import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
 import org.avishek.aashayein.service.EmployeeService;
 import org.avishek.aashayein.service.EmployeeTitleService;
@@ -103,7 +104,7 @@ public class EmployeeRegistrationController {
 	@PostMapping(value = "/saveEmployee.abhi")
 	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employeeCommand,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
-			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException {
+			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException, UploadingFailedException {
 
 		String view = "";
 		String breadcrumb = "";
@@ -171,7 +172,7 @@ public class EmployeeRegistrationController {
 			if (employeeCommand.getEmployeeId().isEmpty()) {
 
 				// Adding the employee
-				boolean success = employeeService.addEmployee(employeeTo);
+				boolean success = employeeService.addEmployee(request, employeeTo);
 
 				if (success) {
 					logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName()

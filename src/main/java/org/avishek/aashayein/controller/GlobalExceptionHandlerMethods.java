@@ -15,6 +15,7 @@ import org.avishek.aashayein.exception.EmployeeEmailExistsException;
 import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
 import org.avishek.aashayein.exception.EmployeeRoleNotFoundException;
 import org.avishek.aashayein.exception.EmployeeTitleNotFoundException;
+import org.avishek.aashayein.exception.UploadingFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.TransactionException;
 import org.springframework.ui.Model;
@@ -134,26 +135,46 @@ public class GlobalExceptionHandlerMethods {
 		return view;
 
 	}
-	
+
 	// Employee MobileNumber Exists Exception Handler
-		@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-		@ExceptionHandler(value = EmployeeMobileNumberExistsException.class)
-		public String handleEmployeeMobileNumberExistsException(EmployeeMobileNumberExistsException e, Model model) {
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = EmployeeMobileNumberExistsException.class)
+	public String handleEmployeeMobileNumberExistsException(EmployeeMobileNumberExistsException e, Model model) {
 
-			String view = "";
+		String view = "";
 
-			logger.error("Employee MobileNumber Exists - " + e.getMessage());
+		logger.error("Employee MobileNumber Exists - " + e.getMessage());
 
-			model.addAttribute("title", "MobileNumber Exists");
-			model.addAttribute("errorTitle", "Employee MobileNumber Exists");
-			model.addAttribute("errorMessage",
-					"The mobileNumber through which you want to register is already exists, Please register with a different mobileNumber.");
+		model.addAttribute("title", "MobileNumber Exists");
+		model.addAttribute("errorTitle", "Employee MobileNumber Exists");
+		model.addAttribute("errorMessage",
+				"The mobileNumber through which you want to register is already exists, Please register with a different mobileNumber.");
 
-			view = "error500";
+		view = "error500";
 
-			return view;
+		return view;
 
-		}
+	}
+
+	// File Uploading Failed Exception Handler
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = UploadingFailedException.class)
+	public String handleFileUploadingFailedException(UploadingFailedException e, Model model) {
+
+		String view = "";
+
+		logger.error(e.getMessage());
+
+		model.addAttribute("title", "Uploading Failed");
+		model.addAttribute("errorTitle", "File Uploading Failed");
+		model.addAttribute("errorMessage",
+				"The server has encountered an unexpected error during file uploading. Please retry or contact administrator.");
+
+		view = "error500";
+
+		return view;
+
+	}
 
 	// Generic Exception Handler
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)

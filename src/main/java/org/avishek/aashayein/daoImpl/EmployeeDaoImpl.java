@@ -29,7 +29,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Autowired
 	CurrentDateTime currentDateTime;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -80,8 +80,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
 		query.setMaxResults(1);
 		Employee employee = query.uniqueResult();
-		
-		if(employee != null) {
+
+		if (employee != null) {
 			lastEmployeeCode = employee.getEmployeeCode();
 		}
 
@@ -95,30 +95,29 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 		EmployeeTitle employeeTitle = new EmployeeTitle();
 		employeeTitle.setTitleId(employeeTo.getJobTitleId());
-		
+
 		EmployeeRole employeeRole = new EmployeeRole();
 		employeeRole.setRoleId(employeeTo.getRoleId());
-		
+
 		Employee employee = new Employee();
 		employee.setEmployeeCode(employeeTo.getEmployeeCode());
 		employee.setFirstName(employeeTo.getFirstName());
-		employee.setMiddleName(employeeTo.getMiddleName());
+		employee.setMiddleName(employeeTo.getMiddleName().isEmpty() ? null : employeeTo.getMiddleName());
 		employee.setLastName(employeeTo.getLastName());
 		employee.setGender(employeeTo.getGender());
 		employee.setMobileNumber(employeeTo.getMobileNumber());
 		employee.setAlternateMobileNumber(employeeTo.getAlternateMobileNumber());
 		employee.setEmail(employeeTo.getEmail());
 		employee.setAlternateEmail(employeeTo.getAlternateEmail());
-		
+
 		// By default the password is "aashayein"
 		employee.setPassword(passwordEncoder.encode("aashayein"));
-		
+
 		employee.setTitle(employeeTitle);
 		employee.setRole(employeeRole);
 		employee.setJoiningDate(employeeTo.getJoiningDate());
 		employee.setProfilePhoto(employeeTo.getProfilePhoto());
 		employee.setRecordCreated(currentDateTime.getCurrentDateTime());
-		
 
 		sessionFactory.getCurrentSession().save(employee);
 

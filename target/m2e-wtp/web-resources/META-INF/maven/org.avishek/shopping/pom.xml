@@ -25,6 +25,7 @@
 		<fileUpload.version>1.3.3</fileUpload.version>
 		<javaxMail.version>1.4.7</javaxMail.version>
 		<jacksonDatabind.version>2.9.8</jacksonDatabind.version>
+		<freemarker.version>2.3.28</freemarker.version>
 		<maven.war.plugin.version>3.2.2</maven.war.plugin.version>
 		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
@@ -159,6 +160,13 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>${javaxMail.version}</version>
+		</dependency>
+
+		<!-- Freemarker Dependency -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>${freemarker.version}</version>
 		</dependency>
 
 	</dependencies>

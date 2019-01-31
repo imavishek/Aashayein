@@ -9,13 +9,18 @@
 
 package org.avishek.aashayein.serviceImpl;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.avishek.aashayein.dao.EmployeeDao;
 import org.avishek.aashayein.dto.EmployeeTO;
+import org.avishek.aashayein.event.OnRegistrationCompleteEvent;
 import org.avishek.aashayein.exception.EmployeeEmailExistsException;
 import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
+import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeService;
-import org.avishek.aashayein.service.FileUploadService;
+import org.avishek.aashayein.utility.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +32,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private EmployeeDao employeeDao;
 
 	@Autowired
-	private FileUploadService fileUploadService;
+	private FileUploadUtil fileUploadUtil;
+	
+	@Autowired
+	ApplicationEventPublisher eventPublisher;
 
 	// Getting the next employee code from database
 	@Override
@@ -66,9 +74,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	// Adding Employee Role With Module Permissions
 	@Override
 	@Transactional
-	public boolean addEmployee(EmployeeTO employeeTo)
-			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException {
+	public boolean addEmployee(HttpServletRequest request, EmployeeTO employeeTo)
+			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException, UploadingFailedException {
 
+		Boolean success = false;
 		String employeeCode = null;
 		String fileName = null;
 
@@ -83,13 +92,24 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeCode = getNextEmployeeCode();
 
 		// save profile photo in server rename the file with UUID
-		fileName = fileUploadService.uploadProfilePictureIntoServer(employeeTo.getProfilePhotoFile(), employeeCode);
+		fileName = fileUploadUtil.uploadProfilePictureIntoServer(request, employeeTo.getProfilePhotoFile(),
+				employeeCode);
+		if (fileName == null) {
+			throw new UploadingFailedException("Failed to upload profile picture");
+		}
 
 		// Setting the employee code, password and profilrPicture fileName to EmployeeTO
 		employeeTo.setEmployeeCode(employeeCode);
 		employeeTo.setProfilePhoto(fileName);
 
-		return employeeDao.addEmployee(employeeTo);
+		success = employeeDao.addEmployee(employeeTo);
+		
+		// Publish an event to send registration success mail
+		if(success) {
+			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(this, employeeTo));
+		}
+
+		return success;
 	}
 
 	// Checking existence of email
