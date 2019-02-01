@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 import org.avishek.aashayein.validator.ModuleId;
 
 public class AddEmployeeRoleCommand {
-	
+
 	@Pattern(regexp = "^$|[123456789]\\d{0,1}", message = "Invalid RoleId for edit")
 	private String roleId;
 

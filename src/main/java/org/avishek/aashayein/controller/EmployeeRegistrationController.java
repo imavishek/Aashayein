@@ -172,7 +172,7 @@ public class EmployeeRegistrationController {
 			if (employeeCommand.getEmployeeId().isEmpty()) {
 
 				// Adding the employee
-				boolean success = employeeService.addEmployee(request, employeeTo);
+				boolean success = employeeService.addEmployee(employeeTo);
 
 				if (success) {
 					logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName()

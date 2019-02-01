@@ -5,24 +5,27 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class FileUploadUtil {
 
+	@Autowired
+	private ServletContext servletContext;
+
 	private static String ABS_PATH = null;
 	private static String REAL_PATH = null;
 	private static final Logger logger = LogManager.getLogger(FileUploadUtil.class);
 
 	// Upload Profile Picture Into Server
-	public String uploadProfilePictureIntoServer(HttpServletRequest request, MultipartFile profilePhotoFile,
-			String employeeCode) {
+	public String uploadProfilePictureIntoServer(MultipartFile profilePhotoFile, String employeeCode) {
 
 		String fileName = null;
 		String extension = null;
@@ -30,13 +33,13 @@ public class FileUploadUtil {
 		// Development path
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
 
-			ABS_PATH = "Debian/J2EE/shopping/src/main/webapp/upload/profilePictures/";
+			ABS_PATH = "/DEBIAN/Aashayein/src/main/webapp/assets/upload/profilePictures/";
 		} else {
-			ABS_PATH = "C:/Aashayein/src/main/webapp/upload/profilePictures/";
+			ABS_PATH = "C:/Aashayein/src/main/webapp/assets/upload/profilePictures/";
 		}
 
 		// get the real server path
-		REAL_PATH = request.getSession().getServletContext().getRealPath("/upload/profilePictures/");
+		REAL_PATH = servletContext.getRealPath("/assets/upload/profilePictures/");
 
 		logger.info("Development Upload Path For ProfilePictures " + ABS_PATH);
 		logger.info("Server Upload Path For ProfilePictures " + REAL_PATH);
@@ -59,7 +62,7 @@ public class FileUploadUtil {
 			 */
 			extension = FilenameUtils.getExtension(profilePhotoFile.getOriginalFilename());
 			fileName = "PP-" + UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "." + extension;
-
+			System.out.println(REAL_PATH + fileName);
 			// transfer the file to both the location
 			profilePhotoFile.transferTo(new File(REAL_PATH + fileName));
 

@@ -18,7 +18,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/")
 	public String showHomePage() {
-System.out.println("ddd");
+		System.out.println("ddd");
 		return "index";
 	}
 }

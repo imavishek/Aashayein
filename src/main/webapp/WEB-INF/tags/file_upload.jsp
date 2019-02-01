@@ -1,7 +1,7 @@
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 
 <springForm:input type="file" path='${param.fieldName}' accept='${param.accept}' cssClass="inputfile"/>
-<label for='${param.fieldName}'>
+<label for='${param.fieldName}' style="overflow : hidden;">
 	<span class="ui-icon ui-icon-custom-${param.icon}"></span>
 	<span id="fileName"style="padding-left:5px;">${param.placeHolder}...</span>
 </label>

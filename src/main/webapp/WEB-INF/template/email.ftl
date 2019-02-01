@@ -1,41 +1,72 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Java Techie Mail</title>
-</head>
-
-<body>
-	<table width="100%" border="0" cellspacing="0" cellpadding="0">
-		<tr>
-			<td align="center" valign="top" bgcolor="#838383"
-				style="background-color: #838383;"><br> <br>
-				<table width="600" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td align="center" valign="top" bgcolor="#d3be6c"
-							style="background-color: #d3be6c; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #000000; padding: 0px 15px 10px 15px;">
-							
-							<div style="font-size: 48px; color:blue;">
-								<b>Java Techie</b>
-							</div>
-							
-							<div style="font-size: 24px; color: #555100;">
-								<br> Sending Email using Spring Boot with <b>FreeMarker
-									template !!! <br>
-							</div>
-							<div>
-								<br> Java Techie is a channel where we create and publish
-								videos on<br> 'how to' about latest technology trends like<br>
-								spring ,spring boot ,hibernate , web services and micro service
-								<br> ""This channel is created to share the knowledge and
-								to gain the knowledge"<br>
-								<br>"Sharing the knowledge is biggest learning" <br> <br>
-								<br> <br> <b>${Name}</b><br>${location}<br>
-								<br>
-							</div>
-						</td>
-					</tr>
-				</table> <br> <br></td>
-		</tr>
-	</table>
-</body>
+	<head>
+	</head>
+	<body>
+		<div class="container" style="width: 550px;margin: 0 auto;font-family: Helvetica, Arial, sans-serif;">
+			<div class="header" style="padding: 10px;color: 001736;border-radius: 9px 9px 0px 0px;background: #9a9898;">
+				<div id="logo" style="text-align: center;">
+					<a href="#" target="_blank">
+						<img src="cid:logo" width="150" height="40" alt="Aashayein">
+					</a>
+				</div>
+	
+			</div>
+			<div class="content" style="font-family: &quot;Times New Roman&quot;, Times, serif;background: rgb(226, 226, 225);border: 1px solid rgb(221, 221, 221);padding: 9px;font-size: 14px;line-height: 18px;color: rgb(17, 17, 17);word-wrap: break-word;">
+				<b><span>Hello ${recipientName}</span></b>
+				<p>Lorem Ipsum is simply dummy text of the printing and
+					typesetting industrysddddddddddddd. Lorem Ipsum has been the
+					industry's standard dummy text ever since the 1500s, when an unknown
+					printer took a galley of type and scrambled it to make a type
+					specimen boo.</p>
+			</div>
+			<div class="footer" style="margin: 0 auto;background: #9a9898;padding: 8px;border-radius: 0px 0px 9px 9px;">
+				<div style="display: flex; justify-content: space-between; align-items: center;">
+					<div id="footerCompanyDetails" style="font-family: 'Droid Sans', sans-serif;text-align: left;">
+						<span id="footerCompanyName" style="color: #8b0000;font-size: 15px;font-weight: bold;font-style: italic;">Aashayein</span>
+						<address id="footerCompanyAddress" style="font-size: 11px;padding: 3px 0px;">
+							11th Floor, DLF Cybercity, Infocity Area, <br>
+							Bhubaneswar - 751024, Odisha, India.
+						</address>
+					</div>
+					<div style="display: flex; justify-content: space-between; align-items: center;">
+						<div>
+							<a href="mailto:aashayein2019@gmail.com" target="_top">
+								<img src="cid:google" class="iconImage" alt="google+" style="width: 32;height: 32;">
+							</a>
+						</div>
+						<div>
+							<a href="#" target="_blank">
+								<img src="cid:facebook" class="iconImage" alt="facebook" style="width: 32;height: 32;">
+							</a>
+						</div>
+						<div>
+							<a href="#" target="_blank">
+								<img src="cid:twitter" class="iconImage" alt="twitter" style="width: 32;height: 32;">
+							</a>
+						</div>
+						<div>
+							<a href="#" target="_blank">
+								<img src="cid:instagram" class="iconImage" alt="instagram" style="width: 32;height: 32;">
+							</a>
+						</div>
+						<div>
+							<a href="#" target="_blank">
+								<img src="cid:linkedin" class="iconImage" alt="linkedin" style="width: 32;height: 32;">
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	
+			<div class="legalCopy" style="font-weight: normal;font-style: italic;font-size: 12px;color: rgb(126, 129, 140);text-align: center;">
+				<p>
+					This is an system generated email. Please do not reply to this message. If you
+					have any queries please email us at <a href="mailto:aashayein2019@gmail.com" target="_top">aashayein2019@gmail.com</a>
+				</p>
+			</div>
+			<div id="copyright" style="color: rgb(126, 129, 140);font-size: 9px;text-align: center;padding-top: 5px;font-family: Roboto, Arial, sans-serif;font-style: italic;">
+				<span> &copy; Copyright 2019 Aashayein All rights reserved. </span>
+			</div>
+		</div>
+	</body>
 </html>

@@ -9,8 +9,6 @@
 
 package org.avishek.aashayein.service;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.exception.EmployeeEmailExistsException;
 import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
@@ -20,7 +18,7 @@ public interface EmployeeService {
 
 	String getNextEmployeeCode();
 
-	boolean addEmployee(HttpServletRequest request, EmployeeTO employeeTo)
+	boolean addEmployee(EmployeeTO employeeTo)
 			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException, UploadingFailedException;
 
 	boolean emailExist(String email);

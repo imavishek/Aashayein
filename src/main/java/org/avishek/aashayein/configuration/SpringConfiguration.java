@@ -172,6 +172,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		return mailSender;
 	}
 
+	// Adding Freemarker Template Engines
 	@Primary
 	@Bean
 	public FreeMarkerConfigurationFactoryBean factoryBean() {

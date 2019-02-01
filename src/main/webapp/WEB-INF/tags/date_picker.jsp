@@ -1,8 +1,8 @@
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 
-<springForm:hidden path='${param.fieldName}' value="${param.defaultDate}"/>
+<springForm:hidden path='${param.fieldName}' value=""/>
 <span class="date-picker ui-widget ui-state-default ui-corner-all inputfield">
-	<span class="date-picker-display" id='${param.fieldName}_display'>${param.defaultDate}</span>
+	<span class="date-picker-display" id='${param.fieldName}_display'></span>
 	<span class="date-picker-actions">
 		<a href="" id='${param.fieldName}_trigger'>
 			<img src="${contextRoot}/assets/img/calendar.png" alt="" title="Select Date" width="16" height="16">
@@ -16,9 +16,17 @@
 <script type="text/javascript">
 $(function() {
 
+	
 	var $dp = jQuery('#${param.fieldName}'),
 		$dp_display = jQuery('#${param.fieldName}_display'),
 		$dp_trigger = jQuery('#${param.fieldName}_trigger');
+	
+	if($dp.val() == ""){
+		$dp.val('${param.defaultDate}');
+		$dp_display.html('${param.defaultDate}');
+	} else{
+		$dp_display.html($dp.val());
+	}
 
 	$dp.datepicker({
 		minDate : '${param.minDate}',

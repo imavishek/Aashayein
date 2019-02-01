@@ -106,9 +106,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		employee.setLastName(employeeTo.getLastName());
 		employee.setGender(employeeTo.getGender());
 		employee.setMobileNumber(employeeTo.getMobileNumber());
-		employee.setAlternateMobileNumber(employeeTo.getAlternateMobileNumber());
+		employee.setAlternateMobileNumber(
+				employeeTo.getAlternateMobileNumber().isEmpty() ? null : employeeTo.getAlternateMobileNumber());
 		employee.setEmail(employeeTo.getEmail());
-		employee.setAlternateEmail(employeeTo.getAlternateEmail());
+		employee.setAlternateEmail(employeeTo.getAlternateEmail().isEmpty() ? null : employeeTo.getAlternateEmail());
 
 		// By default the password is "aashayein"
 		employee.setPassword(passwordEncoder.encode("aashayein"));

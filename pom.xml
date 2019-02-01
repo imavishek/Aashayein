@@ -5,7 +5,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.avishek</groupId>
-	<artifactId>shopping</artifactId>
+	<artifactId>aashayein</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
@@ -173,7 +173,7 @@
 
 	<build>
 		<!-- Name of WAR file -->
-		<finalName>shopping</finalName>
+		<finalName>Aashayein</finalName>
 		<pluginManagement>
 			<plugins>
 				<!-- We have to customize Maven build, Since we are not using web.xml -->

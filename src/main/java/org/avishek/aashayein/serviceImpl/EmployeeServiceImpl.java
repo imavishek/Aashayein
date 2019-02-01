@@ -9,8 +9,6 @@
 
 package org.avishek.aashayein.serviceImpl;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.avishek.aashayein.dao.EmployeeDao;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.event.OnRegistrationCompleteEvent;
@@ -33,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private FileUploadUtil fileUploadUtil;
-	
+
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
 
@@ -74,7 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	// Adding Employee Role With Module Permissions
 	@Override
 	@Transactional
-	public boolean addEmployee(HttpServletRequest request, EmployeeTO employeeTo)
+	public boolean addEmployee(EmployeeTO employeeTo)
 			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException, UploadingFailedException {
 
 		Boolean success = false;
@@ -92,8 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeCode = getNextEmployeeCode();
 
 		// save profile photo in server rename the file with UUID
-		fileName = fileUploadUtil.uploadProfilePictureIntoServer(request, employeeTo.getProfilePhotoFile(),
-				employeeCode);
+		fileName = fileUploadUtil.uploadProfilePictureIntoServer(employeeTo.getProfilePhotoFile(), employeeCode);
 		if (fileName == null) {
 			throw new UploadingFailedException("Failed to upload profile picture");
 		}
@@ -103,9 +100,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employeeTo.setProfilePhoto(fileName);
 
 		success = employeeDao.addEmployee(employeeTo);
-		
+
 		// Publish an event to send registration success mail
-		if(success) {
+		if (success) {
 			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(this, employeeTo));
 		}
 
