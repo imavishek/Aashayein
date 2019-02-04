@@ -10,16 +10,11 @@
 package org.avishek.aashayein.service;
 
 import org.avishek.aashayein.dto.EmployeeTO;
-import org.avishek.aashayein.exception.EmployeeEmailExistsException;
-import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
 import org.avishek.aashayein.exception.UploadingFailedException;
 
 public interface EmployeeService {
 
-	String getNextEmployeeCode();
-
-	boolean addEmployee(EmployeeTO employeeTo)
-			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException, UploadingFailedException;
+	String addEmployee(EmployeeTO employeeTo) throws UploadingFailedException;
 
 	boolean emailExist(String email);
 

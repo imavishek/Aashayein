@@ -62,7 +62,7 @@ public class FileUploadUtil {
 			 */
 			extension = FilenameUtils.getExtension(profilePhotoFile.getOriginalFilename());
 			fileName = "PP-" + UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "." + extension;
-			System.out.println(REAL_PATH + fileName);
+
 			// transfer the file to both the location
 			profilePhotoFile.transferTo(new File(REAL_PATH + fileName));
 

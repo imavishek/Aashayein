@@ -72,20 +72,20 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
-	public String getLastEmployeeCode() {
+	public String getLastEmployeeId() {
 
-		String lastEmployeeCode = null;
+		String lastEmployeeId = null;
 
-		String hql = "FROM Employee employee ORDER BY employee.employeeId DESC";
+		String hql = "FROM Employee employee ORDER BY employee.employeeId_Code.employeeId DESC";
 		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
 		query.setMaxResults(1);
 		Employee employee = query.uniqueResult();
 
 		if (employee != null) {
-			lastEmployeeCode = employee.getEmployeeCode();
+			lastEmployeeId = employee.getEmployeeId_Code().getEmployeeId().toString();
 		}
 
-		return lastEmployeeCode;
+		return lastEmployeeId;
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		employeeRole.setRoleId(employeeTo.getRoleId());
 
 		Employee employee = new Employee();
-		employee.setEmployeeCode(employeeTo.getEmployeeCode());
+		//employee.setEmployeeCode(employeeTo.getEmployeeCode());
 		employee.setFirstName(employeeTo.getFirstName());
 		employee.setMiddleName(employeeTo.getMiddleName().isEmpty() ? null : employeeTo.getMiddleName());
 		employee.setLastName(employeeTo.getLastName());

@@ -10,12 +10,16 @@ import javax.servlet.ServletContext;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.avishek.aashayein.dto.MailCheckerTO;
 import org.avishek.aashayein.dto.MailRequestTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.client.RestTemplate;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -78,4 +82,18 @@ public class MailSenderUtil {
 		return success;
 	}
 
+	// Calling Mailboxlayer API for check email existence
+	public MailCheckerTO checkEmailExistence(String mailId) {
+
+		String mailBoxlayerUrl = "http://apilayer.net/api/check?access_key=3978ea99a6d5573639b61d4c93cdd174&email="
+				+ mailId + "&smtp=1";
+
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<MailCheckerTO> response = restTemplate.exchange(mailBoxlayerUrl, HttpMethod.GET, null,
+				MailCheckerTO.class);
+		logger.info("Mailboxlayer API Response:- " + response);
+
+		return response.getBody();
+
+	}
 }

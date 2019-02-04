@@ -8,7 +8,7 @@ public interface EmployeeDao {
 
 	EmployeeTO getEmployeeByMobileNumber(String mobileNumber);
 
-	String getLastEmployeeCode();
+	String getLastEmployeeId();
 
 	boolean addEmployee(EmployeeTO employeeTo);
 

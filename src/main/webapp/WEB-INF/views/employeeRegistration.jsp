@@ -3,6 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:useBean id="now" class="java.util.Date" />
 
 
@@ -10,6 +11,8 @@
 
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/pnotify-custom.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pqSelect/pqselect.css">
 
 <!-- Div for spinner loader -->
@@ -136,7 +139,27 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pqSelect/pqselect.js"></script>
+<script type="text/javascript">
+
+var contextRoot = '${contextRoot}';
+
+$(function() {
+
+ 	//Display Success or Error message
+	var message = '${message}';
+
+	if (message != "") {
+		new PNotify({
+			type : '${jstlFn:toLowerCase(messageType)}', // type : 'Success' not correct so type : 'success'
+			styling : "jqueryui",
+			title : '${messageType}',
+			text : message
+		});
+	}
+})
+</script>
 <script type="text/javascript" src="${contextRoot}/assets/js/employeeRegistration.js"></script>
 
 <jsp:include page="/footer.jsp" />

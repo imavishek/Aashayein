@@ -22,8 +22,6 @@ import org.avishek.aashayein.command.EmployeeCommand;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.EmployeeTitleTO;
-import org.avishek.aashayein.exception.EmployeeEmailExistsException;
-import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
 import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
 import org.avishek.aashayein.service.EmployeeService;
@@ -80,6 +78,7 @@ public class EmployeeRegistrationController {
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
 				+ request.getContextPath() + "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
+		EmployeeCommand employee = null;
 
 		// Getting all the job title details
 		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
@@ -87,7 +86,10 @@ public class EmployeeRegistrationController {
 		// Getting all the employee role details
 		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
-		EmployeeCommand employee = new EmployeeCommand();
+		employee = (EmployeeCommand) model.asMap().get("employee");
+		if (employee == null) {
+			employee = new EmployeeCommand();
+		}
 
 		model.addAttribute("pageTitle", "Add Employee");
 		model.addAttribute("breadcrumb", breadcrumb);
@@ -104,7 +106,7 @@ public class EmployeeRegistrationController {
 	@PostMapping(value = "/saveEmployee.abhi")
 	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employeeCommand,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
-			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException, UploadingFailedException {
+			throws UploadingFailedException {
 
 		String view = "";
 		String breadcrumb = "";
@@ -172,27 +174,30 @@ public class EmployeeRegistrationController {
 			if (employeeCommand.getEmployeeId().isEmpty()) {
 
 				// Adding the employee
-				boolean success = employeeService.addEmployee(employeeTo);
+				String message = employeeService.addEmployee(employeeTo);
 
-				if (success) {
+				if (message == null) {
 					logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName()
 							+ " " + employeeCommand.getLastName() + " Added Successfully");
 
 					// Sending the message and message type to the corresponding jsp page
 					redir.addFlashAttribute("message", "Employee Added Successfully");
 					redir.addFlashAttribute("messageType", "Success");
+
+					redirectUrl = "/EmployeeRegistration/showEmployees.abhi";
 				} else {
 					logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
 							+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
-					redir.addFlashAttribute("message", "Failed To Add Employee");
+					redir.addFlashAttribute("employee", employeeCommand);
+					redir.addFlashAttribute("message", message);
 					redir.addFlashAttribute("messageType", "Error");
+
+					redirectUrl = "/EmployeeRegistration/showRegistration.abhi";
 				}
 			} else {
-
+				redirectUrl = "/EmployeeRegistration/showEmployees.abhi";
 				System.out.println(employeeCommand);
 			}
-
-			redirectUrl = "/EmployeeRegistration/showEmployees.abhi";
 
 			view = "redirect:" + redirectUrl;
 

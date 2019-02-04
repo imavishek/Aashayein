@@ -11,11 +11,13 @@ package org.avishek.aashayein.entities;
 
 import java.util.Date;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,13 +26,12 @@ import javax.persistence.Table;
 @Table(name = "TblEmployee")
 public class Employee {
 
-	@Id
+	
+	@EmbeddedId
+	@AttributeOverrides({ @AttributeOverride(name = "employeeId", column = @Column(name = "EmployeeId")),
+			@AttributeOverride(name = "employeeCode", column = @Column(name = "EmployeeCode")), })
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "EmployeeId")
-	private Integer employeeId;
-
-	@Column(name = "EmployeeCode", updatable = false)
-	private String employeeCode;
+	private EmployeeId_Code employeeId_Code;
 
 	@Column(name = "FirstName")
 	private String firstName;
@@ -94,20 +95,12 @@ public class Employee {
 	@Column(name = "RecordUpdated", nullable = true, insertable = false)
 	private Date recordUpdated;
 
-	public Integer getEmployeeId() {
-		return employeeId;
+	public EmployeeId_Code getEmployeeId_Code() {
+		return employeeId_Code;
 	}
 
-	public void setEmployeeId(Integer employeeId) {
-		this.employeeId = employeeId;
-	}
-
-	public String getEmployeeCode() {
-		return employeeCode;
-	}
-
-	public void setEmployeeCode(String employeeCode) {
-		this.employeeCode = employeeCode;
+	public void setEmployeeId_Code(EmployeeId_Code employeeId_Code) {
+		this.employeeId_Code = employeeId_Code;
 	}
 
 	public String getFirstName() {
@@ -272,14 +265,13 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
-				+ ", middleName=" + middleName + ", lastName=" + lastName + ", fullName=" + fullName + ", gender="
-				+ gender + ", mobileNumber=" + mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber
-				+ ", email=" + email + ", alternateEmail=" + alternateEmail + ", title=" + title + ", role=" + role
-				+ ", active=" + active + ", archive=" + archive + ", password=" + password + ", profilePhoto="
-				+ profilePhoto + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate=" + tokenGeneratedDate
-				+ ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated + ", recordUpdated="
-				+ recordUpdated + "]";
+		return "Employee [employeeId_Code=" + employeeId_Code + ", firstName=" + firstName + ", middleName="
+				+ middleName + ", lastName=" + lastName + ", fullName=" + fullName + ", gender=" + gender
+				+ ", mobileNumber=" + mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber + ", email="
+				+ email + ", alternateEmail=" + alternateEmail + ", title=" + title + ", role=" + role + ", active="
+				+ active + ", archive=" + archive + ", password=" + password + ", profilePhoto=" + profilePhoto
+				+ ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate=" + tokenGeneratedDate + ", joiningDate="
+				+ joiningDate + ", recordCreated=" + recordCreated + ", recordUpdated=" + recordUpdated + "]";
 	}
 
 }

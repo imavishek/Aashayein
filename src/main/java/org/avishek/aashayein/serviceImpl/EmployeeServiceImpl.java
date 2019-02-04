@@ -9,14 +9,20 @@
 
 package org.avishek.aashayein.serviceImpl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.dao.EmployeeDao;
 import org.avishek.aashayein.dto.EmployeeTO;
+import org.avishek.aashayein.dto.MailCheckerTO;
 import org.avishek.aashayein.event.OnRegistrationCompleteEvent;
+import org.avishek.aashayein.eventHandler.OnRegistrationCompleteEventListener;
 import org.avishek.aashayein.exception.EmployeeEmailExistsException;
 import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
 import org.avishek.aashayein.exception.UploadingFailedException;
+import org.avishek.aashayein.primarykeyGenerator.PrimaryKeyGenerator;
 import org.avishek.aashayein.service.EmployeeService;
 import org.avishek.aashayein.utility.FileUploadUtil;
+import org.avishek.aashayein.utility.MailSenderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -35,78 +41,70 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Autowired
 	ApplicationEventPublisher eventPublisher;
 
-	// Getting the next employee code from database
-	@Override
-	@Transactional
-	public String getNextEmployeeCode() {
+	@Autowired
+	private MailSenderUtil mailSenderUtil;
 
-		String employeeCode = null;
-		Integer code = null;
+	@Autowired
+	private PrimaryKeyGenerator primaryKeyGenerator;
 
-		String lastEmployeeCode = employeeDao.getLastEmployeeCode();
-
-		// For 1st employee the employeeCode is "asha-0001" after that it increased by
-		// 1;
-		if (lastEmployeeCode == null) {
-			employeeCode = "asha-00001";
-		} else {
-			code = Integer.parseInt(lastEmployeeCode.split("-")[1]);
-			code += 1;
-
-			if (code <= 9) {
-				employeeCode = "asha-0000" + code;
-			} else if (code <= 99) {
-				employeeCode = "asha-000" + code;
-			} else if (code <= 999) {
-				employeeCode = "asha-00" + code;
-			} else if (code <= 9999) {
-				employeeCode = "asha-0" + code;
-			} else {
-				employeeCode = "asha-" + code;
-			}
-		}
-
-		return employeeCode;
-	}
+	private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
 
 	// Adding Employee Role With Module Permissions
 	@Override
 	@Transactional
-	public boolean addEmployee(EmployeeTO employeeTo)
-			throws EmployeeEmailExistsException, EmployeeMobileNumberExistsException, UploadingFailedException {
+	public String addEmployee(EmployeeTO employeeTo) throws UploadingFailedException {
 
-		Boolean success = false;
+		String message = null;
 		String employeeCode = null;
 		String fileName = null;
+		MailCheckerTO mailCheckerTO = null;
 
 		// Checking the existence of Email and PhoneNo
 		if (emailExist(employeeTo.getEmail())) {
-			throw new EmployeeEmailExistsException(employeeTo.getEmail());
+			// throw new EmployeeEmailExistsException(employeeTo.getEmail());
+
+			logger.error("Employee Email Exists - " + employeeTo.getEmail());
+			message = "EmailId Already Exists";
+
+			return message;
 		} else if (mobileNumberExist(employeeTo.getMobileNumber())) {
-			throw new EmployeeMobileNumberExistsException(employeeTo.getMobileNumber());
+			// throw new EmployeeMobileNumberExistsException(employeeTo.getMobileNumber());
+
+			logger.error("Employee MobileNumber Exists - " + employeeTo.getMobileNumber());
+			message = "MobileNumber Already Exists";
+
+			return message;
 		}
 
-		// Get the next employee code
-		employeeCode = getNextEmployeeCode();
+		// SMTP verification of mailId
+		mailCheckerTO = mailSenderUtil.checkEmailExistence(employeeTo.getEmail());
 
-		// save profile photo in server rename the file with UUID
+		if (mailCheckerTO.getSmtp_check() == false) {
+			logger.info("SMTP verification failed for mailId:- " + mailCheckerTO.getEmail());
+			message = "EmailId SMTP verification failed";
+
+			return message;
+		}
+
+		employeeCode = primaryKeyGenerator.getNextEmployeeIdCode().getEmployeeCode();
+
+		// save profile photo in server, rename the file with UUID
 		fileName = fileUploadUtil.uploadProfilePictureIntoServer(employeeTo.getProfilePhotoFile(), employeeCode);
 		if (fileName == null) {
 			throw new UploadingFailedException("Failed to upload profile picture");
 		}
 
-		// Setting the employee code, password and profilrPicture fileName to EmployeeTO
-		employeeTo.setEmployeeCode(employeeCode);
-		employeeTo.setProfilePhoto(fileName);
+//
+//		// Setting the employee code, password and profilrPicture fileName to EmployeeTO
+//		employeeTo.setEmployeeCode(employeeCode);
+//		employeeTo.setProfilePhoto(fileName);
+//
+//		employeeDao.addEmployee(employeeTo);
+//
+//		// Publish an event to send registration success mail
+//		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(this, employeeTo));
 
-		success = employeeDao.addEmployee(employeeTo);
-
-		// Publish an event to send registration success mail
-		if (success) {
-			eventPublisher.publishEvent(new OnRegistrationCompleteEvent(this, employeeTo));
-		}
-
-		return success;
+		return message;
 	}
 
 	// Checking existence of email
