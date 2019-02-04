@@ -16,7 +16,7 @@ import java.util.Date;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CurrentDateTime {
+public class DateTime {
 
 	public Date getCurrentDateTime() {
 

@@ -11,7 +11,7 @@ import org.avishek.aashayein.dao.EmployeeRoleAccessDao;
 import org.avishek.aashayein.dto.EmployeeRoleAccessTO;
 import org.avishek.aashayein.entities.EmployeeRoleAccess;
 import org.avishek.aashayein.entities.RoleId_ModuleId;
-import org.avishek.aashayein.utility.CurrentDateTime;
+import org.avishek.aashayein.utility.DateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class EmployeeRoleAccessDaoImpl implements EmployeeRoleAccessDao {
 	SessionFactory sessionFactory;
 
 	@Autowired
-	CurrentDateTime currentDateTime;
+	DateTime dateTime;
 
 	@Override
 	public Boolean addModulePermissions(Integer employeeRoleId, EmployeeRoleAccessTO employeeRoleAccessTO) {
@@ -43,7 +43,7 @@ public class EmployeeRoleAccessDaoImpl implements EmployeeRoleAccessDao {
 			roleId_ModuleId.setRoleId(employeeRoleId);
 			roleId_ModuleId.setModuleId(Integer.parseInt(moduleId));
 			employeeRoleAccess.setRoleId_ModuleId(roleId_ModuleId);
-			employeeRoleAccess.setRecordCreated(currentDateTime.getCurrentDateTime());
+			employeeRoleAccess.setRecordCreated(dateTime.getCurrentDateTime());
 
 			employeeRoleAccessObject.add(employeeRoleAccess);
 		}

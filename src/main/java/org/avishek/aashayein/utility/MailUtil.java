@@ -26,7 +26,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 
 @Component
-public class MailSenderUtil {
+public class MailUtil {
 
 	@Autowired
 	private JavaMailSender mailSender;
@@ -37,7 +37,7 @@ public class MailSenderUtil {
 	@Autowired
 	private ServletContext servletContext;
 
-	private static final Logger logger = LogManager.getLogger(MailSenderUtil.class);
+	private static final Logger logger = LogManager.getLogger(MailUtil.class);
 
 	public Boolean sendEmail(MailRequestTO mailRequest) {
 

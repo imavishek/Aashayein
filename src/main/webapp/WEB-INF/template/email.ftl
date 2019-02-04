@@ -12,12 +12,14 @@
 	
 			</div>
 			<div class="content" style="font-family: &quot;Times New Roman&quot;, Times, serif;background: rgb(226, 226, 225);border: 1px solid rgb(221, 221, 221);padding: 9px;font-size: 14px;line-height: 18px;color: rgb(17, 17, 17);word-wrap: break-word;">
-				<b><span>Hello ${recipientName}</span></b>
-				<p>Lorem Ipsum is simply dummy text of the printing and
-					typesetting industrysddddddddddddd. Lorem Ipsum has been the
-					industry's standard dummy text ever since the 1500s, when an unknown
-					printer took a galley of type and scrambled it to make a type
-					specimen boo.</p>
+				<b><span>Hi ${recipientName}</span></b>
+				<p>Welcome to Aashayein. Your emailId has been successfully registerd. Please <a href="${url}">Click Here<a/> to active your account.</p>
+				
+				<p>
+					If you're having trouble clicking the above link then copy and paste the URL below into your web browser:<br><br>
+					<a href="${url}">${url}<a/>
+				</p>
+				<p>This link is  valid for the next 24h.</p>
 			</div>
 			<div class="footer" style="margin: 0 auto;background: #9a9898;padding: 8px;border-radius: 0px 0px 9px 9px;">
 				<div style="display: flex; justify-content: space-between; align-items: center;">

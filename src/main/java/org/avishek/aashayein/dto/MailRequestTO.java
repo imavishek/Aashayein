@@ -16,6 +16,10 @@ public class MailRequestTO {
 
 	private String emailTemplateName;
 
+	private String url;
+
+	private Object details;
+
 	public String getRecipientName() {
 		return recipientName;
 	}
@@ -72,11 +76,27 @@ public class MailRequestTO {
 		this.emailTemplateName = emailTemplateName;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Object getDetails() {
+		return details;
+	}
+
+	public void setDetails(Object details) {
+		this.details = details;
+	}
+
 	@Override
 	public String toString() {
 		return "MailRequestTO [recipientName=" + recipientName + ", emailTo=" + emailTo + ", emailForm=" + emailForm
 				+ ", emailCC=" + emailCC + ", emailBCC=" + emailBCC + ", emailSubject=" + emailSubject
-				+ ", emailTemplateName=" + emailTemplateName + "]";
+				+ ", emailTemplateName=" + emailTemplateName + ", url=" + url + ", details=" + details + "]";
 	}
 
 }

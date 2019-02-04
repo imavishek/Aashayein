@@ -30,6 +30,11 @@ public class FileUploadUtil {
 		String fileName = null;
 		String extension = null;
 
+		// Return null if file is empty
+		if (profilePhotoFile.isEmpty()) {
+			return null;
+		}
+
 		// Development path
 		if (System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0) {
 
@@ -61,7 +66,7 @@ public class FileUploadUtil {
 			 * Get the file extension and rename the file PP- ProfilePicture
 			 */
 			extension = FilenameUtils.getExtension(profilePhotoFile.getOriginalFilename());
-			fileName = "PP-" + UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "." + extension;
+			fileName = "PP_" + UUID.randomUUID().toString()+ "." + extension;
 
 			// transfer the file to both the location
 			profilePhotoFile.transferTo(new File(REAL_PATH + fileName));

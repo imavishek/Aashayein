@@ -6,7 +6,7 @@ import java.util.List;
 import org.avishek.aashayein.dao.EmployeeTitleDao;
 import org.avishek.aashayein.dto.EmployeeTitleTO;
 import org.avishek.aashayein.entities.EmployeeTitle;
-import org.avishek.aashayein.utility.CurrentDateTime;
+import org.avishek.aashayein.utility.DateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class EmployeeTitleDaoImpl implements EmployeeTitleDao {
 	SessionFactory sessionFactory;
 
 	@Autowired
-	CurrentDateTime currentDateTime;
+	DateTime dateTime;
 
 	@Override
 	public List<EmployeeTitleTO> getAllJobTitles() {
@@ -81,7 +81,7 @@ public class EmployeeTitleDaoImpl implements EmployeeTitleDao {
 
 		EmployeeTitle employeeTitle = new EmployeeTitle();
 		employeeTitle.setTitleName(employeeTitleTo.getTitleName());
-		employeeTitle.setRecordCreated(currentDateTime.getCurrentDateTime());
+		employeeTitle.setRecordCreated(dateTime.getCurrentDateTime());
 
 		sessionFactory.getCurrentSession().save(employeeTitle);
 
@@ -99,7 +99,7 @@ public class EmployeeTitleDaoImpl implements EmployeeTitleDao {
 		employeeTitle.setTitleId(employeeTitleTo.getTitleId());
 		employeeTitle.setTitleName(employeeTitleTo.getTitleName());
 		employeeTitle.setArchive((byte) 0);
-		employeeTitle.setRecordUpdated(currentDateTime.getCurrentDateTime());
+		employeeTitle.setRecordUpdated(dateTime.getCurrentDateTime());
 
 		sessionFactory.getCurrentSession().update(employeeTitle);
 
@@ -117,7 +117,7 @@ public class EmployeeTitleDaoImpl implements EmployeeTitleDao {
 		String hql = "UPDATE EmployeeTitle title SET title.archive=?1, title.recordUpdated=?2 WHERE title.titleId=?3 AND title.archive=?4";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter(1, (byte) 1);
-		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(2, dateTime.getCurrentDateTime());
 		query.setParameter(3, employeeTitleId);
 		query.setParameter(4, (byte) 0);
 		noOfRecordUpdated = query.executeUpdate();
@@ -134,7 +134,7 @@ public class EmployeeTitleDaoImpl implements EmployeeTitleDao {
 		String hql = "UPDATE EmployeeTitle title SET title.archive=?1, title.recordUpdated=?2 WHERE title.titleId=?3";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter(1, (byte) 0);
-		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(2, dateTime.getCurrentDateTime());
 		query.setParameter(3, employeeTitleId);
 		noOfRecordUpdated = query.executeUpdate();
 

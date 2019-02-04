@@ -9,12 +9,14 @@
 
 package org.avishek.aashayein.daoImpl;
 
+import java.util.UUID;
+
 import org.avishek.aashayein.dao.EmployeeDao;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.entities.Employee;
 import org.avishek.aashayein.entities.EmployeeRole;
 import org.avishek.aashayein.entities.EmployeeTitle;
-import org.avishek.aashayein.utility.CurrentDateTime;
+import org.avishek.aashayein.utility.DateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	SessionFactory sessionFactory;
 
 	@Autowired
-	CurrentDateTime currentDateTime;
+	DateTime dateTime;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -76,22 +78,22 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 		String lastEmployeeId = null;
 
-		String hql = "FROM Employee employee ORDER BY employee.employeeId_Code.employeeId DESC";
+		String hql = "FROM Employee employee ORDER BY employee.employeeId DESC";
 		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
 		query.setMaxResults(1);
 		Employee employee = query.uniqueResult();
 
 		if (employee != null) {
-			lastEmployeeId = employee.getEmployeeId_Code().getEmployeeId().toString();
+			lastEmployeeId = employee.getEmployeeId().toString();
 		}
 
 		return lastEmployeeId;
 	}
 
 	@Override
-	public boolean addEmployee(EmployeeTO employeeTo) {
+	public Employee addEmployee(EmployeeTO employeeTo) {
 
-		Boolean success = false;
+		Employee employee = null;
 
 		EmployeeTitle employeeTitle = new EmployeeTitle();
 		employeeTitle.setTitleId(employeeTo.getJobTitleId());
@@ -99,8 +101,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		EmployeeRole employeeRole = new EmployeeRole();
 		employeeRole.setRoleId(employeeTo.getRoleId());
 
-		Employee employee = new Employee();
-		//employee.setEmployeeCode(employeeTo.getEmployeeCode());
+		employee = new Employee();
+		employee.setEmployeeCode(employeeTo.getEmployeeCode());
 		employee.setFirstName(employeeTo.getFirstName());
 		employee.setMiddleName(employeeTo.getMiddleName().isEmpty() ? null : employeeTo.getMiddleName());
 		employee.setLastName(employeeTo.getLastName());
@@ -110,21 +112,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
 				employeeTo.getAlternateMobileNumber().isEmpty() ? null : employeeTo.getAlternateMobileNumber());
 		employee.setEmail(employeeTo.getEmail());
 		employee.setAlternateEmail(employeeTo.getAlternateEmail().isEmpty() ? null : employeeTo.getAlternateEmail());
-
-		// By default the password is "aashayein"
-		employee.setPassword(passwordEncoder.encode("aashayein"));
-
 		employee.setTitle(employeeTitle);
 		employee.setRole(employeeRole);
-		employee.setJoiningDate(employeeTo.getJoiningDate());
 		employee.setProfilePhoto(employeeTo.getProfilePhoto());
-		employee.setRecordCreated(currentDateTime.getCurrentDateTime());
+		employee.setTokenUUID(UUID.randomUUID().toString());
+		employee.setTokenGeneratedDate(dateTime.getCurrentDateTime());
+		employee.setJoiningDate(employeeTo.getJoiningDate());
+		employee.setRecordCreated(dateTime.getCurrentDateTime());
 
 		sessionFactory.getCurrentSession().save(employee);
 
-		success = true;
-
-		return success;
+		return employee;
 	}
-
 }

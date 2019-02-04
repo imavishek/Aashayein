@@ -1,6 +1,7 @@
 package org.avishek.aashayein.dao;
 
 import org.avishek.aashayein.dto.EmployeeTO;
+import org.avishek.aashayein.entities.Employee;
 
 public interface EmployeeDao {
 
@@ -10,6 +11,6 @@ public interface EmployeeDao {
 
 	String getLastEmployeeId();
 
-	boolean addEmployee(EmployeeTO employeeTo);
+	Employee addEmployee(EmployeeTO employeeTo);
 
 }

@@ -1,21 +1,19 @@
-package org.avishek.aashayein.primarykeyGenerator;
+package org.avishek.aashayein.uniquekeyGenerator;
 
 import org.avishek.aashayein.dao.EmployeeDao;
-import org.avishek.aashayein.entities.EmployeeId_Code;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PrimaryKeyGenerator {
+public class UniquekeyGenerator {
 
 	@Autowired
 	private EmployeeDao employeeDao;
 
-	public EmployeeId_Code getNextEmployeeIdCode() {
+	public String getNextEmployeeCode() {
 
 		String employeeCode = null;
 		Integer employeeId = null;
-		EmployeeId_Code employeeId_Code = null;
 
 		String lastEmployeeId = employeeDao.getLastEmployeeId();
 
@@ -23,7 +21,7 @@ public class PrimaryKeyGenerator {
 		 * For 1st employee the employeeCode is "asha-0001" after that it increased by 1
 		 */
 		if (lastEmployeeId == null) {
-			employeeId_Code = new EmployeeId_Code(1, "asha-00001");
+			employeeCode = "asha-00001";
 		} else {
 			employeeId = Integer.parseInt(lastEmployeeId);
 			employeeId += 1;
@@ -39,10 +37,8 @@ public class PrimaryKeyGenerator {
 			} else {
 				employeeCode = "asha-" + employeeId;
 			}
-
-			employeeId_Code = new EmployeeId_Code(employeeId, employeeCode);
 		}
 
-		return employeeId_Code;
+		return employeeCode;
 	}
 }

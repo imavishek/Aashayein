@@ -6,7 +6,7 @@ import java.util.List;
 import org.avishek.aashayein.dao.EmployeeRoleDao;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.entities.EmployeeRole;
-import org.avishek.aashayein.utility.CurrentDateTime;
+import org.avishek.aashayein.utility.DateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 	SessionFactory sessionFactory;
 
 	@Autowired
-	CurrentDateTime currentDateTime;
+	DateTime dateTime;
 
 	@Override
 	public List<EmployeeRoleTO> getAllRoles() {
@@ -79,7 +79,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 
 		EmployeeRole employeeRole = new EmployeeRole();
 		employeeRole.setRoleName(employeeRoleTO.getRoleName());
-		employeeRole.setRecordCreated(currentDateTime.getCurrentDateTime());
+		employeeRole.setRecordCreated(dateTime.getCurrentDateTime());
 
 		sessionFactory.getCurrentSession().save(employeeRole);
 
@@ -93,7 +93,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		employeeRole.setRoleId(employeeRoleTO.getRoleId());
 		employeeRole.setRoleName(employeeRoleTO.getRoleName());
 		employeeRole.setArchive((byte) 0);
-		employeeRole.setRecordUpdated(currentDateTime.getCurrentDateTime());
+		employeeRole.setRecordUpdated(dateTime.getCurrentDateTime());
 
 		sessionFactory.getCurrentSession().update(employeeRole);
 
@@ -108,7 +108,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		String hql = "UPDATE EmployeeRole role SET role.archive=?1, role.recordUpdated=?2 WHERE role.roleId=?3 AND role.archive=?4";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter(1, (byte) 1);
-		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(2, dateTime.getCurrentDateTime());
 		query.setParameter(3, employeeRoleId);
 		query.setParameter(4, (byte) 0);
 		noOfRecordUpdated = query.executeUpdate();
@@ -125,7 +125,7 @@ public class EmployeeRoleDaoImpl implements EmployeeRoleDao {
 		String hql = "UPDATE EmployeeRole role SET role.archive=?1, role.recordUpdated=?2 WHERE role.roleId=?3";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setParameter(1, (byte) 0);
-		query.setParameter(2, currentDateTime.getCurrentDateTime());
+		query.setParameter(2, dateTime.getCurrentDateTime());
 		query.setParameter(3, employeeRoleId);
 		noOfRecordUpdated = query.executeUpdate();
 

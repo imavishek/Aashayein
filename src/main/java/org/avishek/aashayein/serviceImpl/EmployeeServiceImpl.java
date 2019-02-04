@@ -14,15 +14,13 @@ import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.dao.EmployeeDao;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.MailCheckerTO;
-import org.avishek.aashayein.event.OnRegistrationCompleteEvent;
-import org.avishek.aashayein.eventHandler.OnRegistrationCompleteEventListener;
-import org.avishek.aashayein.exception.EmployeeEmailExistsException;
-import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
+import org.avishek.aashayein.entities.Employee;
+import org.avishek.aashayein.event.OnRegistrationSuccessEvent;
 import org.avishek.aashayein.exception.UploadingFailedException;
-import org.avishek.aashayein.primarykeyGenerator.PrimaryKeyGenerator;
 import org.avishek.aashayein.service.EmployeeService;
+import org.avishek.aashayein.uniquekeyGenerator.UniquekeyGenerator;
 import org.avishek.aashayein.utility.FileUploadUtil;
-import org.avishek.aashayein.utility.MailSenderUtil;
+import org.avishek.aashayein.utility.MailUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -42,21 +40,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 	ApplicationEventPublisher eventPublisher;
 
 	@Autowired
-	private MailSenderUtil mailSenderUtil;
+	private UniquekeyGenerator uniquekeyGenerator;
 
 	@Autowired
-	private PrimaryKeyGenerator primaryKeyGenerator;
+	private MailUtil mailUtil;
 
 	private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
 
-	// Adding Employee Role With Module Permissions
+	// Adding Employee Details
 	@Override
 	@Transactional
 	public String addEmployee(EmployeeTO employeeTo) throws UploadingFailedException {
 
 		String message = null;
-		String employeeCode = null;
 		String fileName = null;
+		String employeeCode = null;
 		MailCheckerTO mailCheckerTO = null;
 
 		// Checking the existence of Email and PhoneNo
@@ -77,7 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 		// SMTP verification of mailId
-		mailCheckerTO = mailSenderUtil.checkEmailExistence(employeeTo.getEmail());
+		mailCheckerTO = mailUtil.checkEmailExistence(employeeTo.getEmail());
 
 		if (mailCheckerTO.getSmtp_check() == false) {
 			logger.info("SMTP verification failed for mailId:- " + mailCheckerTO.getEmail());
@@ -86,23 +84,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return message;
 		}
 
-		employeeCode = primaryKeyGenerator.getNextEmployeeIdCode().getEmployeeCode();
+		// Getting the next employeecode
+		employeeCode = uniquekeyGenerator.getNextEmployeeCode();
+		employeeTo.setEmployeeCode(employeeCode);
 
 		// save profile photo in server, rename the file with UUID
-		fileName = fileUploadUtil.uploadProfilePictureIntoServer(employeeTo.getProfilePhotoFile(), employeeCode);
-		if (fileName == null) {
-			throw new UploadingFailedException("Failed to upload profile picture");
+		if (!employeeTo.getProfilePhotoFile().isEmpty()) {
+			fileName = fileUploadUtil.uploadProfilePictureIntoServer(employeeTo.getProfilePhotoFile(), employeeCode);
+
+			if (fileName == null) {
+				throw new UploadingFailedException("Failed to upload profile picture");
+			}
+
+			employeeTo.setProfilePhoto(fileName);
 		}
 
-//
-//		// Setting the employee code, password and profilrPicture fileName to EmployeeTO
-//		employeeTo.setEmployeeCode(employeeCode);
-//		employeeTo.setProfilePhoto(fileName);
-//
-//		employeeDao.addEmployee(employeeTo);
-//
-//		// Publish an event to send registration success mail
-//		eventPublisher.publishEvent(new OnRegistrationCompleteEvent(this, employeeTo));
+		// Save the employee details in database
+		Employee employee = employeeDao.addEmployee(employeeTo);
+
+		if (employee == null) {
+			logger.info("Failed to save employee details in database");
+			message = "Failed To Save Employee Details";
+
+			return message;
+		}
+
+		// Publish an event to send registration success mail
+		eventPublisher.publishEvent(new OnRegistrationSuccessEvent(this, employee));
 
 		return message;
 	}
