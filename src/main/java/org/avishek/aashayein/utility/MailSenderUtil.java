@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 
@@ -47,8 +48,8 @@ public class MailSenderUtil {
 			Template t = config.getTemplate(mailRequest.getEmailTemplateName());
 			String html = FreeMarkerTemplateUtils.processTemplateIntoString(t, mailRequest);
 
-			helper.setTo(mailRequest.getEmailTo());
-			helper.setFrom(mailRequest.getEmailForm());
+			helper.setTo(new InternetAddress(mailRequest.getEmailTo()));
+			helper.setFrom(new InternetAddress(mailRequest.getEmailForm()));
 			helper.setText(html, true);
 			helper.addInline("logo", new File(rootPath + "/assets/img/logos/Aashayein.png"));
 			helper.addInline("google", new File(rootPath + "/assets/img/ico_google.png"));

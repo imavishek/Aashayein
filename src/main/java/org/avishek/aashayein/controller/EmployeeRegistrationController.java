@@ -159,12 +159,12 @@ public class EmployeeRegistrationController {
 			employeeTo.setMiddleName(employeeCommand.getMiddleName());
 			employeeTo.setLastName(employeeCommand.getLastName());
 			employeeTo.setGender(employeeCommand.getGender());
-			employeeTo.setJobTitleId(employeeCommand.getTitle());
-			employeeTo.setRoleId(employeeCommand.getRole());
 			employeeTo.setMobileNumber(employeeCommand.getMobileNumber());
 			employeeTo.setAlternateMobileNumber(employeeCommand.getAlternateMobileNumber());
 			employeeTo.setEmail(employeeCommand.getEmail());
 			employeeTo.setAlternateEmail(employeeCommand.getAlternateEmail());
+			employeeTo.setJobTitleId(employeeCommand.getTitle());
+			employeeTo.setRoleId(employeeCommand.getRole());
 			employeeTo.setJoiningDate(employeeCommand.getJoiningDate());
 			employeeTo.setProfilePhotoFile(employeeCommand.getProfilePhoto());
 

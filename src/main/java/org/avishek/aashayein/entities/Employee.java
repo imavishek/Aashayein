@@ -26,20 +26,23 @@ public class Employee {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "EmployeeId", unique = true, nullable = false)
+	@Column(name = "EmployeeId")
 	private Integer employeeId;
 
-	@Column(name = "EmployeeCode")
+	@Column(name = "EmployeeCode", updatable = false)
 	private String employeeCode;
 
 	@Column(name = "FirstName")
 	private String firstName;
 
-	@Column(name = "MiddleName", nullable = true)
+	@Column(name = "MiddleName")
 	private String middleName;
 
 	@Column(name = "LastName")
 	private String lastName;
+
+	@Column(name = "FullName", insertable = false, updatable = false)
+	private String fullName;
 
 	@Column(name = "Gender")
 	private String gender;
@@ -56,24 +59,6 @@ public class Employee {
 	@Column(name = "AlternateEmail")
 	private String alternateEmail;
 
-	@Column(name = "Password")
-	private String password;
-
-	@Column(name = "JoiningDate")
-	private Date joiningDate;
-
-	@Column(name = "ProfilePhoto")
-	private String profilePhoto;
-
-	@Column(name = "Archive", nullable = false, insertable = false)
-	private Byte archive;
-
-	@Column(name = "RecordCreated", nullable = false, updatable = false)
-	private Date recordCreated;
-
-	@Column(name = "RecordUpdated", nullable = true, insertable = false)
-	private Date recordUpdated;
-
 	@OneToOne
 	@JoinColumn(name = "JobTitleId", referencedColumnName = "JobTitleId")
 	private EmployeeTitle title;
@@ -81,6 +66,33 @@ public class Employee {
 	@OneToOne
 	@JoinColumn(name = "RoleId", referencedColumnName = "RoleId")
 	private EmployeeRole role;
+
+	@Column(name = "Active", insertable = false)
+	private Byte active;
+
+	@Column(name = "Archive", insertable = false)
+	private Byte archive;
+
+	@Column(name = "Password")
+	private String password;
+
+	@Column(name = "ProfilePhoto")
+	private String profilePhoto;
+
+	@Column(name = "TokenUUID")
+	private String tokenUUID;
+
+	@Column(name = "TokenGeneratedDate")
+	private Date tokenGeneratedDate;
+
+	@Column(name = "JoiningDate")
+	private Date joiningDate;
+
+	@Column(name = "RecordCreated", nullable = false, updatable = false)
+	private Date recordCreated;
+
+	@Column(name = "RecordUpdated", nullable = true, insertable = false)
+	private Date recordUpdated;
 
 	public Integer getEmployeeId() {
 		return employeeId;
@@ -120,6 +132,14 @@ public class Employee {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getGender() {
@@ -162,20 +182,44 @@ public class Employee {
 		this.alternateEmail = alternateEmail;
 	}
 
+	public EmployeeTitle getTitle() {
+		return title;
+	}
+
+	public void setTitle(EmployeeTitle title) {
+		this.title = title;
+	}
+
+	public EmployeeRole getRole() {
+		return role;
+	}
+
+	public void setRole(EmployeeRole role) {
+		this.role = role;
+	}
+
+	public Byte getActive() {
+		return active;
+	}
+
+	public void setActive(Byte active) {
+		this.active = active;
+	}
+
+	public Byte getArchive() {
+		return archive;
+	}
+
+	public void setArchive(Byte archive) {
+		this.archive = archive;
+	}
+
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Date getJoiningDate() {
-		return joiningDate;
-	}
-
-	public void setJoiningDate(Date joiningDate) {
-		this.joiningDate = joiningDate;
 	}
 
 	public String getProfilePhoto() {
@@ -186,12 +230,28 @@ public class Employee {
 		this.profilePhoto = profilePhoto;
 	}
 
-	public Byte getArchive() {
-		return archive;
+	public String getTokenUUID() {
+		return tokenUUID;
 	}
 
-	public void setArchive(Byte archive) {
-		this.archive = archive;
+	public void setTokenUUID(String tokenUUID) {
+		this.tokenUUID = tokenUUID;
+	}
+
+	public Date getTokenGeneratedDate() {
+		return tokenGeneratedDate;
+	}
+
+	public void setTokenGeneratedDate(Date tokenGeneratedDate) {
+		this.tokenGeneratedDate = tokenGeneratedDate;
+	}
+
+	public Date getJoiningDate() {
+		return joiningDate;
+	}
+
+	public void setJoiningDate(Date joiningDate) {
+		this.joiningDate = joiningDate;
 	}
 
 	public Date getRecordCreated() {
@@ -210,30 +270,16 @@ public class Employee {
 		this.recordUpdated = recordUpdated;
 	}
 
-	public EmployeeTitle getTitle() {
-		return title;
-	}
-
-	public void setTitle(EmployeeTitle title) {
-		this.title = title;
-	}
-
-	public EmployeeRole getRole() {
-		return role;
-	}
-
-	public void setRole(EmployeeRole role) {
-		this.role = role;
-	}
-
 	@Override
 	public String toString() {
 		return "Employee [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
-				+ ", middleName=" + middleName + ", lastName=" + lastName + ", gender=" + gender + ", mobileNumber="
-				+ mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber + ", email=" + email
-				+ ", alternateEmail=" + alternateEmail + ", password=" + password + ", joiningDate=" + joiningDate
-				+ ", profilePhoto=" + profilePhoto + ", archive=" + archive + ", recordCreated=" + recordCreated
-				+ ", recordUpdated=" + recordUpdated + ", title=" + title + ", role=" + role + "]";
+				+ ", middleName=" + middleName + ", lastName=" + lastName + ", fullName=" + fullName + ", gender="
+				+ gender + ", mobileNumber=" + mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber
+				+ ", email=" + email + ", alternateEmail=" + alternateEmail + ", title=" + title + ", role=" + role
+				+ ", active=" + active + ", archive=" + archive + ", password=" + password + ", profilePhoto="
+				+ profilePhoto + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate=" + tokenGeneratedDate
+				+ ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated + ", recordUpdated="
+				+ recordUpdated + "]";
 	}
 
 }

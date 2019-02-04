@@ -25,6 +25,8 @@ public class EmployeeTO {
 
 	private String lastName;
 
+	private String fullName;
+
 	private String gender;
 
 	private String mobileNumber;
@@ -43,13 +45,19 @@ public class EmployeeTO {
 
 	private String roleName;
 
-	private Date joiningDate;
+	private Byte active;
 
-	private MultipartFile profilePhotoFile;
+	private Byte archive;
 
 	private String profilePhoto;
 
-	private Byte archive;
+	private MultipartFile profilePhotoFile;
+
+	private String tokenUUID;
+
+	private Date tokenGeneratedDate;
+
+	private Date joiningDate;
 
 	private Date recordCreated;
 
@@ -93,6 +101,14 @@ public class EmployeeTO {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
 	}
 
 	public String getGender() {
@@ -167,20 +183,20 @@ public class EmployeeTO {
 		this.roleName = roleName;
 	}
 
-	public Date getJoiningDate() {
-		return joiningDate;
+	public Byte getActive() {
+		return active;
 	}
 
-	public void setJoiningDate(Date joiningDate) {
-		this.joiningDate = joiningDate;
+	public void setActive(Byte active) {
+		this.active = active;
 	}
 
-	public MultipartFile getProfilePhotoFile() {
-		return profilePhotoFile;
+	public Byte getArchive() {
+		return archive;
 	}
 
-	public void setProfilePhotoFile(MultipartFile profilePhotoFile) {
-		this.profilePhotoFile = profilePhotoFile;
+	public void setArchive(Byte archive) {
+		this.archive = archive;
 	}
 
 	public String getProfilePhoto() {
@@ -191,12 +207,36 @@ public class EmployeeTO {
 		this.profilePhoto = profilePhoto;
 	}
 
-	public Byte getArchive() {
-		return archive;
+	public MultipartFile getProfilePhotoFile() {
+		return profilePhotoFile;
 	}
 
-	public void setArchive(Byte archive) {
-		this.archive = archive;
+	public void setProfilePhotoFile(MultipartFile profilePhotoFile) {
+		this.profilePhotoFile = profilePhotoFile;
+	}
+
+	public String getTokenUUID() {
+		return tokenUUID;
+	}
+
+	public void setTokenUUID(String tokenUUID) {
+		this.tokenUUID = tokenUUID;
+	}
+
+	public Date getTokenGeneratedDate() {
+		return tokenGeneratedDate;
+	}
+
+	public void setTokenGeneratedDate(Date tokenGeneratedDate) {
+		this.tokenGeneratedDate = tokenGeneratedDate;
+	}
+
+	public Date getJoiningDate() {
+		return joiningDate;
+	}
+
+	public void setJoiningDate(Date joiningDate) {
+		this.joiningDate = joiningDate;
 	}
 
 	public Date getRecordCreated() {
@@ -218,11 +258,13 @@ public class EmployeeTO {
 	@Override
 	public String toString() {
 		return "EmployeeTO [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
-				+ ", middleName=" + middleName + ", lastName=" + lastName + ", gender=" + gender + ", mobileNumber="
-				+ mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber + ", email=" + email
-				+ ", alternateEmail=" + alternateEmail + ", jobTitleId=" + jobTitleId + ", jobTitleName=" + jobTitleName
-				+ ", roleId=" + roleId + ", roleName=" + roleName + ", joiningDate=" + joiningDate + ", profilePhoto="
-				+ profilePhoto + ", archive=" + archive + ", recordCreated=" + recordCreated + ", recordUpdated="
+				+ ", middleName=" + middleName + ", lastName=" + lastName + ", fullName=" + fullName + ", gender="
+				+ gender + ", mobileNumber=" + mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber
+				+ ", email=" + email + ", alternateEmail=" + alternateEmail + ", jobTitleId=" + jobTitleId
+				+ ", jobTitleName=" + jobTitleName + ", roleId=" + roleId + ", roleName=" + roleName + ", active="
+				+ active + ", archive=" + archive + ", profilePhoto=" + profilePhoto + ", profilePhotoFile="
+				+ profilePhotoFile + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate=" + tokenGeneratedDate
+				+ ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated + ", recordUpdated="
 				+ recordUpdated + "]";
 	}
 
