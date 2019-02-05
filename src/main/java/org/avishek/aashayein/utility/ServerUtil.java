@@ -13,31 +13,30 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ServerUtil {
 
 	@Autowired
-	private Environment env;
+	private ServletContext servletContext;
 
 	@Autowired
-	private ServletContext servletContext;
+	private HttpServletRequest request;
 
 	private static final Logger logger = LogManager.getLogger(ServerUtil.class);
 
 	public String getServerUrl() {
 
 		String url = null;
-		InetAddress ipAddr;
 		try {
-			ipAddr = InetAddress.getLocalHost();
-			url = "http://" + ipAddr.getLocalHost() + ":8080" + servletContext.getContextPath() + "/";
+			url = "http://" + InetAddress.getLocalHost().getHostAddress() + ":" + request.getServerPort()
+					+ servletContext.getContextPath() + "/";
 			logger.info("Servel Url:- " + url);
 		} catch (UnknownHostException e) {
 

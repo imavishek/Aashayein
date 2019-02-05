@@ -114,7 +114,7 @@
 			<li>
 				<a href="">Admin</a>
 				<ul>
-					<li><a href='<jstlCore:url value="/EmployeeRegistration/showRegistration.abhi"/>'>Employees</a></li>
+					<li><a href='<jstlCore:url value="/EmployeeRegistration/showEmployees.abhi"/>'>Employees</a></li>
 					<li><a href='<jstlCore:url value="/EmployeeRole/showRoles.abhi"/>'>Roles</a></li>
 					<li><a href='<jstlCore:url value="/EmployeeTitle/showTitles.abhi"/>'>Titles</a></li>
 					<li><a href="">Exceptions</a></li>
@@ -127,7 +127,7 @@
 			<li><a href="">Logout</a></li>
 			
 			<li style="float:right;">
-				<span><img height="30px" width="30px" style="border-radius: 50%; padding-top: 2px;" alt="Avishek" src="${contextRoot}/assets/upload/profilePictures/PP-DEFAULT_FEMALE.png"></span>
+				<span><img height="30px" width="30px" style="border-radius: 50%; padding-top: 2px;" alt="Avishek" src="${contextRoot}/assets/upload/profilePictures/PP-DEFAULT_MALE.png"></span>
 				<span style="position: relative; bottom: 11px; margin: 0px 4px 0px 7px; font-weight: bold;">Avishek</span>
 			</li>
 		</ul>

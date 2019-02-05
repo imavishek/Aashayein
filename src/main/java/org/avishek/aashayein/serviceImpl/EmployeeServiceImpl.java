@@ -9,6 +9,8 @@
 
 package org.avishek.aashayein.serviceImpl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.dao.EmployeeDao;
@@ -46,6 +48,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	private MailUtil mailUtil;
 
 	private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
+
+	// Getting list of all employee details
+	@Override
+	@Transactional
+	public List<EmployeeTO> getAllEmployees() {
+
+		return employeeDao.getAllEmployees();
+	}
 
 	// Adding Employee Details
 	@Override

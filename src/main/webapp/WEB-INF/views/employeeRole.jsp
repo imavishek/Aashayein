@@ -16,7 +16,7 @@
 
 
 <!-- Div for spinner loader -->
-<div class="fa fa-spinner fa-spin autoreport-spinner"></div>
+<div class="customSpinner-spinner customSpinner-spin customSpinner"></div>
 
 <!-- Show InnerContent After Window Load -->
 <div class="innerContent">

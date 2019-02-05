@@ -9,6 +9,8 @@
 
 package org.avishek.aashayein.daoImpl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.avishek.aashayein.dao.EmployeeDao;
@@ -34,6 +36,48 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+
+	@Override
+	public List<EmployeeTO> getAllEmployees() {
+
+		List<EmployeeTO> employees = null;
+
+		String hql = "FROM Employee ORDER BY RecordCreated DESC";
+		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
+		List<Employee> employee = query.list();
+
+		if (!employee.isEmpty()) {
+			employees = new ArrayList<EmployeeTO>();
+
+			for (Employee emp : employee) {
+				EmployeeTO employeeTo = new EmployeeTO();
+
+				employeeTo.setEmployeeId(emp.getEmployeeId());
+				employeeTo.setEmployeeCode(emp.getEmployeeCode());
+				employeeTo.setFirstName(emp.getFirstName());
+				employeeTo.setMiddleName(emp.getMiddleName());
+				employeeTo.setLastName(emp.getLastName());
+				employeeTo.setFullName(emp.getFullName());
+				employeeTo.setGender(emp.getGender());
+				employeeTo.setMobileNumber(emp.getMobileNumber());
+				employeeTo.setAlternateMobileNumber(emp.getAlternateMobileNumber());
+				employeeTo.setEmail(emp.getEmail());
+				employeeTo.setAlternateEmail(emp.getAlternateEmail());
+				employeeTo.setJobTitleName(emp.getTitle().getTitleName());
+				employeeTo.setRoleName(emp.getRole().getRoleName());
+				employeeTo.setActive(emp.getActive());
+				employeeTo.setArchive(emp.getArchive());
+				employeeTo.setProfilePhoto(emp.getProfilePhoto());
+				employeeTo.setJoiningDate(emp.getJoiningDate());
+				employeeTo.setRecordCreated(emp.getRecordCreated());
+				employeeTo.setRecordUpdated(emp.getRecordUpdated());
+
+				employees.add(employeeTo);
+			}
+		}
+
+		return employees;
+	}
 
 	@Override
 	public EmployeeTO getEmployeeByEmail(String email) {
@@ -124,4 +168,5 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
 		return employee;
 	}
+
 }

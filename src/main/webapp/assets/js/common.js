@@ -1,6 +1,6 @@
 window.onload = function() {
 	setInterval(function() {
-		$(".autoreport-spinner").hide();
+		$(".customSpinner").hide();
 		$('.innerContent').show();
 	}, 500);
 };

@@ -29,15 +29,18 @@ import org.avishek.aashayein.service.EmployeeTitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -69,6 +72,38 @@ public class EmployeeRegistrationController {
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, "joiningDate", new CustomDateEditor(dateFormat, false));
 
+	}
+
+	// Shows the list of employee
+	@RequestMapping(value = "/showEmployees.abhi")
+	public String showEmployees(Model model, HttpServletRequest request) {
+
+		String view = "";
+		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+				+ request.getContextPath() + "/EmployeeRegistration/showEmployees.abhi'>Employees</a>";
+
+		// Getting all the employee details
+		// List<EmployeeTO> employees = employeeService.getAllEmployees();
+
+		model.addAttribute("pageTitle", "Employees");
+		model.addAttribute("breadcrumb", breadcrumb);
+		// model.addAttribute("employees", employees);
+
+		view = "employees";
+
+		return view;
+	}
+
+	// Shows the list of employee
+
+	@GetMapping(value = "/getEmployees.abhi", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<EmployeeTO> getEmployees(Model model, HttpServletRequest request) {
+
+		// Getting all the employee details
+		List<EmployeeTO> employees = employeeService.getAllEmployees();
+
+		return employees;
 	}
 
 	// Shows the employee registration page

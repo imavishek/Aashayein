@@ -9,10 +9,14 @@
 
 package org.avishek.aashayein.service;
 
+import java.util.List;
+
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.exception.UploadingFailedException;
 
 public interface EmployeeService {
+
+	List<EmployeeTO> getAllEmployees();
 
 	String addEmployee(EmployeeTO employeeTo) throws UploadingFailedException;
 
