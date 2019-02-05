@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class EmployeeTO {
 
 	private Integer employeeId;
@@ -57,10 +59,13 @@ public class EmployeeTO {
 
 	private Date tokenGeneratedDate;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+5:30")
 	private Date joiningDate;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+5:30")
 	private Date recordCreated;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+5:30")
 	private Date recordUpdated;
 
 	public Integer getEmployeeId() {

@@ -8,21 +8,22 @@ $(function() {
     	url: contextRoot + '/EmployeeRegistration/getEmployees.abhi',
     	datatype: "json",
         colModel: [
-            { name: "employeeCode", label: "EmployeeCode", width: 115, align: "center"},
-            { name: "fullName", label: "Name", width: 200},
-            { name: "gender", label: "Gender", width: 70},
-            { name: "mobileNumber", label: "Mobile No.", width: 100},
-            { name: "email", label: "EmailId", width: 130},
-            { name: "jobTitleName", label: "JobTitle", width: 90},
-            { name: "roleName", label: "Role", width: 90},
-            { name: "active", label: "Active", width: 70},
-            { name: "archive", label: "Archive", width: 70},
-            { name: "joiningDate", label: "JoiningDate", width: 100},
-            { name: "recordCreated", label: "CreatedDate", width: 105},
-            { name: "recordUpdated", label: "UpdatedDate", width: 105}
+            { name: "employeeCode", label: "EmployeeCode", align: "center", width : 120},
+            { name: "fullName", label: "Name", width : 140},
+            { name: "gender", label: "Gender", align: "center", width : 80 , formatter: function (cellvalue, options, rowobject) {
+                return "<img height='16' width='16' src='"+contextRoot+"/assets/img/"+cellvalue+"_icon.png' title='"+cellvalue+"'>";
+            }},
+            { name: "mobileNumber", label: "Mobile No.", width : 85},
+            { name: "email", label: "EmailId", width : 130},
+            { name: "jobTitleName", label: "JobTitle", width : 80},
+            { name: "roleName", label: "Role", width : 100},
+            { name: "active", label: "Active", align: "center", template: 'booleanCheckbox', width : 80},
+            { name: "archive", label: "Archive", align: "center", template: 'booleanCheckbox', width : 80},
+            { name: "joiningDate", label: "JoiningDate", sorttype: "date", formatter:'date', formatoptions:{ newformat: "d M Y"}, width : 90},
+            { name: "recordCreated", label: "CreatedDate", sorttype: "date", formatter: "date", formatoptions: { srcformat: "Y-m-d H:i:s", newformat: "d M Y h:i:s A" }, width : 125},
         ],
 		viewrecords: true,
-		autowidth:true,
+		width:$(window).width()-103,
 		//height:360,
         iconSet: "fontAwesome",
         idPrefix: "g1_",
@@ -46,4 +47,5 @@ $(function() {
 		    $("tr.jqgrow:odd").addClass('jqGridAltRow');
 		}
     });
+    
 })
