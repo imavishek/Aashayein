@@ -27,10 +27,7 @@
 	<div style="margin-bottom:.5em;float: left;">
 		<a href='<jstlCore:url value="/EmployeeRole/showAddRole.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee Role</a>
 	</div>
-	
-	<div style="margin-bottom:.5em;float: right;">
-		<button class="auto-button resetFilter" data-icon="ui-icon-custom-reset" title="Reset Filter">Reset Filter</button>
-	</div>
+
 	<div style="clear: both;"></div>
 	
 	

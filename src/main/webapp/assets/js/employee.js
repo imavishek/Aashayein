@@ -8,29 +8,35 @@ $(function() {
     	url: contextRoot + '/EmployeeRegistration/getEmployees.abhi',
     	datatype: "json",
         colModel: [
-            { name: "employeeCode", label: "EmployeeCode", align: "center", width : 120},
-            { name: "fullName", label: "Name", width : 140},
-            { name: "gender", label: "Gender", align: "center", width : 80 , formatter: function (cellvalue, options, rowobject) {
-                return "<img height='16' width='16' src='"+contextRoot+"/assets/img/"+cellvalue+"_icon.png' title='"+cellvalue+"'>";
-            }},
-            { name: "mobileNumber", label: "Mobile No.", width : 85},
-            { name: "email", label: "EmailId", width : 130},
-            { name: "jobTitleName", label: "JobTitle", width : 80},
-            { name: "roleName", label: "Role", width : 100},
-            { name: "active", label: "Active", align: "center", template: 'booleanCheckbox', width : 80},
-            { name: "archive", label: "Archive", align: "center", template: 'booleanCheckbox', width : 80},
-            { name: "joiningDate", label: "JoiningDate", sorttype: "date", formatter:'date', formatoptions:{ newformat: "d M Y"}, width : 90},
-            { name: "recordCreated", label: "CreatedDate", sorttype: "date", formatter: "date", formatoptions: { srcformat: "Y-m-d H:i:s", newformat: "d M Y h:i:s A" }, width : 125},
+        	{ name: "employeeId",		key: true, hidden: true},
+            { name: "employeeCode",		label: "EmployeeCode", align: "center", width : 120, searchoptions: {attr: { placeholder: "EmployeeCode" }}},
+            { name: "fullName",			label: "Name", width : 140, searchoptions: {attr: { placeholder: "EmployeeName" }}},
+            { name: "gender",			label: "Gender", align: "center", width : 80 , formatter: genderIconFormatter, stype:"select", searchoptions: {sopt:['eq'], value: ":All;Male:Male;Female:Female;Other:Other"}  },
+            { name: "mobileNumber",		label: "Mobile No.", sorttype: "integer", width : 85, searchoptions: {attr: { placeholder: "Mobile" }}},
+            { name: "email",			label: "EmailId", width : 130, searchoptions: {attr: { placeholder: "Email" }}},
+            { name: "jobTitleName",		label: "JobTitle", width : 80, searchoptions: {attr: { placeholder: "JobTitle" }}},
+            { name: "roleName",			label: "Role", width : 100, searchoptions: {attr: { placeholder: "Role" }}},
+            { name: "active",			label: "Active", align: "center", template: 'booleanCheckbox', firstsortorder: "desc", width : 80},
+            { name: "archive",			label: "Archive", align: "center", template: 'booleanCheckbox', firstsortorder: "desc", width : 80},
+            { name: "joiningDate",		label: "JoiningDate", sorttype: "date", formatter:'date', formatoptions:{srcformat: "u1000", newformat: "d-M-Y"}, searchoptions: {attr: { placeholder: "dd-M-yy" }, sopt: ["eq"], dataInit: dataPickerSearch}, width : 90},
+            { name: "recordCreated",	label: "CreatedDate", sorttype: "date", formatter: "date", formatoptions: { srcformat: "Y-m-d H:i:s", newformat: "d-M-Y h:i:s A" }, search:false, width : 135},
+            { name: "",					label: "Action", template: "actions"},
         ],
+        loadonce: true,
+        rownumbers: true,
+        sortable: true,
+		autowidth: true,
+		pager: true,
 		viewrecords: true,
-		width:$(window).width()-103,
-		//height:360,
+		headertitles: true,
+		rowNum: 15,
+		rowList: [5, 10, 20, "10000:All"],
+		searching: { defaultSearch: "cn" },
         iconSet: "fontAwesome",
         idPrefix: "g1_",
-        scroll: true,
-        rownumbers: true,
         sortname: "recordCreated",
         sortorder: "desc",
+        
         loadBeforeSend: function(xhr) {
 			$(".notification-holder").hide();
 		},
@@ -46,6 +52,44 @@ $(function() {
 		loadComplete: function() {
 		    $("tr.jqgrow:odd").addClass('jqGridAltRow');
 		}
-    });
+    }).jqGrid("navGrid", {edit: false, add: false, del: false})
+    .jqGrid("filterToolbar", {searchOnEnter: false});
+    
+    function genderIconFormatter(cellvalue, options, rowObject) {
+		var iconName = cellvalue;
+
+		return "<img height='16' width='16' src='"+contextRoot+"/assets/img/"+iconName+"_icon.png' title='"+iconName+"'>";
+	}
+    
+    function actionFormatter(cellvalue, options, rowObject) {
+		var iconName = cellvalue;
+		
+		console.log(rowObject);
+		
+		return "delbutton:true";
+	}
+    
+    function dataPickerSearch (elem, options) {
+        var self = this, $elem = $(elem),
+            filterOnSelect = function () {
+                setTimeout(function () {
+                    self.triggerToolbar();
+                }, 50);
+            },
+            triggerInputChangeOnSelect = function () {
+                $elem.change();
+            };
+        
+        setTimeout(function () {
+            $elem.datepicker({
+                dateFormat: "dd-M-yy",
+                autoSize: true,
+                changeYear: true,
+                changeMonth: true,
+    
+                onSelect: (options.mode === "filter" ? filterOnSelect : triggerInputChangeOnSelect)
+            });
+        }, 50);
+    }
     
 })
