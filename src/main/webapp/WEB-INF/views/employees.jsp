@@ -24,12 +24,9 @@
 	<!-- Div for showing error -->
 	<div class="notification-holder"></div>
 	
-	<div style="margin-bottom:.5em;float: left;">
-		<a href='<jstlCore:url value="/EmployeeRole/showAddRole.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee Role</a>
+	<div style="margin-bottom:.8em;">
+		<a href='<jstlCore:url value="/EmployeeRegistration/showRegistration.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee</a>
 	</div>
-
-	<div style="clear: both;"></div>
-	
 	
 	<div class="wrapper">
 		<table id="tableGrid">

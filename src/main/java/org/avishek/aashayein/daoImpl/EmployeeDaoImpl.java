@@ -34,8 +34,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Autowired
 	DateTime dateTime;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	/*@Autowired
+	private PasswordEncoder passwordEncoder;*/
 
 	@Override
 	public List<EmployeeTO> getAllEmployees() {

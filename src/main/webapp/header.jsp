@@ -114,7 +114,7 @@
 			<li>
 				<a href="">Admin</a>
 				<ul>
-					<li><a href='<jstlCore:url value="/EmployeeRegistration/showEmployees.abhi"/>'>Employees</a></li>
+					<li><a href='<jstlCore:url value="/Employee/showEmployees.abhi"/>'>Employees</a></li>
 					<li><a href='<jstlCore:url value="/EmployeeRole/showRoles.abhi"/>'>Roles</a></li>
 					<li><a href='<jstlCore:url value="/EmployeeTitle/showTitles.abhi"/>'>Titles</a></li>
 					<li><a href="">Exceptions</a></li>

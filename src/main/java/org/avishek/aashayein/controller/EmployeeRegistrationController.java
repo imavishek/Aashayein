@@ -29,25 +29,20 @@ import org.avishek.aashayein.service.EmployeeTitleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/EmployeeRegistration")
 public class EmployeeRegistrationController {
-
-	private static final Logger logger = LogManager.getLogger(EmployeeRegistrationController.class);
 
 	@Autowired
 	EmployeeTitleService employeeTitleService;
@@ -57,6 +52,8 @@ public class EmployeeRegistrationController {
 
 	@Autowired
 	EmployeeService employeeService;
+
+	private static final Logger logger = LogManager.getLogger(EmployeeRegistrationController.class);
 
 	@InitBinder("employee")
 	public void customizeBinding(WebDataBinder binder) {
@@ -71,39 +68,6 @@ public class EmployeeRegistrationController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		dateFormat.setLenient(false);
 		binder.registerCustomEditor(Date.class, "joiningDate", new CustomDateEditor(dateFormat, false));
-
-	}
-
-	// Shows the list of employee
-	@RequestMapping(value = "/showEmployees.abhi")
-	public String showEmployees(Model model, HttpServletRequest request) {
-
-		String view = "";
-		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/EmployeeRegistration/showEmployees.abhi'>Employees</a>";
-
-		// Getting all the employee details
-		// List<EmployeeTO> employees = employeeService.getAllEmployees();
-
-		model.addAttribute("pageTitle", "Employees");
-		model.addAttribute("breadcrumb", breadcrumb);
-		// model.addAttribute("employees", employees);
-
-		view = "employees";
-
-		return view;
-	}
-
-	// Shows the list of employee
-
-	@GetMapping(value = "/getEmployees.abhi", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<EmployeeTO> getEmployees(Model model, HttpServletRequest request) {
-
-		// Getting all the employee details
-		List<EmployeeTO> employees = employeeService.getAllEmployees();
-
-		return employees;
 	}
 
 	// Shows the employee registration page
@@ -112,7 +76,9 @@ public class EmployeeRegistrationController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+				+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
 				+ request.getContextPath() + "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
+
 		EmployeeCommand employee = null;
 
 		// Getting all the job title details
@@ -121,6 +87,10 @@ public class EmployeeRegistrationController {
 		// Getting all the employee role details
 		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
+		/*
+		 * If error occurs in employee registration or edit employee then redirect to
+		 * this controller with EmployeeCommand flash attribute
+		 */
 		employee = (EmployeeCommand) model.asMap().get("employee");
 		if (employee == null) {
 			employee = new EmployeeCommand();
@@ -139,13 +109,12 @@ public class EmployeeRegistrationController {
 
 	// Adding and editing employee in database
 	@PostMapping(value = "/saveEmployee.abhi")
-	public String registerEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employeeCommand,
+	public String saveEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employeeCommand,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
 			throws UploadingFailedException {
 
 		String view = "";
 		String breadcrumb = "";
-		String redirectUrl = "";
 
 		// Checking data binding error
 		if (result.hasErrors()) {
@@ -162,26 +131,31 @@ public class EmployeeRegistrationController {
 			// Getting all the employee role details
 			List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
-			view = "employeeRegistration";
-
-			if (employeeCommand.getEmployeeId() == "") {
+			/*
+			 * Checking the data binding error page (Edit Or Add). If employeeId does not
+			 * exists in command object then error in add employee page other wise in edit
+			 * employee page
+			 */
+			if (employeeCommand.getEmployeeId().isEmpty()) {
 
 				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+						+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
 						+ request.getContextPath()
-						+ "/EmployeeRegistration/showEmployees.abhi'>Employees</a> / <a href='"
-						+ request.getContextPath() + "/EmployeeRegistration/showRegistration.abhi'>Add Employee</a>";
+						+ "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
 
 				model.addAttribute("pageTitle", "Add Employee");
 			} else {
 
 				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-						+ request.getContextPath()
-						+ "/EmployeeRegistration/showEmployees.abhi'>Employees</a> / <a href='"
+						+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
 						+ request.getContextPath() + "/EmployeeRegistration/showEditEmployee.abhi?employeeId="
-						+ employeeCommand.getEmployeeId() + "'> Edit Employee</a>";
+						+ employeeCommand.getEmployeeId() + "'>Edit Employee " + employeeCommand.getEmployeeId()
+						+ "</a>";
 
 				model.addAttribute("pageTitle", "Edit Employee");
 			}
+
+			view = "employeeRegistration";
 
 			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("employee", employeeCommand);
@@ -211,6 +185,7 @@ public class EmployeeRegistrationController {
 				// Adding the employee
 				String message = employeeService.addEmployee(employeeTo);
 
+				// If error does not occurs then message is empty
 				if (message == null) {
 					logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName()
 							+ " " + employeeCommand.getLastName() + " Added Successfully");
@@ -219,7 +194,7 @@ public class EmployeeRegistrationController {
 					redir.addFlashAttribute("message", "Employee Added Successfully");
 					redir.addFlashAttribute("messageType", "Success");
 
-					redirectUrl = "/EmployeeRegistration/showEmployees.abhi";
+					view = "redirect:/Employee/showEmployees.abhi";
 				} else {
 					logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
 							+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
@@ -227,18 +202,14 @@ public class EmployeeRegistrationController {
 					redir.addFlashAttribute("message", message);
 					redir.addFlashAttribute("messageType", "Error");
 
-					redirectUrl = "/EmployeeRegistration/showRegistration.abhi";
+					view = "redirect:/EmployeeRegistration/showRegistration.abhi";
 				}
 			} else {
-				redirectUrl = "/EmployeeRegistration/showEmployees.abhi";
+				view = "/EmployeeRegistration/showEmployees.abhi";
 				System.out.println(employeeCommand);
 			}
-
-			view = "redirect:" + redirectUrl;
-
 		}
 
 		return view;
-
 	}
 }
