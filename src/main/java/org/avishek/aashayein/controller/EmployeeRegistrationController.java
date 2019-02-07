@@ -79,8 +79,6 @@ public class EmployeeRegistrationController {
 				+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
 				+ request.getContextPath() + "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
 
-		EmployeeCommand employee = null;
-
 		// Getting all the job title details
 		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
 
@@ -88,17 +86,15 @@ public class EmployeeRegistrationController {
 		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
 		/*
-		 * If error occurs in employee registration or edit employee then redirect to
-		 * this controller with EmployeeCommand flash attribute
+		 * If error occurs in employee registration then redirect to this controller
+		 * with EmployeeCommand and Binding error as flash attribute
 		 */
-		employee = (EmployeeCommand) model.asMap().get("employee");
-		if (employee == null) {
-			employee = new EmployeeCommand();
+		if (!model.containsAttribute("employee")) {
+			model.addAttribute("employee", new EmployeeCommand());
 		}
 
 		model.addAttribute("pageTitle", "Add Employee");
 		model.addAttribute("breadcrumb", breadcrumb);
-		model.addAttribute("employee", employee);
 		model.addAttribute("jobTitles", jobTitles);
 		model.addAttribute("employeeRoles", employeeRoles);
 
@@ -107,14 +103,13 @@ public class EmployeeRegistrationController {
 		return view;
 	}
 
-	// Adding and editing employee in database
+	// Adding employee in database
 	@PostMapping(value = "/saveEmployee.abhi")
 	public String saveEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employeeCommand,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
 			throws UploadingFailedException {
 
 		String view = "";
-		String breadcrumb = "";
 
 		// Checking data binding error
 		if (result.hasErrors()) {
@@ -125,24 +120,11 @@ public class EmployeeRegistrationController {
 						+ error.getRejectedValue());
 			}
 
-			// Getting all the job title details
-			List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
+			// Redirect to show the error registration page
+			redir.addFlashAttribute("employee", employeeCommand);
+			redir.addFlashAttribute("org.springframework.validation.BindingResult.employee", result);
 
-			// Getting all the employee role details
-			List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
-
-			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-					+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
-					+ request.getContextPath()
-					+ "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
-			view = "employeeRegistration";
-
-			model.addAttribute("pageTitle", "Add Employee");
-
-			model.addAttribute("breadcrumb", breadcrumb);
-			model.addAttribute("employee", employeeCommand);
-			model.addAttribute("jobTitles", jobTitles);
-			model.addAttribute("employeeRoles", employeeRoles);
+			view = "redirect:/EmployeeRegistration/showRegistration.abhi";
 		} else {
 
 			// Setting value in Employee Transfer Object

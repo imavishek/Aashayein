@@ -4,7 +4,8 @@
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<jsp:useBean id="now" class="java.util.Date" />
+<%@ page import="java.util.Date" %>
+<jstlCore:set var="tomorrow" value="<%=new Date(new Date().getTime() + 60*60*24*1000)%>"/>
 
 
 <jsp:include page="/header.jsp" />
@@ -93,14 +94,14 @@
 			<tr>
 				<td><springForm:label path="joiningDate" cssClass="field_label">Joining Date</springForm:label><span class="required">*</span></td>
 				<td>
-					<jstlFormat:formatDate value="${now}" pattern="dd-MM-yyyy" var="today" />
+					<jstlFormat:formatDate value="${tomorrow}" pattern="dd-MM-yyyy" var="tomorrow" />
 					<jsp:include page="/WEB-INF/tags/date_picker.jsp">
     					<jsp:param name="fieldName" value="joiningDate"/>
-    					<jsp:param name="defaultDate" value='${today}'/>
-    					<jsp:param name="minDate" value="0D"/>
+    					<jsp:param name="defaultDate" value='${tomorrow}'/>
+    					<jsp:param name="minDate" value="1D"/>
     					<jsp:param name="yearRange" value="+0:+10"/>
 					</jsp:include>
-					<span class="ui-icon ui-icon-custom-info-faded" title="Default date set to today and enter date greater or same today"></span>
+					<span class="ui-icon ui-icon-custom-info-faded" title="Default date set to tomorrow, Select Date Greater Than Today"></span>
 				</td>
 				<td><springForm:errors path="joiningDate" cssClass="error_message" element="span"/></td>
 			</tr>

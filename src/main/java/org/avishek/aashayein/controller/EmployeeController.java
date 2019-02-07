@@ -3,6 +3,7 @@ package org.avishek.aashayein.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,6 +12,7 @@ import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.EmployeeTitleTO;
 import org.avishek.aashayein.exception.EmployeeNotFoundException;
+import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
 import org.avishek.aashayein.service.EmployeeService;
 import org.avishek.aashayein.service.EmployeeTitleService;
@@ -18,10 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/Employee")
@@ -92,12 +99,21 @@ public class EmployeeController {
 		// Getting all the employee role details
 		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
-		EditEmployeeCommand editEmployeeCommand = new EditEmployeeCommand();
-		editEmployeeCommand.setEmployeeId(employeeTo.getEmployeeId().toString());
-		editEmployeeCommand.setTitle(employeeTo.getJobTitleId());
-		editEmployeeCommand.setRole(employeeTo.getRoleId());
-		
-		model.addAttribute("editEmployee", editEmployeeCommand);
+		/*
+		 * If error occurs in during edit employee then redirect to this controller with
+		 * EditEmployeeCommand and Binding error as flash attribute
+		 */
+		if (!model.containsAttribute("editEmployee")) {
+			EditEmployeeCommand editEmployeeCommand = new EditEmployeeCommand();
+			editEmployeeCommand.setEmployeeId(employeeTo.getEmployeeId().toString());
+			editEmployeeCommand.setEmployeeCode(employeeTo.getEmployeeCode());
+			editEmployeeCommand.setTitle(employeeTo.getJobTitleId());
+			editEmployeeCommand.setRole(employeeTo.getRoleId());
+			editEmployeeCommand.setJoiningDate(employeeTo.getJoiningDate());
+
+			model.addAttribute("editEmployee", editEmployeeCommand);
+		}
+
 		model.addAttribute("employee", employeeTo);
 		model.addAttribute("jobTitles", jobTitles);
 		model.addAttribute("employeeRoles", employeeRoles);
@@ -105,6 +121,38 @@ public class EmployeeController {
 		model.addAttribute("breadcrumb", breadcrumb);
 
 		view = "editEmployee";
+
+		return view;
+	}
+
+	// Edit employee
+	@PostMapping(value = "/saveEmployee.abhi")
+	public String saveEmployee(Model model,
+			@Valid @ModelAttribute("editEmployee") EditEmployeeCommand editEmployeeCommand, BindingResult result,
+			HttpServletRequest request, RedirectAttributes redir) throws UploadingFailedException {
+
+		String view = "";
+
+		// Checking data binding error
+		if (result.hasErrors()) {
+
+			// Logging DataBinding Error
+			for (FieldError error : result.getFieldErrors()) {
+				logger.error("Error In DataBinding For Field:- " + error.getField() + " FieldValue:- "
+						+ error.getRejectedValue());
+			}
+
+			// Redirect to show the error page during edit employee
+			redir.addFlashAttribute("editEmployee", editEmployeeCommand);
+			redir.addFlashAttribute("org.springframework.validation.BindingResult.editEmployee", result);
+
+			view = "redirect:/Employee/showEditEmployee.abhi?employeeId=" + editEmployeeCommand.getEmployeeId()
+					+ "&employeeCode=" + editEmployeeCommand.getEmployeeCode();
+		} else {
+
+			view = "redirect:/EmployeeRegistration/showRegistration.abhi";
+
+		}
 
 		return view;
 	}

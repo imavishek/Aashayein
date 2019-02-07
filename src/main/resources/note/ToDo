@@ -15,7 +15,7 @@ check breadcrumb employee after complete
 
 
 
-
+mail on edit employee
 
 
 
@@ -32,7 +32,7 @@ https://jsfiddle.net/OlegKi/yvbt6w54/
 
 
 
-
+employee = (EmployeeCommand) model.asMap().get("employee");
 
 
 			// Creating the directory to store file

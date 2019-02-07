@@ -15,8 +15,8 @@ $(function() {
 			{ name: "email",			label: "EmailId", width : 130, searchoptions: {attr: { placeholder: "Email" }}},
 			{ name: "jobTitleName",		label: "JobTitle", width : 80, searchoptions: {attr: { placeholder: "JobTitle" }}},
 			{ name: "roleName",			label: "Role", width : 100, searchoptions: {attr: { placeholder: "Role" }}},
-			{ name: "active",			label: "Active", align: "center", template: 'booleanCheckbox', firstsortorder: "desc", width : 80, sortable: false},
-			{ name: "archive",			label: "Archive", align: "center", template: 'booleanCheckbox', firstsortorder: "desc", width : 80, sortable: false},
+			{ name: "active",			label: "Active", align: "center", template: 'booleanCheckbox', firstsortorder: "desc", width : 70, sortable: false},
+			{ name: "archive",			label: "Archive", align: "center", template: 'booleanCheckbox', firstsortorder: "desc", width : 70, sortable: false},
 			{ name: "joiningDate",		label: "JoiningDate", sorttype: "date", formatter:'date', formatoptions:{srcformat: "u1000", newformat: "d-M-Y"}, searchoptions: {attr: { placeholder: "dd-M-yy" }, sopt: ["eq"], dataInit: dataPickerSearch}, width : 90},
 			{ name: "recordCreated",	label: "CreatedDate", sorttype: "date", formatter: "date", formatoptions: { srcformat: "Y-m-d H:i:s", newformat: "d-M-Y h:i:s A" }, search:false, width : 135},
 			{ name: "",					label: "Action", align: "center", width: 60, formatter: actionFormatter, search:false, sortable: false},
@@ -67,9 +67,6 @@ $(function() {
 			return '<a title="UnArchive" style="cursor: pointer;"><img src="'
 					+ contextRoot + '/assets/img/tick.png" alt="UnArchive" ></a>';
 		}
-		
-
-
 
 		return '<a href="'
 			+ contextRoot
