@@ -9,6 +9,8 @@ public interface EmployeeDao {
 
 	List<EmployeeTO> getAllEmployees();
 
+	EmployeeTO getEmployeeDetailsById(Integer employeeId);
+
 	EmployeeTO getEmployeeByEmail(String email);
 
 	EmployeeTO getEmployeeByMobileNumber(String mobileNumber);

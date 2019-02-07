@@ -18,6 +18,8 @@ public interface EmployeeService {
 
 	List<EmployeeTO> getAllEmployees();
 
+	EmployeeTO getEmployeeDetailsById(Integer employeeId);
+
 	String addEmployee(EmployeeTO employeeTo) throws UploadingFailedException;
 
 	boolean emailExist(String email);

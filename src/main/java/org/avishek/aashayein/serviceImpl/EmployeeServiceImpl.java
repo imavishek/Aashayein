@@ -57,6 +57,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.getAllEmployees();
 	}
 
+	// Getting employee details by employeeId
+	@Override
+	@Transactional
+	public EmployeeTO getEmployeeDetailsById(Integer employeeId) {
+
+		return employeeDao.getEmployeeDetailsById(employeeId);
+	}
+
 	// Adding Employee Details
 	@Override
 	@Transactional

@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.exception.EmployeeEmailExistsException;
 import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
+import org.avishek.aashayein.exception.EmployeeNotFoundException;
 import org.avishek.aashayein.exception.EmployeeRoleNotFoundException;
 import org.avishek.aashayein.exception.EmployeeTitleNotFoundException;
 import org.avishek.aashayein.exception.UploadingFailedException;
@@ -109,6 +110,26 @@ public class GlobalExceptionHandlerMethods {
 		model.addAttribute("errorTitle", "Employee Title Not Found");
 		model.addAttribute("errorMessage",
 				"The employee title you are looking for might have been deactivated or unavailable.");
+
+		view = "error500";
+
+		return view;
+
+	}
+
+	// Employee Not Found Exception Handler
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = EmployeeNotFoundException.class)
+	public String handleEmployeeNotFoundException(EmployeeNotFoundException e, Model model) {
+
+		String view = "";
+
+		logger.error("Employee Not Found (Either Unavailable Or Deactivated) For EmployeeCode: " + e.getMessage());
+
+		model.addAttribute("title", "Employee UnAvailable");
+		model.addAttribute("errorTitle", "Employee Not Found");
+		model.addAttribute("errorMessage",
+				"The employee details you are looking for might have been deactivated or unavailable.");
 
 		view = "error500";
 

@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/css/ui.jqgrid.min.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jqGrid/jqGrid-ui.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/pnotify-custom.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 
@@ -82,7 +82,7 @@
 
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/free-jqgrid/4.15.5/jquery.jqgrid.min.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jqGrid/jqGrid.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript">
 

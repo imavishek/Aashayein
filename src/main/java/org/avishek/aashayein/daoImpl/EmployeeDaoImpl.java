@@ -22,7 +22,6 @@ import org.avishek.aashayein.utility.DateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -34,8 +33,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Autowired
 	DateTime dateTime;
 
-	/*@Autowired
-	private PasswordEncoder passwordEncoder;*/
+	/*
+	 * @Autowired private PasswordEncoder passwordEncoder;
+	 */
 
 	@Override
 	public List<EmployeeTO> getAllEmployees() {
@@ -77,6 +77,47 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		}
 
 		return employees;
+	}
+
+	// Get Employee Details If It's Not Archived
+	@Override
+	public EmployeeTO getEmployeeDetailsById(Integer employeeId) {
+
+		EmployeeTO employeeTo = null;
+
+		String hql = "FROM Employee employee WHERE employee.employeeId=?1 AND employee.archive=?2";
+		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
+		query.setParameter(1, employeeId);
+		query.setParameter(2, (byte) 0);
+		Employee employee = query.uniqueResult();
+
+		if (employee != null) {
+			employeeTo = new EmployeeTO();
+
+			employeeTo.setEmployeeId(employee.getEmployeeId());
+			employeeTo.setEmployeeCode(employee.getEmployeeCode());
+			employeeTo.setFirstName(employee.getFirstName());
+			employeeTo.setMiddleName(employee.getMiddleName());
+			employeeTo.setLastName(employee.getLastName());
+			employeeTo.setFullName(employee.getFullName());
+			employeeTo.setGender(employee.getGender());
+			employeeTo.setMobileNumber(employee.getMobileNumber());
+			employeeTo.setAlternateMobileNumber(employee.getAlternateMobileNumber());
+			employeeTo.setEmail(employee.getEmail());
+			employeeTo.setAlternateEmail(employee.getAlternateEmail());
+			employeeTo.setJobTitleId(employee.getTitle().getTitleId());
+			employeeTo.setJobTitleName(employee.getTitle().getTitleName());
+			employeeTo.setRoleId(employee.getRole().getRoleId());
+			employeeTo.setRoleName(employee.getRole().getRoleName());
+			employeeTo.setActive(employee.getActive());
+			employeeTo.setArchive(employee.getArchive());
+			employeeTo.setProfilePhoto(employee.getProfilePhoto());
+			employeeTo.setJoiningDate(employee.getJoiningDate());
+			employeeTo.setRecordCreated(employee.getRecordCreated());
+			employeeTo.setRecordUpdated(employee.getRecordUpdated());
+		}
+
+		return employeeTo;
 	}
 
 	@Override

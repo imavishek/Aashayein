@@ -23,9 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class EmployeeCommand {
 
-	@Pattern(regexp = "^$|[123456789]\\d{0,1}", message = "Invalid EmployeeId for edit")
-	private String employeeId;
-
 	@Pattern(regexp = "[a-zA-Z]{3,25}", message = "Please enter valid FirstName between 3 to 25 character")
 	private String firstName;
 
@@ -64,14 +61,6 @@ public class EmployeeCommand {
 	@FileType(extension = "jpg|jpeg|JPG|JPEG", message = "Please upload jpg or jpeg image file")
 	@FileSize(size = 1048576, message = "Please upload file under 1Mb")
 	private MultipartFile profilePhoto;
-
-	public String getEmployeeId() {
-		return employeeId;
-	}
-
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
-	}
 
 	public String getFirstName() {
 		return firstName;
@@ -171,7 +160,7 @@ public class EmployeeCommand {
 
 	@Override
 	public String toString() {
-		return "EmployeeCommand [employeeId=" + employeeId + ", firstName=" + firstName + ", middleName=" + middleName
+		return "EmployeeCommand [firstName=" + firstName + ", middleName=" + middleName
 				+ ", lastName=" + lastName + ", gender=" + gender + ", title=" + title + ", role=" + role
 				+ ", mobileNumber=" + mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber + ", email="
 				+ email + ", alternateEmail=" + alternateEmail + ", joiningDate=" + joiningDate + ", profilePhoto="

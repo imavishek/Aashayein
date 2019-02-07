@@ -131,31 +131,13 @@ public class EmployeeRegistrationController {
 			// Getting all the employee role details
 			List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
 
-			/*
-			 * Checking the data binding error page (Edit Or Add). If employeeId does not
-			 * exists in command object then error in add employee page other wise in edit
-			 * employee page
-			 */
-			if (employeeCommand.getEmployeeId().isEmpty()) {
-
-				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-						+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
-						+ request.getContextPath()
-						+ "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
-
-				model.addAttribute("pageTitle", "Add Employee");
-			} else {
-
-				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-						+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
-						+ request.getContextPath() + "/EmployeeRegistration/showEditEmployee.abhi?employeeId="
-						+ employeeCommand.getEmployeeId() + "'>Edit Employee " + employeeCommand.getEmployeeId()
-						+ "</a>";
-
-				model.addAttribute("pageTitle", "Edit Employee");
-			}
-
+			breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
+					+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
+					+ request.getContextPath()
+					+ "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
 			view = "employeeRegistration";
+
+			model.addAttribute("pageTitle", "Add Employee");
 
 			model.addAttribute("breadcrumb", breadcrumb);
 			model.addAttribute("employee", employeeCommand);
@@ -179,34 +161,27 @@ public class EmployeeRegistrationController {
 			employeeTo.setJoiningDate(employeeCommand.getJoiningDate());
 			employeeTo.setProfilePhotoFile(employeeCommand.getProfilePhoto());
 
-			// Add employee if employeeId is empty otherwise edit
-			if (employeeCommand.getEmployeeId().isEmpty()) {
+			// Adding the employee
+			String message = employeeService.addEmployee(employeeTo);
 
-				// Adding the employee
-				String message = employeeService.addEmployee(employeeTo);
+			// If error does not occurs then message is empty
+			if (message == null) {
+				logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName() + " "
+						+ employeeCommand.getLastName() + " Added Successfully");
 
-				// If error does not occurs then message is empty
-				if (message == null) {
-					logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName()
-							+ " " + employeeCommand.getLastName() + " Added Successfully");
+				// Sending the message and message type to the corresponding jsp page
+				redir.addFlashAttribute("message", "Employee Added Successfully");
+				redir.addFlashAttribute("messageType", "Success");
 
-					// Sending the message and message type to the corresponding jsp page
-					redir.addFlashAttribute("message", "Employee Added Successfully");
-					redir.addFlashAttribute("messageType", "Success");
-
-					view = "redirect:/Employee/showEmployees.abhi";
-				} else {
-					logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
-							+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
-					redir.addFlashAttribute("employee", employeeCommand);
-					redir.addFlashAttribute("message", message);
-					redir.addFlashAttribute("messageType", "Error");
-
-					view = "redirect:/EmployeeRegistration/showRegistration.abhi";
-				}
+				view = "redirect:/Employee/showEmployees.abhi";
 			} else {
-				view = "/EmployeeRegistration/showEmployees.abhi";
-				System.out.println(employeeCommand);
+				logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
+						+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
+				redir.addFlashAttribute("employee", employeeCommand);
+				redir.addFlashAttribute("message", message);
+				redir.addFlashAttribute("messageType", "Error");
+
+				view = "redirect:/EmployeeRegistration/showRegistration.abhi";
 			}
 		}
 
