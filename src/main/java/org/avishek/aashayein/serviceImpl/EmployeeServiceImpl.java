@@ -133,6 +133,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return message;
 	}
 
+	// Editing Employee Details
+	@Override
+	@Transactional
+	public String editEmployee(EmployeeTO employeeTo) {
+
+		return employeeDao.editEmployee(employeeTo);
+	}
+
 	// Checking existence of email
 	@Override
 	@Transactional

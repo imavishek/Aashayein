@@ -124,7 +124,7 @@ public class GlobalExceptionHandlerMethods {
 
 		String view = "";
 
-		logger.error("Employee Not Found (Either Unavailable Or Deactivated) For EmployeeCode: " + e.getMessage());
+		logger.error("Employee Not Found (Either Unavailable Or Deactivated) For EmployeeId/EmployeeCode: " + e.getMessage());
 
 		model.addAttribute("title", "Employee UnAvailable");
 		model.addAttribute("errorTitle", "Employee Not Found");

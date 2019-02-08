@@ -210,4 +210,26 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		return employee;
 	}
 
+	@Override
+	public String editEmployee(EmployeeTO employeeTo) {
+
+		String message = null;
+
+		String hql = "UPDATE Employee employee SET employee.title.titleId = :titleId, employee.role.roleId = :roleId, employee.joiningDate = :joiningDate, employee.recordUpdated = :recordUpdated WHERE employee.employeeId = :employeeId";
+		@SuppressWarnings("rawtypes")
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter("titleId", employeeTo.getJobTitleId());
+		query.setParameter("roleId", employeeTo.getRoleId());
+		query.setParameter("joiningDate", employeeTo.getJoiningDate());
+		query.setParameter("employeeId", employeeTo.getEmployeeId());
+		query.setParameter("recordUpdated", dateTime.getCurrentDateTime());
+		int res = query.executeUpdate();
+
+		if (res == 0) {
+			message = "Failed to edit employee";
+		}
+
+		return message;
+	}
+
 }

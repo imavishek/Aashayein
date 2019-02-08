@@ -150,9 +150,97 @@ public class EmployeeController {
 					+ "&employeeCode=" + editEmployeeCommand.getEmployeeCode();
 		} else {
 
-			view = "redirect:/EmployeeRegistration/showRegistration.abhi";
+			// Setting value in Employee Transfer Object
+			EmployeeTO employeeTo = new EmployeeTO();
 
+			employeeTo.setEmployeeId(Integer.parseInt(editEmployeeCommand.getEmployeeId()));
+			employeeTo.setEmployeeCode(editEmployeeCommand.getEmployeeCode());
+			employeeTo.setJobTitleId(editEmployeeCommand.getTitle());
+			employeeTo.setRoleId(editEmployeeCommand.getRole());
+			employeeTo.setJoiningDate(editEmployeeCommand.getJoiningDate());
+
+			// Editing the employee
+			String message = employeeService.editEmployee(employeeTo);
+
+			// If error does not occurs then message is empty
+			if (message == null) {
+				logger.info("Employee Details Edited Successfully, Employee Code: "
+						+ editEmployeeCommand.getEmployeeCode());
+
+				// Sending the message and message type to the corresponding jsp page
+				redir.addFlashAttribute("message", "Employee Edited Successfully");
+				redir.addFlashAttribute("messageType", "Success");
+
+				view = "redirect:/Employee/showEmployees.abhi";
+			} else {
+				logger.error("Failed To Edit Employee Having EmployeeCode: " + editEmployeeCommand.getEmployeeCode());
+				redir.addFlashAttribute("employee", editEmployeeCommand);
+				redir.addFlashAttribute("message", message);
+				redir.addFlashAttribute("messageType", "Error");
+
+				view = "redirect:/EmployeeRegistration/showRegistration.abhi";
+			}
 		}
+
+		return view;
+	}
+
+	// Archive employee
+	@RequestMapping(value = "/archiveEmployee.abhi")
+	public String archiveEmployee(Model model, HttpServletRequest request, @RequestParam(name = "employeeId") String Id,
+			RedirectAttributes redir) throws EmployeeNotFoundException {
+
+		String view = "";
+		String redirectUrl = "";
+
+		Integer employeeId = Integer.parseInt(Id);
+
+		// Archive the employee
+		Integer noOfRecordArchived = employeeService.archiveEmployee(employeeId);
+
+		// If employeeId not found then throw EmployeeNotFoundException
+		if (noOfRecordArchived == 0)
+			throw new EmployeeNotFoundException(employeeId.toString());
+
+		logger.info("Employee Having EmployeeId: " + employeeId + " Archived Successfully");
+
+		// Sending the message and message type to the corresponding jsp page
+		redir.addFlashAttribute("message", "Employee Archived Successfully");
+		redir.addFlashAttribute("messageType", "Success");
+
+		redirectUrl = "/Employee/showEmployees.abhi";
+
+		view = "redirect:" + redirectUrl;
+
+		return view;
+	}
+
+	// UnArchive employee
+	@RequestMapping(value = "/unArchiveEmployee.abhi")
+	public String unArchiveEmployee(Model model, HttpServletRequest request,
+			@RequestParam(name = "employeeId") String Id, RedirectAttributes redir) throws EmployeeNotFoundException {
+
+		String view = "";
+		String redirectUrl = "";
+
+		Integer employeeId = Integer.parseInt(Id);
+
+		// UnArchive the employee
+		Integer noOfRecordUnArchived = employeeService.unArchiveEmployee(employeeId);
+
+		// If employee not found then throw EmployeeNotFoundException
+		if (noOfRecordUnArchived == 0)
+			throw new EmployeeNotFoundException(employeeId.toString());
+
+		logger.info("Employee Having EmployeeId: " + employeeId + " UnArchived Successfully");
+
+		// Sending the message and message type to the corresponding jsp page
+		redir.addFlashAttribute("message", "Employee UnArchived Successfully");
+		redir.addFlashAttribute("messageType", "Success");
+
+		redirectUrl = "/Employee/showEmployees.abhi";
+
+		view = "redirect:" + redirectUrl;
 
 		return view;
 	}

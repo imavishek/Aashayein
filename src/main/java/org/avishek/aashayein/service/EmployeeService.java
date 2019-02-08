@@ -22,6 +22,8 @@ public interface EmployeeService {
 
 	String addEmployee(EmployeeTO employeeTo) throws UploadingFailedException;
 
+	String editEmployee(EmployeeTO employeeTo);
+
 	boolean emailExist(String email);
 
 	boolean mobileNumberExist(String mobileNumber);

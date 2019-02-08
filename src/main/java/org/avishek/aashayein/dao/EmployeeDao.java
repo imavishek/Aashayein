@@ -19,4 +19,6 @@ public interface EmployeeDao {
 
 	Employee addEmployee(EmployeeTO employeeTo);
 
+	String editEmployee(EmployeeTO employeeTo);
+
 }

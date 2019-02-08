@@ -66,7 +66,7 @@
 								</jstlCore:when>
 								<jstlCore:otherwise>
 									<td class="alignCenter" colspan="2">
-										<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-tick" title="Active Role">Active</a>
+										<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-reset" title="Active Role">Active</a>
 									</td>
 								</jstlCore:otherwise>
 							</jstlCore:choose>

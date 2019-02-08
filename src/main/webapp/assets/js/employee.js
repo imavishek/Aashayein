@@ -3,6 +3,48 @@ $(function() {
 	"use strict";
 
 	$(".auto-button").button();
+	$(document).tooltip({
+		hide: {
+			effect: "highlight",
+			delay: 250
+		},
+		position : {
+			my : "center bottom-20",
+			at : "center top",
+			using : function(position, feedback) {
+				$(this).css(position);
+				$("<div>").addClass("arrow").addClass(feedback.vertical).addClass(feedback.horizontal).appendTo(this);
+			}
+		}
+	});
+	$("#dialogDelete").dialog({
+		autoOpen : false,
+		title : 'Delete Employee',
+		draggable : true,
+		resizable : false,
+		height : "auto",
+		width : 500,
+		modal : true,
+		buttons : {
+			"Delete" : {
+				text : 'Ok',
+				'data-icon' : 'ui-icon-custom-tick',
+
+				click : function() {
+					window.location = $(this).data('url')
+					$(this).dialog("close");
+				},
+			},
+			"Cancel" : {
+				text : 'Cancel',
+				'data-icon' : 'ui-icon-custom-cancel',
+
+				click : function() {
+					$(this).dialog("close");
+				},
+			}
+		}
+	});
 	$("#tableGrid").jqGrid({
 		url : contextRoot + '/Employee/getEmployees.abhi',
 		datatype: "json",
@@ -61,23 +103,27 @@ $(function() {
 	function actionFormatter(cellvalue, options, rowObject) {
 		var employeeId = rowObject.employeeId;
 		var employeeCode = rowObject.employeeCode;
-		console.log(employeeId);
-		console.log(rowObject.archive);
 		if(rowObject.archive == 1){
-			return '<a title="UnArchive" style="cursor: pointer;"><img src="'
-					+ contextRoot + '/assets/img/tick.png" alt="UnArchive" ></a>';
+			return '<a href="' + contextRoot
+					+ '/Employee/unArchiveEmployee.abhi?employeeId='
+					+ employeeId
+					+ '" title="UnArchive" style="cursor: pointer;"><img src="'
+					+ contextRoot
+					+ '/assets/img/icon_reset.gif" alt="UnArchive" ></a>';
 		}
 
 		return '<a href="'
-			+ contextRoot
-			+ '/Employee/showEditEmployee.abhi?employeeId='
-			+ employeeId
-			+ '&employeeCode='
-			+ employeeCode
-			+ '" title="Edit" style="cursor: pointer;"><img src="'
-			+ contextRoot
-			+ '/assets/img/pencil.png" alt="Edit" ></a>&nbsp;&nbsp;&nbsp;<a title="Delete" style="cursor: pointer;"><img src="'
-			+ contextRoot + '/assets/img/delete.png" alt="Delete" ></a>';
+				+ contextRoot
+				+ '/Employee/showEditEmployee.abhi?employeeId='
+				+ employeeId
+				+ '&employeeCode='
+				+ employeeCode
+				+ '" title="Edit" target="_blank" style="cursor: pointer;"><img src="'
+				+ contextRoot
+				+ '/assets/img/pencil.png" alt="Edit" ></a>&nbsp;&nbsp;&nbsp;<a onclick="archiveEmployee('
+				+ employeeId
+				+ ')" title="Archive" style="cursor: pointer;"><img src="'
+				+ contextRoot + '/assets/img/delete.png" alt="Delete" ></a>';
 	}
 
 	function dataPickerSearch (elem, options) {
@@ -101,3 +147,25 @@ $(function() {
 		}, 50);
 	}
 })
+
+function archiveEmployee(employeeId){
+	
+	$(".notification-holder").hide();
+	
+ 
+	var url = contextRoot + "/Employee/archiveEmployee.abhi?employeeId=" + employeeId;
+	
+	$("#dialogDelete").load('' + contextRoot + '/Dialog/showDeleteDialog?message=employee', function( response, status, xhr ) {
+		if ( status == "error" ) {
+			var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
+			
+			$(".notification-holder").show();
+			$(".notification-holder").notification({
+				type : 'error',
+				message : errorText
+			});
+		} else if (status == "success") {
+			$("#dialogDelete").data('url', url).dialog("open");
+		}
+	});
+}
