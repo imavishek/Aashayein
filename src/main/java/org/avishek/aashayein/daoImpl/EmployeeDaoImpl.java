@@ -105,6 +105,16 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			employeeTo.setAlternateMobileNumber(employee.getAlternateMobileNumber());
 			employeeTo.setEmail(employee.getEmail());
 			employeeTo.setAlternateEmail(employee.getAlternateEmail());
+			employeeTo.setAddressId(employee.getAddress().getAddressId());
+			employeeTo.setCountryId(employee.getAddress().getCountry().getCountryId());
+			employeeTo.setCountryName(employee.getAddress().getCountry().getCountryName());
+			employeeTo.setStateId(employee.getAddress().getState().getStateId());
+			employeeTo.setStateName(employee.getAddress().getState().getStateName());
+			employeeTo.setCityId(employee.getAddress().getCity().getCityId());
+			employeeTo.setCityName(employee.getAddress().getCity().getCityName());
+			employeeTo.setPostalCode(employee.getAddress().getPostalCode());
+			employeeTo.setAddressLine1(employee.getAddress().getAddressLine1());
+			employeeTo.setAddressLine2(employee.getAddress().getAddressLine2());
 			employeeTo.setJobTitleId(employee.getTitle().getTitleId());
 			employeeTo.setJobTitleName(employee.getTitle().getTitleName());
 			employeeTo.setRoleId(employee.getRole().getRoleId());
@@ -230,6 +240,39 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		}
 
 		return message;
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Integer archiveEmployee(Integer employeeId) {
+
+		Integer noOfRecordUpdated = 0;
+
+		String hql = "UPDATE Employee employee SET employee.archive=?1, employee.recordUpdated=?2 WHERE employee.employeeId=?3 AND employee.archive=?4";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, (byte) 1);
+		query.setParameter(2, dateTime.getCurrentDateTime());
+		query.setParameter(3, employeeId);
+		query.setParameter(4, (byte) 0);
+		noOfRecordUpdated = query.executeUpdate();
+
+		return noOfRecordUpdated;
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Integer unArchiveEmployee(Integer employeeId) {
+
+		Integer noOfRecordUpdated = 0;
+
+		String hql = "UPDATE Employee employee SET employee.archive=?1, employee.recordUpdated=?2 WHERE employee.employeeId=?3";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, (byte) 0);
+		query.setParameter(2, dateTime.getCurrentDateTime());
+		query.setParameter(3, employeeId);
+		noOfRecordUpdated = query.executeUpdate();
+
+		return noOfRecordUpdated;
 	}
 
 }

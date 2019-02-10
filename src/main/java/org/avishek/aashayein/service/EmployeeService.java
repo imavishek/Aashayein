@@ -24,6 +24,10 @@ public interface EmployeeService {
 
 	String editEmployee(EmployeeTO employeeTo);
 
+	Integer archiveEmployee(Integer employeeId);
+
+	Integer unArchiveEmployee(Integer employeeId);
+
 	boolean emailExist(String email);
 
 	boolean mobileNumberExist(String mobileNumber);

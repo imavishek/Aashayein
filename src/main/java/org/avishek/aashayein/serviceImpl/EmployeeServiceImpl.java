@@ -141,6 +141,22 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employeeDao.editEmployee(employeeTo);
 	}
 
+	// Archive Employee
+	@Override
+	@Transactional
+	public Integer archiveEmployee(Integer employeeId) {
+
+		return employeeDao.archiveEmployee(employeeId);
+	}
+
+	// UnArchive Employee
+	@Override
+	@Transactional
+	public Integer unArchiveEmployee(Integer employeeId) {
+
+		return employeeDao.unArchiveEmployee(employeeId);
+	}
+
 	// Checking existence of email
 	@Override
 	@Transactional

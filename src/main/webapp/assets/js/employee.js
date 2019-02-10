@@ -48,6 +48,7 @@ $(function() {
 	$("#tableGrid").jqGrid({
 		url : contextRoot + '/Employee/getEmployees.abhi',
 		datatype: "json",
+		contentType: "application/json; charset=utf-8",
 		colModel: [
 			{ name: "employeeId",		key: true, hidden: true},
 			{ name: "employeeCode",		label: "EmployeeCode", align: "center", width: 110, searchoptions: {attr: { placeholder: "EmployeeCode" }}},
@@ -63,6 +64,7 @@ $(function() {
 			{ name: "recordCreated",	label: "CreatedDate", sorttype: "date", formatter: "date", formatoptions: { srcformat: "Y-m-d H:i:s", newformat: "d-M-Y h:i:s A" }, search:false, width : 135},
 			{ name: "",					label: "Action", align: "center", width: 60, formatter: actionFormatter, search:false, sortable: false},
 		],
+		cmTemplate: { title: false },
 		loadonce: true,
 		rownumbers: true,
 		sortable: true,
@@ -85,15 +87,15 @@ $(function() {
 			$(".notification-holder").show();
 			$(".notification-holder").notification({
 				type : 'error',
-				message : $(response).find(".errorTitle").html()
+				message : response.status + " ," +$(response.responseText).find(".errorDetails").html()
 			});
 		},
-		loadComplete: function() {
+		loadComplete: function(response) {
 			$("tr.jqgrow:odd").addClass('jqGridAltRow');
 		}
 	}).jqGrid("navGrid", {edit: false, add: false, del: false})
 		.jqGrid("filterToolbar", {searchOnEnter: false});
-
+	
 	function genderIconFormatter(cellvalue, options, rowObject) {
 		var iconName = cellvalue;
 
@@ -157,12 +159,11 @@ function archiveEmployee(employeeId){
 	
 	$("#dialogDelete").load('' + contextRoot + '/Dialog/showDeleteDialog?message=employee', function( response, status, xhr ) {
 		if ( status == "error" ) {
-			var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
 			
 			$(".notification-holder").show();
 			$(".notification-holder").notification({
 				type : 'error',
-				message : errorText
+				message : xhr.status + " ," +$(response).find(".errorDetails").html()
 			});
 		} else if (status == "success") {
 			$("#dialogDelete").data('url', url).dialog("open");

@@ -14,8 +14,9 @@ table sorter table border
 check breadcrumb employee after complete
 
 
-
+search field in employee list page
 mail on edit employee
+if no employee available den jqgrid throwing error
 
 
 
@@ -115,7 +116,7 @@ $.ajax({
 		type : "GET",
 		url : '' + contextRoot + '/EmployeeRole/getAllRoles.abhi',
 		dataType : "json",
-		contentType : 'application/json',
+		contentType: "application/json; charset=utf-8",
 		start_time: new Date().getTime(),
 		//timeout: 3000, // sets timeout to 3 seconds
 		beforeSend : function() {

@@ -27,7 +27,7 @@
 			<div class="notfound-404">
 				<h1>404</h1>
 			</div>
-			<p>${errorMessage}</p>
+			<p class="errorDetails">${errorMessage}</p>
 			<a href="${contextRoot}">Go To HomePage</a>
 		</div>
 	</div>

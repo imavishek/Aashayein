@@ -21,4 +21,8 @@ public interface EmployeeDao {
 
 	String editEmployee(EmployeeTO employeeTo);
 
+	Integer archiveEmployee(Integer employeeId);
+
+	Integer unArchiveEmployee(Integer employeeId);
+
 }

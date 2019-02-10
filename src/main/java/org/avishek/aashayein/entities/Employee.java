@@ -60,6 +60,10 @@ public class Employee {
 	private String alternateEmail;
 
 	@OneToOne
+	@JoinColumn(name = "AddressId", referencedColumnName = "AddressId")
+	private EmployeeAddress address;
+
+	@OneToOne
 	@JoinColumn(name = "JobTitleId", referencedColumnName = "JobTitleId")
 	private EmployeeTitle title;
 
@@ -182,6 +186,14 @@ public class Employee {
 		this.alternateEmail = alternateEmail;
 	}
 
+	public EmployeeAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(EmployeeAddress address) {
+		this.address = address;
+	}
+
 	public EmployeeTitle getTitle() {
 		return title;
 	}
@@ -275,11 +287,11 @@ public class Employee {
 		return "Employee [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
 				+ ", middleName=" + middleName + ", lastName=" + lastName + ", fullName=" + fullName + ", gender="
 				+ gender + ", mobileNumber=" + mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber
-				+ ", email=" + email + ", alternateEmail=" + alternateEmail + ", title=" + title + ", role=" + role
-				+ ", active=" + active + ", archive=" + archive + ", password=" + password + ", profilePhoto="
-				+ profilePhoto + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate=" + tokenGeneratedDate
-				+ ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated + ", recordUpdated="
-				+ recordUpdated + "]";
+				+ ", email=" + email + ", alternateEmail=" + alternateEmail + ", address=" + address + ", title="
+				+ title + ", role=" + role + ", active=" + active + ", archive=" + archive + ", password=" + password
+				+ ", profilePhoto=" + profilePhoto + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate="
+				+ tokenGeneratedDate + ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated
+				+ ", recordUpdated=" + recordUpdated + "]";
 	}
 
 }

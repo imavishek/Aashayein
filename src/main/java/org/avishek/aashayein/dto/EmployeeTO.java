@@ -39,6 +39,28 @@ public class EmployeeTO {
 
 	private String alternateEmail;
 
+	private Integer addressId;
+
+	private String addressName;
+
+	private Integer countryId;
+
+	private String countryName;
+
+	private Integer stateId;
+
+	private String stateName;
+
+	private Integer cityId;
+
+	private String cityName;
+
+	private String postalCode;
+
+	private String addressLine1;
+
+	private String addressLine2;
+
 	private Integer jobTitleId;
 
 	private String jobTitleName;
@@ -59,7 +81,8 @@ public class EmployeeTO {
 
 	private Date tokenGeneratedDate;
 
-	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+5:30")
+	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone
+	// = "GMT+5:30")
 	private Date joiningDate;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+5:30")
@@ -154,6 +177,94 @@ public class EmployeeTO {
 
 	public void setAlternateEmail(String alternateEmail) {
 		this.alternateEmail = alternateEmail;
+	}
+
+	public Integer getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(Integer addressId) {
+		this.addressId = addressId;
+	}
+
+	public String getAddressName() {
+		return addressName;
+	}
+
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
+
+	public Integer getCountryId() {
+		return countryId;
+	}
+
+	public void setCountryId(Integer countryId) {
+		this.countryId = countryId;
+	}
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
+	public Integer getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(Integer stateId) {
+		this.stateId = stateId;
+	}
+
+	public String getStateName() {
+		return stateName;
+	}
+
+	public void setStateName(String stateName) {
+		this.stateName = stateName;
+	}
+
+	public Integer getCityId() {
+		return cityId;
+	}
+
+	public void setCityId(Integer cityId) {
+		this.cityId = cityId;
+	}
+
+	public String getCityName() {
+		return cityName;
+	}
+
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getAddressLine1() {
+		return addressLine1;
+	}
+
+	public void setAddressLine1(String addressLine1) {
+		this.addressLine1 = addressLine1;
+	}
+
+	public String getAddressLine2() {
+		return addressLine2;
+	}
+
+	public void setAddressLine2(String addressLine2) {
+		this.addressLine2 = addressLine2;
 	}
 
 	public Integer getJobTitleId() {
@@ -265,12 +376,15 @@ public class EmployeeTO {
 		return "EmployeeTO [employeeId=" + employeeId + ", employeeCode=" + employeeCode + ", firstName=" + firstName
 				+ ", middleName=" + middleName + ", lastName=" + lastName + ", fullName=" + fullName + ", gender="
 				+ gender + ", mobileNumber=" + mobileNumber + ", alternateMobileNumber=" + alternateMobileNumber
-				+ ", email=" + email + ", alternateEmail=" + alternateEmail + ", jobTitleId=" + jobTitleId
-				+ ", jobTitleName=" + jobTitleName + ", roleId=" + roleId + ", roleName=" + roleName + ", active="
-				+ active + ", archive=" + archive + ", profilePhoto=" + profilePhoto + ", profilePhotoFile="
-				+ profilePhotoFile + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate=" + tokenGeneratedDate
-				+ ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated + ", recordUpdated="
-				+ recordUpdated + "]";
+				+ ", email=" + email + ", alternateEmail=" + alternateEmail + ", addressId=" + addressId
+				+ ", addressName=" + addressName + ", countryId=" + countryId + ", countryName=" + countryName
+				+ ", stateId=" + stateId + ", stateName=" + stateName + ", cityId=" + cityId + ", cityName=" + cityName
+				+ ", postalCode=" + postalCode + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2
+				+ ", jobTitleId=" + jobTitleId + ", jobTitleName=" + jobTitleName + ", roleId=" + roleId + ", roleName="
+				+ roleName + ", active=" + active + ", archive=" + archive + ", profilePhoto=" + profilePhoto
+				+ ", profilePhotoFile=" + profilePhotoFile + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate="
+				+ tokenGeneratedDate + ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated
+				+ ", recordUpdated=" + recordUpdated + "]";
 	}
 
 }
