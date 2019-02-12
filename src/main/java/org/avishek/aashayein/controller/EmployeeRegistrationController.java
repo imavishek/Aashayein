@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.avishek.aashayein.command.EmployeeCommand;
+import org.avishek.aashayein.command.EmployeeRegistrationCommand;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.EmployeeTitleTO;
@@ -90,7 +90,7 @@ public class EmployeeRegistrationController {
 		 * with EmployeeCommand and Binding error as flash attribute
 		 */
 		if (!model.containsAttribute("employee")) {
-			model.addAttribute("employee", new EmployeeCommand());
+			model.addAttribute("employee", new EmployeeRegistrationCommand());
 		}
 
 		model.addAttribute("pageTitle", "Add Employee");
@@ -105,9 +105,9 @@ public class EmployeeRegistrationController {
 
 	// Adding employee in database
 	@PostMapping(value = "/saveEmployee.abhi")
-	public String saveEmployee(Model model, @Valid @ModelAttribute("employee") EmployeeCommand employeeCommand,
-			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
-			throws UploadingFailedException {
+	public String saveEmployee(Model model,
+			@Valid @ModelAttribute("employee") EmployeeRegistrationCommand employeeCommand, BindingResult result,
+			HttpServletRequest request, RedirectAttributes redir) throws UploadingFailedException {
 
 		String view = "";
 

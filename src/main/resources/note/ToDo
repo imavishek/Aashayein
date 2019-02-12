@@ -16,8 +16,11 @@ check breadcrumb employee after complete
 
 search field in employee list page
 mail on edit employee
-if no employee available den jqgrid throwing error
 
+choose a picture over flow hidden
+
+if no employee available den jqgrid throwing error (Ajax call error)
+if controller return null error in ajax cakk for getting cities
 
 
 
@@ -121,7 +124,7 @@ $.ajax({
 		//timeout: 3000, // sets timeout to 3 seconds
 		beforeSend : function() {
 			// Show loader
-			$('.autoreport-spinner').show(); 
+			$('.customSpinner').show(); 
 			$(".notification-holder").hide();
 		},
 		success : function(data) {

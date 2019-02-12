@@ -2,7 +2,7 @@
  * @ProjectName Aashayein
  * © @Author avishekdas
  * package org.avishek.aashayein.command;
- * @FileName EmployeeCommand.java
+ * @FileName EmployeeRegistrationCommand.java
  * @CreatedDate 22-Dec-2018
  * Modified by @author avishekdas last on 2018-12-22 16:26:56
  */
@@ -21,7 +21,7 @@ import org.avishek.aashayein.validator.Gender;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-public class EmployeeCommand {
+public class EmployeeRegistrationCommand {
 
 	@Pattern(regexp = "[a-zA-Z]{3,25}", message = "Please enter valid FirstName between 3 to 25 character")
 	private String firstName;

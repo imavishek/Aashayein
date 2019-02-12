@@ -127,8 +127,13 @@
 			<li><a href="">Logout</a></li>
 			
 			<li style="float:right;">
-				<span><img height="30px" width="30px" style="border-radius: 50%; padding-top: 2px;" alt="Avishek" src="${contextRoot}/assets/upload/profilePictures/PP_Male.png"></span>
-				<span style="position: relative; bottom: 11px; margin: 0px 4px 0px 7px; font-weight: bold;">Avishek</span>
+				<a href='<jstlCore:url value="/EmployeeProfile/showEmployeeProfile.abhi"/>' style="float: left; border:0; padding:0;">
+					<img height="30px" width="30px" style="border-radius: 50%; padding-top: 2px;" alt="Avishek" src="${contextRoot}/assets/upload/profilePictures/PP_Male.png"/>
+				</a>
+				<a href='<jstlCore:url value="/EmployeeProfile/showEmployeeProfile.abhi"/>' style="float: left; border:0; padding-top:1em;">
+					<span>Avishek</span>
+				</a>
+				
 			</li>
 		</ul>
 	</div>

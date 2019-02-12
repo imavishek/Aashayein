@@ -25,7 +25,7 @@ public class City {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "CityId")
-	private Integer CityId;
+	private Integer cityId;
 
 	@Column(name = "CityName")
 	private String cityName;
@@ -43,11 +43,11 @@ public class City {
 	private Date recordUpdated;
 
 	public Integer getCityId() {
-		return CityId;
+		return cityId;
 	}
 
 	public void setCityId(Integer cityId) {
-		CityId = cityId;
+		this.cityId = cityId;
 	}
 
 	public String getCityName() {
@@ -92,7 +92,7 @@ public class City {
 
 	@Override
 	public String toString() {
-		return "City [CityId=" + CityId + ", cityName=" + cityName + ", stateId=" + stateId + ", archive=" + archive
+		return "City [CityId=" + cityId + ", cityName=" + cityName + ", stateId=" + stateId + ", archive=" + archive
 				+ ", recordCreated=" + recordCreated + ", recordUpdated=" + recordUpdated + "]";
 	}
 

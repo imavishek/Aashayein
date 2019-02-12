@@ -24,7 +24,7 @@
 	<div class="notification-holder"></div>
 	<div style="display: flex;">
 		<div style="width:50%;padding:5px;">
-			<div  class="profilePhoto">
+			<div  class="profilePhoto" style="margin-left:115px;">
 				<jstlCore:choose>
 					<jstlCore:when test="${employee.profilePhoto eq null}">
 						<img title="${employee.fullName}" alt="${employee.fullName}" src="${contextRoot}/assets/upload/profilePictures/PP_${employee.gender}.png">
@@ -35,14 +35,14 @@
 				</jstlCore:choose>
 			</div>
 			<div>
-				<table cellspacing="8" cellpadding="5" style="margin-left: 25px;font-size: 16px;">
+				<table style="margin-left:25px;">
 					<tr>
-						<td><span>EmployeeCode: </span></td>
-						<td><span>${employee.employeeCode}</span></td>
+						<td class="display_label">EmployeeCode:</td>
+						<td class="displayfield">${employee.employeeCode}</td>
 					</tr>
 					<tr>
-						<td><span>Profile Activated: </span></td>
-						<td class="">
+						<td class="display_label">Profile Activated:</td>
+						<td class="displayfield">
 							<jstlCore:choose>
 								<jstlCore:when test="${employee.active eq 1}">
 									<img alt="Yes" title="Yes" src="${contextRoot}/assets/img/tick.png">
@@ -54,57 +54,57 @@
 						</td>
 					</tr>
 					<tr>
-						<td><span>EmployeeName: </span></td>
-						<td><span>${employee.fullName}</span></td>
+						<td class="display_label">EmployeeName:</td>
+						<td class="displayfield">${employee.fullName}</td>
 					</tr>
 					<tr>
-						<td><span>Gender: </span></td>
-						<td><span>${employee.gender}</span></td>
+						<td class="display_label">Gender:</td>
+						<td class="displayfield">${employee.gender}</td>
 					</tr>
 					<tr>
-						<td><span>Mobile Number: </span></td>
-						<td><span>${employee.mobileNumber}</span></td>
+						<td class="display_label">Mobile Number:</td>
+						<td class="displayfield">${employee.mobileNumber}</td>
 					</tr>
 					<tr>
-						<td><span>Alternate Mobile Number: </span></td>
-						<td><span>${not empty employee.alternateMobileNumber ? employee.alternateMobileNumber : 'N/A'}</span></td>
+						<td class="display_label">Alternate Mobile Number:</td>
+						<td class="displayfield">${not empty employee.alternateMobileNumber ? employee.alternateMobileNumber : 'N/A'}</td>
 					</tr>
 					<tr>
-						<td><span>Email: </span></td>
-						<td><span>${employee.email}</span></td>
+						<td class="display_label">Email:</td>
+						<td class="displayfield">${employee.email}</td>
 					</tr>
 					<tr>
-						<td><span>Alternate Email: </span></td>
-						<td><span>${not empty employee.alternateEmail ? employee.alternateEmail : 'N/A'}</span></td>
+						<td class="display_label">Alternate Email:</td>
+						<td class="displayfield">${not empty employee.alternateEmail ? employee.alternateEmail : 'N/A'}</td>
 					</tr>
 					<tr>
-						<td><span>Country: </span></td>
-						<td><span>${not empty employee.countryName ? employee.countryName : 'N/A'}</span></td>
+						<td class="display_label">Country:</td>
+						<td class="displayfield">${not empty employee.countryName ? employee.countryName : 'N/A'}</td>
 					</tr>
 					<tr>
-						<td><span>State: </span></td>
-						<td><span>${not empty employee.stateName ? employee.stateName : 'N/A'}</span></td>
+						<td class="display_label">State:</td>
+						<td class="displayfield">${not empty employee.stateName ? employee.stateName : 'N/A'}</td>
 					</tr>
 					<tr>
-						<td><span>City: </span></td>
-						<td><span>${not empty employee.cityName ? employee.cityName : 'N/A'}</span></td>
+						<td class="display_label">City:</td>
+						<td class="displayfield">${not empty employee.cityName ? employee.cityName : 'N/A'}</td>
 					</tr>
 					<tr>
-						<td><span>PostalCode: </span></td>
-						<td><span>${not empty employee.postalCode ? employee.postalCode : 'N/A'}</span></td>
+						<td class="display_label">PostalCode:</td>
+						<td class="displayfield">${not empty employee.postalCode ? employee.postalCode : 'N/A'}</td>
 					</tr>
 					<tr>
-						<td><span>AddressLine1: </span></td>
-						<td><span>${not empty employee.addressLine1 ? employee.addressLine1 : 'N/A'}</span></td>
+						<td class="display_label">AddressLine1:</td>
+						<td class="displayfield">${not empty employee.addressLine1 ? employee.addressLine1 : 'N/A'}</td>
 					</tr>
 					<tr>
-						<td><span>AddressLine2: </span></td>
-						<td><span>${not empty employee.addressLine2 ? employee.addressLine2 : 'N/A'}</span></td>
+						<td class="display_label">AddressLine2:</td>
+						<td class="displayfield">${not empty employee.addressLine2 ? employee.addressLine2 : 'N/A'}</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-		<div style="width:50%;padding:5px;margin:20px 0px 0px 0px;">
+		<div style="width:50%;padding:5px 5px 5px 15px;margin-top:20px;">
 			<springForm:form action="${contextRoot}/Employee/saveEmployee.abhi" id="editEmployee" method="POST" modelAttribute="editEmployee">
 			
 				<springForm:hidden path="employeeId"/>
@@ -113,7 +113,7 @@
 				<springForm:hidden path="employeeCode"/>
 				<springForm:errors path="employeeCode" cssClass="error_message" element="span" />
 		
-				<table cellspacing="" cellpadding="">
+				<table>
 				<caption style="font-size:20px;font-weight:bold;padding-bottom:30px;color:#1c94c4;text-decoration:underline;">Edit Title, Role And JoiningDate</caption>
 
 				<tr>

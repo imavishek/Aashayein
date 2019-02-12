@@ -1,5 +1,6 @@
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8" isELIgnored="false"%>
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -19,12 +20,156 @@
 
 <!-- Show InnerContent After Window Load -->
 <div class="innerContent">
-
 	<!-- Div for showing error -->
 	<div class="notification-holder"></div>
+	
+	<div class="displayInfo"><button type="button" id="editProfile" class="auto-button" data-icon="ui-icon-custom-edit" style="float:right;">Edit</button></div>
+	<div class="editInfo"><button type="button" class="auto-button cancelEdit" data-icon="ui-icon-custom-cancel" style="float:right;">Cancel</button></div>
+	<div style="clear:both;"></div>
+	
+	<spring:hasBindErrors name="editEmployeeProfile">
+		<jstlCore:set var="hasBindErrors" value="true"/>
+	</spring:hasBindErrors>
+	
+	<springForm:form action="${contextRoot}/EmployeeProfile/saveEmployeeProfile.abhi" name="editEmployeeProfile" id="editEmployeeProfile" method="POST" modelAttribute="editEmployeeProfile" enctype="multipart/form-data">
 	<div style="display: flex;">
-		<div style="width:50%;padding:5px;">
-			<div  class="profilePhoto">
+		<div style="width:65%;padding:5px;">
+			<table>
+				<tr>
+					<td class="editInfo"><springForm:label path="firstName" cssClass="field_label">First Name</springForm:label><span class="required">*</span></td>
+					<td class="editInfo"><springForm:input type="text" path="firstName" maxlength="25" cssClass="inputfield" placeholder="First Name"/></td>
+					<td class="editInfo"><springForm:errors path="firstName" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">First Name:</td>
+					<td class="displayInfo displayfield">${employee.firstName}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="middleName" cssClass="field_label">Middle Name</springForm:label></td>
+					<td class="editInfo"><springForm:input type="text" path="middleName" maxlength="20" cssClass="inputfield" placeholder="Middle Name"/></td>
+					<td class="editInfo"><springForm:errors path="middleName" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">Middle Name:</td>
+					<td class="displayInfo displayfield">${not empty employee.middleName ? employee.middleName : "N/A"}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="lastName" cssClass="field_label">Last Name</springForm:label><span class="required">*</span></td>
+					<td class="editInfo"><springForm:input type="text" path="lastName" maxlength="15" cssClass="inputfield" placeholder="Last Name"/></td>
+					<td class="editInfo"><springForm:errors path="lastName" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">Last Name:</td>
+					<td class="displayInfo displayfield">${employee.lastName}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="gender" for="male" cssClass="field_label">Gender</springForm:label><span class="required">*</span></td>
+					<td class="editInfo" style="padding-left:15px;">
+						<springForm:radiobutton path="gender" cssClass="inputfield" value="Male" id="male"/>
+						<springForm:label path="" for="male">Male</springForm:label>
+						<springForm:radiobutton path="gender" value="Female" id="female"/>
+						<springForm:label path="" for="female">Female</springForm:label>
+						<springForm:radiobutton path="gender" value="Other" id="other"/>
+						<springForm:label path="" for="other">Other</springForm:label>
+					</td>
+					<td class="editInfo"><springForm:errors path="gender" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">Gender:</td>
+					<td class="displayInfo displayfield">${employee.gender}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="mobileNumber" cssClass="field_label">Mobile Number</springForm:label><span class="required">*</span></td>
+					<td class="editInfo"><springForm:input type="text" path="mobileNumber" maxlength="10" cssClass="inputfield" placeholder="Mobile Number"/></td>
+					<td class="editInfo"><springForm:errors path="mobileNumber" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">Mobile Number:</td>
+					<td class="displayInfo displayfield">${employee.mobileNumber}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="alternateMobileNumber" cssClass="field_label">Alternate Mobile Number</springForm:label></td>
+					<td class="editInfo"><springForm:input type="text" path="alternateMobileNumber" maxlength="10" cssClass="inputfield" placeholder="Alternate Mobile Number"/></td>
+					<td class="editInfo"><springForm:errors path="alternateMobileNumber" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">Alternate Mobile Number:</td>
+					<td class="displayInfo displayfield">${not empty employee.alternateMobileNumber ? employee.alternateMobileNumber : "N/A"}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="alternateMobileNumber" cssClass="field_label">Alternate Email</springForm:label></td>
+					<td class="editInfo"><springForm:input type="text" path="alternateEmail" cssClass="inputfield" placeholder="Alternate Email"/></td>
+					<td class="editInfo"><springForm:errors path="alternateEmail" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">Alternate Email:</td>
+					<td class="displayInfo displayfield">${not empty employee.alternateMobileNumber ? employee.alternateMobileNumber : "N/A"}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="country" cssClass="field_label">Country</springForm:label><span class="required">*</span></td>
+					<td class="editInfo">
+						<springForm:select path="country" cssClass="inputfield">
+							<springForm:option value=""/>
+							<springForm:options items="${countries}" itemLabel="countryName" itemValue="countryId" />
+						</springForm:select>
+					</td>
+					<td class="editInfo"><springForm:errors path="country" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">Country:</td>
+					<td class="displayInfo displayfield">${employee.countryName}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="state" cssClass="field_label">State</springForm:label><span class="required">*</span></td>
+					<td class="editInfo">
+						<springForm:select path="state" cssClass="inputfield">
+							<springForm:option value=""/>
+						</springForm:select>
+					</td>
+					<td class="editInfo"><springForm:errors path="state" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">State:</td>
+					<td class="displayInfo displayfield">${employee.stateName}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="city" cssClass="field_label">City</springForm:label><span class="required">*</span></td>
+					<td class="editInfo">
+						<springForm:select path="city" cssClass="inputfield">
+							<springForm:option value=""/>
+						</springForm:select>
+					</td>
+					<td class="editInfo"><springForm:errors path="city" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">City:</td>
+					<td class="displayInfo displayfield">${employee.cityName}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="pinCode" cssClass="field_label">PinCode</springForm:label><span class="required">*</span></td>
+					<td class="editInfo"><springForm:input type="text" path="pinCode" maxlength="6" cssClass="inputfield" placeholder="PinCode"/></td>
+					<td class="editInfo"><springForm:errors path="pinCode" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">PinCode:</td>
+					<td class="displayInfo displayfield">${employee.postalCode}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="addressLine1" cssClass="field_label">AddressLine1</springForm:label><span class="required">*</span></td>
+					<td class="editInfo"><springForm:textarea path="addressLine1" rows="3" column="30" cssClass="inputfield" style="height:70px;"/></td>
+					<td class="editInfo"><springForm:errors path="addressLine1" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">AddressLine1:</td>
+					<td class="displayInfo displayfield">${employee.addressLine1}</td>
+				</tr>
+				<tr>
+					<td class="editInfo"><springForm:label path="addressLine2" cssClass="field_label">AddressLine2</springForm:label></td>
+					<td class="editInfo"><springForm:textarea path="addressLine2" rows="3" column="30" cssClass="inputfield" style="height:70px;"/></td>
+					<td class="editInfo"><springForm:errors path="addressLine2" cssClass="error_message" element="span"/></td>
+					
+					<td class="displayInfo display_label">AddressLine2:</td>
+					<td class="displayInfo displayfield">${not empty employee.addressLine2 ? employee.addressLine2 : "N/A"}</td>
+				</tr>
+				<tr class="editInfo">
+					<td style="padding-top:10px;"></td>
+					<td style="text-align:right;padding-top:10px;">
+						<button type="submit" class="auto-button actionButton" data-icon="ui-icon-custom-save">Save</button>
+						<button type="button" class="auto-button actionButton cancelEdit" data-icon="ui-icon-custom-cancel">Cancel</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div style="padding:5px;margin-top:20px;text-align: center;">
+			<div class="profilePhoto">
 				<jstlCore:choose>
 					<jstlCore:when test="${employee.profilePhoto eq null}">
 						<img title="${employee.fullName}" alt="${employee.fullName}" src="${contextRoot}/assets/upload/profilePictures/PP_${employee.gender}.png">
@@ -34,139 +179,68 @@
 					</jstlCore:otherwise>
 				</jstlCore:choose>
 			</div>
+			<div class="editInfo">
+				<jsp:include page="/WEB-INF/tags/file_upload.jsp">
+    				<jsp:param name="fieldName" value="photo"/>
+    				<jsp:param name="accept" value="image/jpg,image/jpeg"/>
+    				<jsp:param name="icon" value="images"/>
+   					<jsp:param name="placeHolder" value="Choose a picture"/>
+				</jsp:include>
+				<span class="ui-icon ui-icon-custom-info-faded" title="Image file must be in .jpg or .jpeg format and  must be within 300KB"></span>
+			</div>
+			<div class="editInfo"><springForm:errors path="photo" cssClass="error_message" element="span"/></div>
 			<div>
-				<table cellspacing="8" cellpadding="5" style="margin-left: 25px;font-size: 16px;">
+				<table>
 					<tr>
-						<td><span>EmployeeCode: </span></td>
-						<td><span>${employee.employeeCode}</span></td>
+						<td class="display_label">EmployeeCode:</td>
+						<td class="displayfield">${employee.employeeCode}</td>
 					</tr>
 					<tr>
-						<td><span>Profile Activated: </span></td>
-						<td class="">
-							<jstlCore:choose>
-								<jstlCore:when test="${employee.active eq 1}">
-									<img alt="Yes" title="Yes" src="${contextRoot}/assets/img/tick.png">
-								</jstlCore:when>
-								<jstlCore:otherwise>
-									<img alt="No" title="No" src="${contextRoot}/assets/img/cancel.png">
-								</jstlCore:otherwise>
-							</jstlCore:choose>
-						</td>
+						<td class="display_label">EmployeeName:</td>
+						<td class="displayfield">${employee.fullName}</td>
 					</tr>
 					<tr>
-						<td><span>EmployeeName: </span></td>
-						<td><span>${employee.fullName}</span></td>
-					</tr>
-					<tr>
-						<td><span>Gender: </span></td>
-						<td><span>${employee.gender}</span></td>
-					</tr>
-					<tr>
-						<td><span>Mobile Number: </span></td>
-						<td><span>${employee.mobileNumber}</span></td>
-					</tr>
-					<tr>
-						<td><span>Alternate Mobile Number: </span></td>
-						<td><span>${not empty employee.alternateMobileNumber ? employee.alternateMobileNumber : 'N/A'}</span></td>
-					</tr>
-					<tr>
-						<td><span>Email: </span></td>
-						<td><span>${employee.email}</span></td>
-					</tr>
-					<tr>
-						<td><span>Alternate Email: </span></td>
-						<td><span>${not empty employee.alternateEmail ? employee.alternateEmail : 'N/A'}</span></td>
-					</tr>
-					<tr>
-						<td><span>Country: </span></td>
-						<td><span>${not empty employee.countryName ? employee.countryName : 'N/A'}</span></td>
-					</tr>
-					<tr>
-						<td><span>State: </span></td>
-						<td><span>${not empty employee.stateName ? employee.stateName : 'N/A'}</span></td>
-					</tr>
-					<tr>
-						<td><span>City: </span></td>
-						<td><span>${not empty employee.cityName ? employee.cityName : 'N/A'}</span></td>
-					</tr>
-					<tr>
-						<td><span>PostalCode: </span></td>
-						<td><span>${not empty employee.postalCode ? employee.postalCode : 'N/A'}</span></td>
-					</tr>
-					<tr>
-						<td><span>AddressLine1: </span></td>
-						<td><span>${not empty employee.addressLine1 ? employee.addressLine1 : 'N/A'}</span></td>
-					</tr>
-					<tr>
-						<td><span>AddressLine2: </span></td>
-						<td><span>${not empty employee.addressLine2 ? employee.addressLine2 : 'N/A'}</span></td>
+						<td class="display_label">Email:</td>
+						<td class="displayfield">${employee.email}</td>
 					</tr>
 				</table>
 			</div>
 		</div>
-		<div style="width:50%;padding:5px;margin:20px 0px 0px 0px;">
-			<springForm:form action="${contextRoot}/Employee/saveEmployee.abhi" id="editEmployee" method="POST" modelAttribute="editEmployee">
-			
-				<springForm:hidden path="employeeId"/>
-				<springForm:errors path="employeeId" cssClass="error_message" element="span" />
-				
-				<springForm:hidden path="employeeCode"/>
-				<springForm:errors path="employeeCode" cssClass="error_message" element="span" />
-		
-				<table cellspacing="" cellpadding="">
-				<caption style="font-size:20px;font-weight:bold;padding-bottom:30px;color:#1c94c4;text-decoration:underline;">Edit Title, Role And JoiningDate</caption>
-
-				<tr>
-					<td><springForm:label path="title" cssClass="field_label">Title</springForm:label><span class="required">*</span></td>
-					<td>
-						<springForm:select path="title" cssClass="inputfield">
-							<springForm:option value=""/>
-							<springForm:options items="${jobTitles}" itemLabel="titleName" itemValue="titleId" />
-						</springForm:select>
-					</td>
-					<td><springForm:errors path="title" cssClass="error_message" element="span"/></td>
-				</tr>
-				<tr>
-					<td><springForm:label path="role" cssClass="field_label">Role</springForm:label><span class="required">*</span></td>
-					<td>
-						<springForm:select path="role" cssClass="inputfield">
-							<springForm:option value=""/>
-							<springForm:options items="${employeeRoles}" itemLabel="roleName" itemValue="roleId" />
-						</springForm:select>
-					</td>
-					<td><springForm:errors path="role" cssClass="error_message" element="span"/></td>
-				</tr>
-				<tr>
-					<td><springForm:label path="joiningDate" cssClass="field_label">Joining Date</springForm:label><span class="required">*</span></td>
-					<td>
-						<jstlFormat:formatDate value="${tomorrow}" pattern="dd-MM-yyyy" var="tomorrow" />
-						<jsp:include page="/WEB-INF/tags/date_picker.jsp">
-    						<jsp:param name="fieldName" value="joiningDate"/>
-    						<jsp:param name="defaultDate" value='${tomorrow}'/>
-    						<jsp:param name="minDate" value="1D"/>
-    						<jsp:param name="yearRange" value="+0:+10"/>
-						</jsp:include>
-						<span class="ui-icon ui-icon-custom-info-faded" title="Select Date Greater Than Today"></span>
-					</td>
-					<td><springForm:errors path="joiningDate" cssClass="error_message" element="span"/></td>
-				</tr>
-				<tr>
-					<td style="padding-top:10px;"></td>
-					<td style="text-align:right;padding-top:10px;">
-						<button type="submit" class="auto-button actionButton" data-icon="ui-icon-custom-save">Save</button>
-						<button type="reset" class="auto-button actionButton" id="reset" data-icon="ui-icon-custom-reset">Reset</button>
-					</td>
-				</tr>
-				</table>
-			</springForm:form>
-		</div>
 	</div>
+	</springForm:form>
 </div>
 
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pqSelect/pqselect.js"></script>
-<script type="text/javascript" src="${contextRoot}/assets/js/editEmployee.js"></script>
+<script type="text/javascript">
+
+var contextRoot = '${contextRoot}';
+
+// Sending the state and city id of the employee to js file
+var state = '${editEmployeeProfile.state}';
+var city = '${editEmployeeProfile.city}';
+
+// If binding error occurs in controller then show the editInfo class or toggle class
+var hasBindErrors = '${hasBindErrors}';
+
+$(function() {
+
+	// Display Success or Error message
+	var message = '${message}';
+
+	if (message != "") {
+		new PNotify({
+			type : '${jstlFn:toLowerCase(messageType)}', // type : 'Success' not correct so type : 'success'
+			styling : "jqueryui",
+			title : '${messageType}',
+			text : message
+		});
+	}
+})
+</script>
+<script type="text/javascript" src="${contextRoot}/assets/js/employeeProfile.js"></script>
 
 <jsp:include page="/footer.jsp" />

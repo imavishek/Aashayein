@@ -3,7 +3,6 @@ $(function() {
 	"use strict";
 
 	$(".auto-button").button();
-	$("input[type=radio]").checkboxradio();
 	$("#title").pqSelect({
 		singlePlaceholder : "Select Title",
 		radio : true,
