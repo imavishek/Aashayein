@@ -145,7 +145,7 @@
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="addressLine1" cssClass="field_label">AddressLine1</springForm:label><span class="required">*</span></td>
-					<td class="editInfo"><springForm:textarea path="addressLine1" rows="3" column="30" cssClass="inputfield" style="height:70px;"/></td>
+					<td class="editInfo"><springForm:textarea path="addressLine1" rows="4" column="45" cssClass="inputfield" style="height:70px;"/></td>
 					<td class="editInfo"><springForm:errors path="addressLine1" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">AddressLine1:</td>
@@ -153,7 +153,7 @@
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="addressLine2" cssClass="field_label">AddressLine2</springForm:label></td>
-					<td class="editInfo"><springForm:textarea path="addressLine2" rows="3" column="30" cssClass="inputfield" style="height:70px;"/></td>
+					<td class="editInfo"><springForm:textarea path="addressLine2" rows="4" column="45" cssClass="inputfield" style="height:70px;"/></td>
 					<td class="editInfo"><springForm:errors path="addressLine2" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">AddressLine2:</td>

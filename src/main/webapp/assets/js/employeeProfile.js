@@ -9,13 +9,13 @@ $(function() {
 		radio : true,
 		deselect : false,
 		width : 265
-	}).on("change", function(){getCorrespondingStates(this.value);});
+	}).on("change", function(){getCorrespondingStates(this.value); $(this).valid();});
 	$("#state").pqSelect({
 		singlePlaceholder : "Select State",
 		radio : true,
 		deselect : false,
 		width : 265
-	}).on("change", function(){getCorrespondingCities(this.value);});
+	}).on("change", function(){getCorrespondingCities(this.value); $(this).valid();});
 	$("#city").pqSelect({
 		singlePlaceholder : "Select City",
 		radio : true,
@@ -50,6 +50,7 @@ $(function() {
 		
 		$(".displayInfo, .editInfo").toggle();
 		$(".notification-holder").hide();
+		$(".errorRow").addClass("error_row");
 		
 		event.preventDefault();
 	});
@@ -57,8 +58,194 @@ $(function() {
 		
 		$(".displayInfo, .editInfo").toggle();
 		$(".notification-holder").hide();
+		$(".errorRow").removeClass("error_row");
 		
 		event.preventDefault();
+	});
+	
+	$("#editEmployeeProfile").validate({			
+		rules : {
+			firstName : {
+				normalizer : function(value) {
+					$(this).val($.trim($(this).val()));
+					return $.trim(value);
+				},
+				required : true,
+				lettersonly : true,
+				nowhitespace : true,
+				minlength : 3,
+				maxlength : 25
+			},
+			middleName : {
+				normalizer : function(value) {
+					$(this).val($.trim($(this).val()));
+					return $.trim(value);
+				},
+				lettersonly : true,
+				nowhitespace : true,
+				minlength : 2,
+				maxlength : 20
+			},
+			lastName : {
+				normalizer : function(value) {
+					$(this).val($.trim($(this).val()));
+					return $.trim(value);
+				},
+				required : true,
+				lettersonly : true,
+				nowhitespace : true,
+				minlength : 2,
+				maxlength : 15
+			},
+			gender : {
+				required : true
+			},
+			mobileNumber : {
+				required : true,
+				digits : true,
+				pattern : /^[6789]\d{9}$/
+			},
+			alternateMobileNumber : {
+				digits : true,
+				pattern : /^[789]\d{9}$/
+			},
+			alternateEmail : {
+				pattern : /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
+			},
+			country : {
+				required : true
+			},
+			state : {
+				required : true
+			},
+			city : {
+				required : true
+			},
+			pinCode : {
+				required : true,
+				digits : true,
+				pattern : /^[123456789]\d{5}$/
+			},
+			addressLine1 : {
+				normalizer : function(value) {
+					$(this).val($(this).val().replace(/\s\s+/g, ' '));
+					return value;
+				},
+				required : true,
+				minlength : 20,
+				maxlength : 150
+			},
+			addressLine2 : {
+				normalizer : function(value) {
+					$(this).val($(this).val().replace(/\s\s+/g, ' '));
+					return value;
+				},
+				maxlength : 150
+			},
+			photo : {
+				accept: "image/jpg,image/jpeg",
+				extension : "jpg|jpeg",
+				maxsize : 1048576
+			}
+		},
+		messages : {
+			firstName : {
+				required : "Please enter FirstName",
+				lettersonly : "Please enter OnlyLetters (No WhiteSpace)",
+				minlength : "FirstName must consist of at least 3 characters",
+				maxlength : "FirstName must consist of at most 25 characters"
+			},
+			middleName : {
+				lettersonly : "Please enter OnlyLetters (No WhiteSpace)",
+				minlength : "MiddleName must consist of at least 2 characters",
+				maxlength : "MiddleName must consist of at most 20 characters"
+			},
+			lastName : {
+				lettersonly : "Please enter OnlyLetters (No WhiteSpace)",
+				required : "Please enter LastName",
+				minlength : "LastName must consist of at least 2 characters",
+				maxlength : "LastName must consist of at most 15 characters"
+			},
+			gender : {
+				required : "Please select Gender",
+			},
+			mobileNumber : {
+				required : "Please enter MobileNumber",
+				digits : "Please enter only digits",
+				pattern : "Please enter valid MobileNumber",
+			},
+			alternateMobileNumber : {
+				digits : "Please enter only digits",
+				pattern : "Please enter valid AlternateMobileNumber",
+			},
+			alternateEmail : {
+				pattern : "Please enter valid AlternateEmail"
+			},
+			country : {
+				required : "Please select Country",
+			},
+			state : {
+				required : "Please select State",
+			},
+			city : {
+				required : "Please select City",
+			},
+			pinCode : {
+				required : "Please enter Pincode",
+				digits : "Please enter only digits",
+				pattern : "Please enter valid Pincode (6 Digits)",
+			},
+			addressLine1 : {
+				required : "Please enter AddressLine1",
+				minlength : "Address must consist of at least 20 characters",
+				maxlength : "Address must consist of at most 150 characters"
+			},
+			addressLine2 : {
+				maxlength : "Address must consist of at most 150 characters"
+			},
+			photo : {
+				accept : "Please upload jpg or jpeg image file",
+				extension : "Please upload jpg or jpeg image file",
+				maxsize : "Image size must be within 1Mb"
+			}
+		},
+		ignore : ':hidden:not("#country, #state, #city")',
+		errorPlacement : function(error, element) {
+			error.addClass("ui red pointing label transition error_row");
+			element.parent().next().html(error);
+		},
+		highlight : function(element, errorClass, validClass) {
+			if($(element).attr("name") == 'country'
+				|| $(element).attr("name") == 'state'
+				|| $(element).attr("name") == 'city'
+				|| $(element).attr("name") == 'photo'){
+				$(element).next().addClass('error_box');
+			} else{
+				$(element).addClass('error_box');
+			}
+			if($(element).attr("name") == 'photo'){
+				$(element).parent().addClass('error_row errorRow');
+			} else{
+				$(element).parent().parent().addClass('error_row errorRow');
+			}
+			
+		},
+		unhighlight : function(element, errorClass, validClass) {
+			if($(element).attr("name") == 'country'
+				|| $(element).attr("name") == 'state'
+				|| $(element).attr("name") == 'city'
+				|| $(element).attr("name") == 'photo'){
+				$(element).next().removeClass('error_box');
+			} else{
+				$(element).removeClass('error_box');
+			}
+			
+			if($(element).attr("name") == 'photo'){
+				$(element).parent().removeClass('error_row errorRow');
+			} else{
+				$(element).parent().parent().removeClass('error_row errorRow');
+			}
+		}
 	});
 	
 	function getCorrespondingStates(countryId){

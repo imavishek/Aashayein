@@ -9,8 +9,8 @@
 
 package org.avishek.aashayein.command;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.avishek.aashayein.validator.FileSize;
 import org.avishek.aashayein.validator.FileType;
@@ -40,21 +40,22 @@ public class EditEmployeeProfileCommand {
 	@Pattern(regexp = "^$|([A-Za-z0-9_\\-\\.])+\\@([A-Za-z0-9_\\-\\.])+\\.([A-Za-z]{2,4})", message = "Please enter valid AlternateEmail")
 	private String alternateEmail;
 
-	@NotNull(message = "Please select Country")
-	private Integer country;
+	@Pattern(regexp = "[123456789]\\d{0,2}", message = "Please select valid Country")
+	private String country;
 
-	@NotNull(message = "Please select State")
-	private Integer state;
+	@Pattern(regexp = "[123456789]\\d{0,3}", message = "Please select valid State")
+	private String state;
 
-	@NotNull(message = "Please select City")
-	private Integer city;
+	@Pattern(regexp = "[123456789]\\d{0,4}", message = "Please select valid City")
+	private String city;
 
-	@Pattern(regexp = "[123456789]\\d{5}", message = "Please enter valid PinCode")
+	@Pattern(regexp = "[123456789]\\d{5}", message = "Please enter valid 6 digit PinCode")
 	private String pinCode;
 
-	@NotNull(message = "Please Enter AddressLine1")
+	@Size(min = 20, max = 150, message = "Please enter valid Address between 20 to 150 character")
 	private String addressLine1;
 
+	@Size(max = 150, message = "Please enter valid Address between 150 character")
 	private String addressLine2;
 
 	@FileType(extension = "jpg|jpeg|JPG|JPEG", message = "Please upload jpg or jpeg image file")
@@ -117,27 +118,27 @@ public class EditEmployeeProfileCommand {
 		this.alternateEmail = alternateEmail;
 	}
 
-	public Integer getCountry() {
+	public String getCountry() {
 		return country;
 	}
 
-	public void setCountry(Integer country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
 
-	public Integer getState() {
+	public String getState() {
 		return state;
 	}
 
-	public void setState(Integer state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
-	public Integer getCity() {
+	public String getCity() {
 		return city;
 	}
 
-	public void setCity(Integer city) {
+	public void setCity(String city) {
 		this.city = city;
 	}
 

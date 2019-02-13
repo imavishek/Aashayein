@@ -19,13 +19,17 @@ import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.EditEmployeeProfileCommand;
 import org.avishek.aashayein.dto.CountryTO;
 import org.avishek.aashayein.dto.EmployeeTO;
+import org.avishek.aashayein.propertyEditor.ReplaceSpaceEditor;
 import org.avishek.aashayein.service.AddressService;
 import org.avishek.aashayein.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +46,24 @@ public class EmployeeProfileController {
 	AddressService addressService;
 
 	private static final Logger logger = LogManager.getLogger(EmployeeController.class);
+
+	@InitBinder("editEmployeeProfile")
+	public void customizeBinding(WebDataBinder binder) {
+
+		binder.registerCustomEditor(String.class, "firstName", new StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "middleName", new StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "lastName", new StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "mobileNumber", new StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "alternateMobileNumber", new StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "alternateEmail", new StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "pinCode", new StringTrimmerEditor(false));
+		// binder.registerCustomEditor(String.class, "addressLine1", new
+		// StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "addressLine1", new ReplaceSpaceEditor());
+		// binder.registerCustomEditor(String.class, "addressLine2", new
+		// StringTrimmerEditor(false));
+		binder.registerCustomEditor(String.class, "addressLine2", new ReplaceSpaceEditor());
+	}
 
 	// Shows employee profile
 	@RequestMapping(value = "/showEmployeeProfile.abhi")
@@ -79,9 +101,9 @@ public class EmployeeProfileController {
 			editEmployeeProfileCommand.setMobileNumber(employeeTo.getMobileNumber());
 			editEmployeeProfileCommand.setAlternateMobileNumber(employeeTo.getAlternateMobileNumber());
 			editEmployeeProfileCommand.setAlternateEmail(employeeTo.getAlternateEmail());
-			editEmployeeProfileCommand.setCountry(employeeTo.getCountryId());
-			editEmployeeProfileCommand.setState(employeeTo.getStateId());
-			editEmployeeProfileCommand.setCity(employeeTo.getCityId());
+			editEmployeeProfileCommand.setCountry(employeeTo.getCountryId().toString());
+			editEmployeeProfileCommand.setState(employeeTo.getStateId().toString());
+			editEmployeeProfileCommand.setCity(employeeTo.getCityId().toString());
 			editEmployeeProfileCommand.setPinCode(employeeTo.getPostalCode());
 			editEmployeeProfileCommand.setAddressLine1(employeeTo.getAddressLine1());
 			editEmployeeProfileCommand.setAddressLine2(employeeTo.getAddressLine2());
