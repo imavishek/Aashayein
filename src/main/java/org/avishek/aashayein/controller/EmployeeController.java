@@ -178,7 +178,7 @@ public class EmployeeController {
 				redir.addFlashAttribute("message", message);
 				redir.addFlashAttribute("messageType", "Error");
 
-				view = "redirect:/EmployeeRegistration/showRegistration.abhi";
+				view = "redirect:/Employee/showEditEmployee.abhi";
 			}
 		}
 

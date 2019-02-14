@@ -20,7 +20,19 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
+/*
+ * Generating SQL statements takes time and Hibernate, therefore, uses one
+ * cached SQL UPDATE statement per entity. It sets all database columns so that
+ * it can be used for all update operations. You can change that with
+ * the @DynamicUpdate annotation. It tells Hibernate to generate a new SQL
+ * statement for each update operation.
+ */
+@DynamicUpdate
 @Table(name = "TblEmployee")
 public class Employee {
 
@@ -60,6 +72,7 @@ public class Employee {
 	private String alternateEmail;
 
 	@OneToOne
+	@Cascade({ CascadeType.SAVE_UPDATE })
 	@JoinColumn(name = "AddressId", referencedColumnName = "AddressId")
 	private EmployeeAddress address;
 

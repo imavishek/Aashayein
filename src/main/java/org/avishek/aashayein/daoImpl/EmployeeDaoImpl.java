@@ -15,9 +15,13 @@ import java.util.UUID;
 
 import org.avishek.aashayein.dao.EmployeeDao;
 import org.avishek.aashayein.dto.EmployeeTO;
+import org.avishek.aashayein.entities.City;
+import org.avishek.aashayein.entities.Country;
 import org.avishek.aashayein.entities.Employee;
+import org.avishek.aashayein.entities.EmployeeAddress;
 import org.avishek.aashayein.entities.EmployeeRole;
 import org.avishek.aashayein.entities.EmployeeTitle;
+import org.avishek.aashayein.entities.State;
 import org.avishek.aashayein.utility.DateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -105,16 +109,21 @@ public class EmployeeDaoImpl implements EmployeeDao {
 			employeeTo.setAlternateMobileNumber(employee.getAlternateMobileNumber());
 			employeeTo.setEmail(employee.getEmail());
 			employeeTo.setAlternateEmail(employee.getAlternateEmail());
-			employeeTo.setAddressId(employee.getAddress().getAddressId());
-			employeeTo.setCountryId(employee.getAddress().getCountry().getCountryId());
-			employeeTo.setCountryName(employee.getAddress().getCountry().getCountryName());
-			employeeTo.setStateId(employee.getAddress().getState().getStateId());
-			employeeTo.setStateName(employee.getAddress().getState().getStateName());
-			employeeTo.setCityId(employee.getAddress().getCity().getCityId());
-			employeeTo.setCityName(employee.getAddress().getCity().getCityName());
-			employeeTo.setPostalCode(employee.getAddress().getPostalCode());
-			employeeTo.setAddressLine1(employee.getAddress().getAddressLine1());
-			employeeTo.setAddressLine2(employee.getAddress().getAddressLine2());
+
+			// If address is available then set address details
+			if (employee.getAddress() != null) {
+				employeeTo.setAddressId(employee.getAddress().getAddressId());
+				employeeTo.setCountryId(employee.getAddress().getCountry().getCountryId());
+				employeeTo.setCountryName(employee.getAddress().getCountry().getCountryName());
+				employeeTo.setStateId(employee.getAddress().getState().getStateId());
+				employeeTo.setStateName(employee.getAddress().getState().getStateName());
+				employeeTo.setCityId(employee.getAddress().getCity().getCityId());
+				employeeTo.setCityName(employee.getAddress().getCity().getCityName());
+				employeeTo.setPostalCode(employee.getAddress().getPostalCode());
+				employeeTo.setAddressLine1(employee.getAddress().getAddressLine1());
+				employeeTo.setAddressLine2(employee.getAddress().getAddressLine2());
+			}
+
 			employeeTo.setJobTitleId(employee.getTitle().getTitleId());
 			employeeTo.setJobTitleName(employee.getTitle().getTitleName());
 			employeeTo.setRoleId(employee.getRole().getRoleId());
@@ -238,6 +247,72 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		if (res == 0) {
 			message = "Failed to edit employee";
 		}
+
+		return message;
+	}
+
+	@Override
+	public String editEmployeeProfile(EmployeeTO employeeTo) {
+
+		String message = null;
+		Employee employee = null;
+		EmployeeAddress address = null;
+
+		// Getting the employee profile details
+		employee = (Employee) sessionFactory.getCurrentSession().get(Employee.class, employeeTo.getEmployeeId());
+
+		if (employee == null) {
+			message = "Employee Not Found";
+
+			return message;
+		}
+
+		// Setting the Country entity value
+		Country country = new Country();
+		country.setCountryId(employeeTo.getCountryId());
+
+		// Setting the State entity value
+		State state = new State();
+		state.setStateId(employeeTo.getStateId());
+
+		// Setting the City entity value
+		City city = new City();
+		city.setCityId(employeeTo.getCityId());
+
+		/*
+		 * If address not available then create EmployeeAddress entity otherwise get the
+		 * existing EmployeeAddress entity from employee details
+		 */
+		if (employee.getAddress() == null) {
+			address = new EmployeeAddress();
+			address.setRecordCreated(dateTime.getCurrentDateTime());
+		} else {
+			address = employee.getAddress();
+			address.setRecordUpdated(dateTime.getCurrentDateTime());
+		}
+
+		// Setting the new value of EmployeeAddress entity
+		address.setCountry(country);
+		address.setState(state);
+		address.setCity(city);
+		address.setPostalCode(employeeTo.getPostalCode());
+		address.setAddressLine1(employeeTo.getAddressLine1());
+		address.setAddressLine2(employeeTo.getAddressLine2().isEmpty() ? null : employeeTo.getAddressLine2());
+
+		// Setting the new value of Employee entity
+		employee.setFirstName(employeeTo.getFirstName());
+		employee.setMiddleName(employeeTo.getMiddleName().isEmpty() ? null : employeeTo.getMiddleName());
+		employee.setLastName(employeeTo.getLastName());
+		employee.setGender(employeeTo.getGender());
+		employee.setMobileNumber(employeeTo.getMobileNumber());
+		employee.setAlternateMobileNumber(
+				employeeTo.getAlternateMobileNumber().isEmpty() ? null : employeeTo.getAlternateMobileNumber());
+		employee.setAlternateEmail(employeeTo.getAlternateEmail().isEmpty() ? null : employeeTo.getAlternateEmail());
+		employee.setAddress(address);
+		if (employeeTo.getProfilePhoto() != null) {
+			employee.setProfilePhoto(employeeTo.getProfilePhoto());
+		}
+		employee.setRecordUpdated(dateTime.getCurrentDateTime());
 
 		return message;
 	}

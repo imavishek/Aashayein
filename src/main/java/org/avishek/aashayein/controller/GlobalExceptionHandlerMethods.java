@@ -124,7 +124,8 @@ public class GlobalExceptionHandlerMethods {
 
 		String view = "";
 
-		logger.error("Employee Not Found (Either Unavailable Or Deactivated) For EmployeeId/EmployeeCode: " + e.getMessage());
+		logger.error("Employee Not Found (Either Unavailable Or Deactivated) For EmployeeId/EmployeeCode: "
+				+ e.getMessage());
 
 		model.addAttribute("title", "Employee UnAvailable");
 		model.addAttribute("errorTitle", "Employee Not Found");
@@ -198,22 +199,22 @@ public class GlobalExceptionHandlerMethods {
 	}
 
 	// Generic Exception Handler
-	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(value = Exception.class)
-	public String handleException(Model model, Exception e) {
-
-		String view = "";
-
-		logger.error(e.getMessage() + " [Exception " + e.getClass() + "]");
-
-		model.addAttribute("title", "Server Error");
-		model.addAttribute("errorTitle", "Internal Server Error");
-		model.addAttribute("errorMessage",
-				"The server has encountered an unexpected error. Please contact administrator.");
-
-		view = "error500";
-
-		return view;
-
-	}
+//	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+//	@ExceptionHandler(value = Exception.class)
+//	public String handleException(Model model, Exception e) {
+//
+//		String view = "";
+//
+//		logger.error(e.getMessage() + " [Exception " + e.getClass() + "]");
+//
+//		model.addAttribute("title", "Server Error");
+//		model.addAttribute("errorTitle", "Internal Server Error");
+//		model.addAttribute("errorMessage",
+//				"The server has encountered an unexpected error. Please contact administrator.");
+//
+//		view = "error500";
+//
+//		return view;
+//
+//	}
 }

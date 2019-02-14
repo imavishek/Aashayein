@@ -6,23 +6,21 @@ rearrange the jsp files
 
 ajax call validate
 ajax call error html render (Not working in jqgrid)
-
-
-
 continue tranction in fileuploading
-table sorter table border
-check breadcrumb employee after complete
 
-
+check edit profile details (session Ids)
 search field in employee list page
 mail on edit employee
 
 choose a picture over flow hidden
+table sorter table border
+
 
 if no employee available den jqgrid throwing error (Ajax call error)
 if controller return null error in ajax cakk for getting cities
 
 
+Mobile number during profile edit
 
 
 https://free-jqgrid.github.io/getting-started/index.html#type_of_data_code

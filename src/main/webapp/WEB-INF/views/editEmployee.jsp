@@ -11,6 +11,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/pnotify-custom.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pqSelect/pqselect.css">
 
@@ -167,6 +168,7 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pqSelect/pqselect.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/js/editEmployee.js"></script>
 
 <jsp:include page="/footer.jsp" />

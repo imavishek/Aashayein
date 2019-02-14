@@ -113,9 +113,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 			if (fileName == null) {
 				throw new UploadingFailedException("Failed to upload profile picture");
 			}
-
-			employeeTo.setProfilePhoto(fileName);
 		}
+
+		employeeTo.setProfilePhoto(fileName);
 
 		// Save the employee details in database
 		Employee employee = employeeDao.addEmployee(employeeTo);
@@ -139,6 +139,39 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public String editEmployee(EmployeeTO employeeTo) {
 
 		return employeeDao.editEmployee(employeeTo);
+	}
+
+	// Editing Employee Profile
+	@Override
+	@Transactional
+	public String editEmployeeProfile(EmployeeTO employeeTo) throws UploadingFailedException {
+
+		String message = null;
+		String fileName = null;
+		// session
+		String employeeCode = "aasha-0001";
+
+		// Checking the existence PhoneNo
+		if (mobileNumberExist(employeeTo.getMobileNumber())) {
+
+			logger.error("MobileNumber Already Exists - " + employeeTo.getMobileNumber());
+			message = "MobileNumber Already Exists";
+
+			return message;
+		}
+
+		// save profile photo in server, rename the file with UUID
+		if (!employeeTo.getProfilePhotoFile().isEmpty()) {
+			fileName = fileUploadUtil.uploadProfilePictureIntoServer(employeeTo.getProfilePhotoFile(), employeeCode);
+
+			if (fileName == null) {
+				throw new UploadingFailedException("Failed to upload profile picture");
+			}
+		}
+
+		employeeTo.setProfilePhoto(fileName);
+
+		return employeeDao.editEmployeeProfile(employeeTo);
 	}
 
 	// Archive Employee

@@ -12,6 +12,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/pnotify-custom.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pNotify/animate.css">
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/pqSelect/pqselect.css">
 
@@ -30,7 +31,7 @@
 	<spring:hasBindErrors name="editEmployeeProfile">
 		<jstlCore:set var="hasBindErrors" value="true"/>
 	</spring:hasBindErrors>
-	
+
 	<springForm:form action="${contextRoot}/EmployeeProfile/saveEmployeeProfile.abhi" name="editEmployeeProfile" id="editEmployeeProfile" method="POST" modelAttribute="editEmployeeProfile" enctype="multipart/form-data">
 	<div style="display: flex;">
 		<div style="width:65%;padding:5px;">
@@ -91,12 +92,12 @@
 					<td class="displayInfo displayfield">${not empty employee.alternateMobileNumber ? employee.alternateMobileNumber : "N/A"}</td>
 				</tr>
 				<tr>
-					<td class="editInfo"><springForm:label path="alternateMobileNumber" cssClass="field_label">Alternate Email</springForm:label></td>
+					<td class="editInfo"><springForm:label path="alternateEmail" cssClass="field_label">Alternate Email</springForm:label></td>
 					<td class="editInfo"><springForm:input type="text" path="alternateEmail" cssClass="inputfield" placeholder="Alternate Email"/></td>
 					<td class="editInfo"><springForm:errors path="alternateEmail" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">Alternate Email:</td>
-					<td class="displayInfo displayfield">${not empty employee.alternateMobileNumber ? employee.alternateMobileNumber : "N/A"}</td>
+					<td class="displayInfo displayfield">${not empty employee.alternateEmail ? employee.alternateEmail : "N/A"}</td>
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="country" cssClass="field_label">Country</springForm:label><span class="required">*</span></td>
@@ -109,7 +110,7 @@
 					<td class="editInfo"><springForm:errors path="country" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">Country:</td>
-					<td class="displayInfo displayfield">${employee.countryName}</td>
+					<td class="displayInfo displayfield">${not empty employee.countryName ? employee.countryName : "N/A"}</td>
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="state" cssClass="field_label">State</springForm:label><span class="required">*</span></td>
@@ -121,7 +122,7 @@
 					<td class="editInfo"><springForm:errors path="state" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">State:</td>
-					<td class="displayInfo displayfield">${employee.stateName}</td>
+					<td class="displayInfo displayfield">${not empty employee.stateName ? employee.stateName : "N/A"}</td>
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="city" cssClass="field_label">City</springForm:label><span class="required">*</span></td>
@@ -133,7 +134,7 @@
 					<td class="editInfo"><springForm:errors path="city" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">City:</td>
-					<td class="displayInfo displayfield">${employee.cityName}</td>
+					<td class="displayInfo displayfield">${not empty employee.cityName ? employee.cityName : "N/A"}</td>
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="pinCode" cssClass="field_label">PinCode</springForm:label><span class="required">*</span></td>
@@ -141,7 +142,7 @@
 					<td class="editInfo"><springForm:errors path="pinCode" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">PinCode:</td>
-					<td class="displayInfo displayfield">${employee.postalCode}</td>
+					<td class="displayInfo displayfield">${not empty employee.postalCode ? employee.postalCode : "N/A"}</td>
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="addressLine1" cssClass="field_label">AddressLine1</springForm:label><span class="required">*</span></td>
@@ -149,7 +150,7 @@
 					<td class="editInfo"><springForm:errors path="addressLine1" cssClass="error_message" element="span"/></td>
 					
 					<td class="displayInfo display_label">AddressLine1:</td>
-					<td class="displayInfo displayfield">${employee.addressLine1}</td>
+					<td class="displayInfo displayfield">${not empty employee.addressLine1 ? employee.addressLine1 : "N/A"}</td>
 				</tr>
 				<tr>
 					<td class="editInfo"><springForm:label path="addressLine2" cssClass="field_label">AddressLine2</springForm:label></td>
@@ -214,6 +215,7 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
+<script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pqSelect/pqselect.js"></script>
 <script type="text/javascript">
 

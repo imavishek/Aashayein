@@ -21,9 +21,12 @@ $(function() {
 		radio : true,
 		deselect : false,
 		width : 265
-	});
+	}).on("change", function(){$(this).valid();});;
 	
-	getCorrespondingStates($("#country").val());
+	// If country is not available then no need of getting states and cities
+	if($("#country").val() != ""){
+		getCorrespondingStates($("#country").val());
+	}
 	
 	$(document).tooltip({
 		hide: {
@@ -279,7 +282,7 @@ $(function() {
 					$("#state").html(states);
 					statePqSelect.refreshData();
 				}
-				
+
 				getCorrespondingCities($("#state").val())
 			},
 			error : function(response, status, xhr) {

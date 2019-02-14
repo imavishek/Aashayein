@@ -24,6 +24,8 @@ public interface EmployeeService {
 
 	String editEmployee(EmployeeTO employeeTo);
 
+	String editEmployeeProfile(EmployeeTO employeeTo) throws UploadingFailedException;
+
 	Integer archiveEmployee(Integer employeeId);
 
 	Integer unArchiveEmployee(Integer employeeId);
