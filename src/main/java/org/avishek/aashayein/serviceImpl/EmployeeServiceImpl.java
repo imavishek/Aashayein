@@ -151,13 +151,18 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// session
 		String employeeCode = "aasha-0001";
 
-		// Checking the existence PhoneNo
-		if (mobileNumberExist(employeeTo.getMobileNumber())) {
+		// If mobile number changed then check the existence of mobile number
+		if (!employeeDao.getEmployeeDetailsById(employeeTo.getEmployeeId()).getMobileNumber()
+				.equalsIgnoreCase(employeeTo.getMobileNumber())) {
 
-			logger.error("MobileNumber Already Exists - " + employeeTo.getMobileNumber());
-			message = "MobileNumber Already Exists";
+			// Checking the existence PhoneNo
+			if (mobileNumberExist(employeeTo.getMobileNumber())) {
 
-			return message;
+				logger.error("MobileNumber Already Exists - " + employeeTo.getMobileNumber());
+				message = "MobileNumber Already Exists";
+
+				return message;
+			}
 		}
 
 		// save profile photo in server, rename the file with UUID
