@@ -77,7 +77,7 @@ public class EmployeeProfileController {
 		// Checking if the employee is logged in or not
 
 		// Getting the logged in employee details
-		EmployeeTO employeeTo = employeeService.getEmployeeDetailsById(5);
+		EmployeeTO employeeTo = employeeService.getEmployeeDetailsById(2);
 
 		// If employee not found then throw EmployeeNotFoundException
 		if (employeeTo == null)
@@ -156,7 +156,7 @@ public class EmployeeProfileController {
 			EmployeeTO employeeTo = new EmployeeTO();
 
 			// Set employeeId from session
-			employeeTo.setEmployeeId(5);
+			employeeTo.setEmployeeId(2);
 
 			employeeTo.setFirstName(editEmployeeProfileCommand.getFirstName());
 			employeeTo.setMiddleName(editEmployeeProfileCommand.getMiddleName());
