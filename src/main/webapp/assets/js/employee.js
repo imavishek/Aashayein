@@ -73,6 +73,7 @@ $(function() {
 		pager: true,
 		viewrecords: true,
 		headertitles: true,
+		// multiselect: true,
 		rowNum: 15,
 		rowList: [5, 10, 20, "10000:All"],
 		searching: { defaultSearch: "cn" },
@@ -95,6 +96,10 @@ $(function() {
 		}
 	}).jqGrid("navGrid", {edit: false, add: false, del: false})
 		.jqGrid("filterToolbar", {searchOnEnter: false});
+	
+	$(window).on('resize', function() {
+		$("#tableGrid").setGridWidth($(window).width()-95);
+	}).trigger('resize');
 	
 	function genderIconFormatter(cellvalue, options, rowObject) {
 		var iconName = cellvalue;

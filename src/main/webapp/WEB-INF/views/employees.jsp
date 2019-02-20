@@ -29,50 +29,7 @@
 	</div>
 	
 	<div class="wrapper">
-		<table id="tableGrid">
-		<thead>
-			<tr>
-				<th class="alignCenter" data-placeholder="Search Sl.No">Sl No.</th>
-				<th class="alignCenter" data-placeholder="Search RoleName">Role Name</th>
-				<th class="alignCenter" data-placeholder="Search CreatedDate">CreatedDate</th>
-				<th class="alignCenter" data-placeholder="Search UpdatedDate">UpdatedDate</th>
-				<th class="alignCenter" data-placeholder="All">Archive</th>
-				<th class="alignCenter">Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			<jstlCore:choose>
-				<jstlCore:when test="${jstlFn:length(employeeRoles) > 0}">
-					<jstlCore:forEach items="${employeeRoles}" var="role" varStatus="loopStatus">
-						<tr>
-							<td class="alignCenter"><jstlCore:out value="${loopStatus.index+1}"/></td>
-							<td class="alignCenter"><jstlCore:out value="${role.roleName}"/></td>
-							<td class="alignCenter"><jstlFormat:formatDate value="${role.recordCreated}" pattern="MM-dd-yyyy" /></td>
-							<jstlFormat:formatDate value="${role.recordUpdated}" pattern="MM-dd-yyyy" var="updatedDate" />
-							<td class="alignCenter"><jstlCore:out value="${not empty updatedDate ? updatedDate : ''}"/></td>
-							<td class="alignCenter"><jstlCore:out value="${role.archive eq 0 ? 'NO' : 'YES'}"/></td>
-							<jstlCore:choose>
-								<jstlCore:when test="${role.archive eq 0}">
-									<td class="alignCenter">
-										<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit" title="Edit Role">Edit</a>
-										<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete" title="Delete Role">Delete</a>
-									</td>
-								</jstlCore:when>
-								<jstlCore:otherwise>
-									<td class="alignCenter" colspan="2">
-										<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-tick" title="Active Role">Active</a>
-									</td>
-								</jstlCore:otherwise>
-							</jstlCore:choose>
-						</tr>
-				  	</jstlCore:forEach>
-				</jstlCore:when>
-				<jstlCore:otherwise>
-					<tr><td colspan="6" class="alignCenter error_message">No Employee Role Found</td></tr>
-				</jstlCore:otherwise>
-			</jstlCore:choose>
-		</tbody>
-		</table>
+		<table id="tableGrid"></table>
 	</div>
 	
 	<!-- Dialog for delete role -->

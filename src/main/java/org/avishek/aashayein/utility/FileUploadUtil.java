@@ -40,7 +40,7 @@ public class FileUploadUtil {
 
 			ABS_PATH = "/DEBIAN/Aashayein/src/main/webapp/assets/upload/profilePictures/";
 		} else {
-			ABS_PATH = "C:/Aashayein/src/main/webapp/assets/upload/profilePictures/";
+			ABS_PATH = "E:/Aashayein/src/main/webapp/assets/upload/profilePictures/";
 		}
 
 		// get the real server path

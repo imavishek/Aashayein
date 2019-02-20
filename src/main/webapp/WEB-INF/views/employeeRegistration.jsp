@@ -114,7 +114,7 @@
     					<jsp:param name="icon" value="images"/>
     					<jsp:param name="placeHolder" value="Choose a picture"/>
 					</jsp:include>
-					<span class="ui-icon ui-icon-custom-info-faded" title="Image file must be in .jpg or .jpeg format and  must be within 300KB"></span>
+					<span class="ui-icon ui-icon-custom-info-faded" title="Image file must be in .jpg or .jpeg format and must be within 1MB"></span>
 				</td>
 				<td><springForm:errors path="profilePhoto" cssClass="error_message" element="span"/></td>
 			</tr>
