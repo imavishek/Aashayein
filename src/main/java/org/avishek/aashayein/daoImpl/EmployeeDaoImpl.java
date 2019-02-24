@@ -178,6 +178,30 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	}
 
 	@Override
+	public EmployeeTO getEmployeeByToken(String token) {
+
+		EmployeeTO employeeTo = null;
+
+		String hql = "FROM Employee employee WHERE employee.tokenUUID=?1 AND employee.archive=?2";
+		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
+		query.setParameter(1, token);
+		query.setParameter(2, (byte) 0);
+		Employee employee = query.uniqueResult();
+
+		if (employee != null) {
+			employeeTo = new EmployeeTO();
+
+			employeeTo.setFullName(employee.getFullName());
+			employeeTo.setArchive(employee.getArchive());
+			employeeTo.setActive(employee.getActive());
+			employeeTo.setTokenUUID(employee.getTokenUUID());
+			employeeTo.setTokenGeneratedDate(employee.getTokenGeneratedDate());
+		}
+
+		return employeeTo;
+	}
+
+	@Override
 	public String getLastEmployeeId() {
 
 		String lastEmployeeId = null;

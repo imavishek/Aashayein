@@ -15,6 +15,8 @@ public interface EmployeeDao {
 
 	EmployeeTO getEmployeeByMobileNumber(String mobileNumber);
 
+	EmployeeTO getEmployeeByToken(String token);
+
 	String getLastEmployeeId();
 
 	Employee addEmployee(EmployeeTO employeeTo);

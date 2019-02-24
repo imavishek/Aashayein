@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 public class EditEmployeeCommand {
 
-	@Pattern(regexp = "^$|[123456789]\\d{0,1}", message = "Invalid EmployeeId for edit")
+	@Pattern(regexp = "^$|[123456789]\\d{0,4}", message = "Invalid EmployeeId for edit")
 	private String employeeId;
 
 	// Conseder employee code format as "asha-00001"

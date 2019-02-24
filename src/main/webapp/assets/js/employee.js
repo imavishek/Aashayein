@@ -98,7 +98,7 @@ $(function() {
 		.jqGrid("filterToolbar", {searchOnEnter: false});
 	
 	$(window).on('resize', function() {
-		$("#tableGrid").setGridWidth($(window).width()-95);
+		$("#tableGrid").setGridWidth($(window).width()-100);
 	}).trigger('resize');
 	
 	function genderIconFormatter(cellvalue, options, rowObject) {

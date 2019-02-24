@@ -9,6 +9,7 @@
 
 package org.avishek.aashayein.serviceImpl;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -221,6 +222,29 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 		return false;
+	}
+
+	// Verifying setPassword token and expired date
+	@Override
+	@Transactional
+	public EmployeeTO verifyToken(String token, Long expiration) {
+
+		EmployeeTO employee = null;
+
+		employee = employeeDao.getEmployeeByToken(token);
+
+		if (employee == null) {
+			return null;
+		}
+
+		// Validation token expiration time
+		Calendar cal = Calendar.getInstance();
+
+		if (cal.getTime().getTime() - employee.getTokenGeneratedDate().getTime() >= expiration) {
+			return null;
+		}
+
+		return employee;
 	}
 
 }

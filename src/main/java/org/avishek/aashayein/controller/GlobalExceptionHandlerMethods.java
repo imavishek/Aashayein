@@ -16,6 +16,7 @@ import org.avishek.aashayein.exception.EmployeeMobileNumberExistsException;
 import org.avishek.aashayein.exception.EmployeeNotFoundException;
 import org.avishek.aashayein.exception.EmployeeRoleNotFoundException;
 import org.avishek.aashayein.exception.EmployeeTitleNotFoundException;
+import org.avishek.aashayein.exception.InvalidTokenException;
 import org.avishek.aashayein.exception.UploadingFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.TransactionException;
@@ -191,6 +192,25 @@ public class GlobalExceptionHandlerMethods {
 		model.addAttribute("errorTitle", "File Uploading Failed");
 		model.addAttribute("errorMessage",
 				"The server has encountered an unexpected error during file uploading. Please retry or contact administrator.");
+
+		view = "error500";
+
+		return view;
+
+	}
+
+	// Invalid Token Exception Handler
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = InvalidTokenException.class)
+	public String handleInvalidTokenException(InvalidTokenException e, Model model) {
+
+		String view = "";
+
+		logger.error(e.getMessage());
+
+		model.addAttribute("title", "Invalid Token");
+		model.addAttribute("errorTitle", "Invalid Token");
+		model.addAttribute("errorMessage", "The link you are trying to access is expired. Please retry with a new link.");
 
 		view = "error500";
 

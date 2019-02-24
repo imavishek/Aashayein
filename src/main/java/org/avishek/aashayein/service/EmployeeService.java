@@ -34,4 +34,6 @@ public interface EmployeeService {
 
 	boolean mobileNumberExist(String mobileNumber);
 
+	EmployeeTO verifyToken(String token, Long expiration);
+
 }
