@@ -26,6 +26,7 @@ import org.avishek.aashayein.utility.DateTime;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -37,9 +38,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Autowired
 	DateTime dateTime;
 
-	/*
-	 * @Autowired private PasswordEncoder passwordEncoder;
-	 */
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<EmployeeTO> getAllEmployees() {
@@ -191,14 +191,28 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		if (employee != null) {
 			employeeTo = new EmployeeTO();
 
-			employeeTo.setFullName(employee.getFullName());
-			employeeTo.setArchive(employee.getArchive());
-			employeeTo.setActive(employee.getActive());
+			employeeTo.setEmployeeId(employee.getEmployeeId());
+			employeeTo.setEmployeeCode(employee.getEmployeeCode());
 			employeeTo.setTokenUUID(employee.getTokenUUID());
 			employeeTo.setTokenGeneratedDate(employee.getTokenGeneratedDate());
 		}
 
 		return employeeTo;
+	}
+
+	@Override
+	public Employee getEmployeeByUsername(String username) {
+
+		Employee employee = null;
+
+		String hql = "FROM Employee employee WHERE employee.email=?1 AND employee.archive=?2 AND employee.active=?3";
+		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
+		query.setParameter(1, username);
+		query.setParameter(2, (byte) 0);
+		query.setParameter(3, (byte) 1);
+		employee = query.uniqueResult();
+
+		return employee;
 	}
 
 	@Override
@@ -369,6 +383,42 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		query.setParameter(1, (byte) 0);
 		query.setParameter(2, dateTime.getCurrentDateTime());
 		query.setParameter(3, employeeId);
+		noOfRecordUpdated = query.executeUpdate();
+
+		return noOfRecordUpdated;
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Integer savePassword(EmployeeTO employeeTo) {
+
+		Integer noOfRecordUpdated = 0;
+
+		String hql = "UPDATE Employee employee SET employee.password=?1, employee.tokenUUID=?2, employee.tokenGeneratedDate=?3, employee.recordUpdated=?4 WHERE employee.employeeId=?5 AND employee.archive=?6";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, passwordEncoder.encode(employeeTo.getPassword()));
+		query.setParameter(2, null);
+		query.setParameter(3, null);
+		query.setParameter(4, dateTime.getCurrentDateTime());
+		query.setParameter(5, employeeTo.getEmployeeId());
+		query.setParameter(6, (byte) 0);
+		noOfRecordUpdated = query.executeUpdate();
+
+		return noOfRecordUpdated;
+	}
+
+	@Override
+	@SuppressWarnings("rawtypes")
+	public Integer activeEmployee(Integer employeeId) {
+
+		Integer noOfRecordUpdated = 0;
+
+		String hql = "UPDATE Employee employee SET employee.active=?1, employee.recordUpdated=?2 WHERE employee.employeeId=?3 AND employee.archive=?4";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setParameter(1, (byte) 1);
+		query.setParameter(2, dateTime.getCurrentDateTime());
+		query.setParameter(3, employeeId);
+		query.setParameter(4, (byte) 0);
 		noOfRecordUpdated = query.executeUpdate();
 
 		return noOfRecordUpdated;

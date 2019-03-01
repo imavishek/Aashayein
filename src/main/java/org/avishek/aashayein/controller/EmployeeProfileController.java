@@ -17,9 +17,11 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.EditEmployeeProfileCommand;
+import org.avishek.aashayein.command.PasswordCommand;
 import org.avishek.aashayein.dto.CountryTO;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.exception.EmployeeNotFoundException;
+import org.avishek.aashayein.exception.InvalidTokenException;
 import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.propertyEditor.ReplaceSpaceEditor;
 import org.avishek.aashayein.service.AddressService;
@@ -35,6 +37,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -61,6 +64,8 @@ public class EmployeeProfileController {
 		binder.registerCustomEditor(String.class, "pinCode", new StringTrimmerEditor(false));
 		binder.registerCustomEditor(String.class, "addressLine1", new ReplaceSpaceEditor());
 		binder.registerCustomEditor(String.class, "addressLine2", new ReplaceSpaceEditor());
+		binder.registerCustomEditor(String.class, "password", new ReplaceSpaceEditor());
+		binder.registerCustomEditor(String.class, "confirmPassword", new ReplaceSpaceEditor());
 	}
 
 	// Shows employee profile
@@ -77,7 +82,8 @@ public class EmployeeProfileController {
 		// Checking if the employee is logged in or not
 
 		// Getting the logged in employee details
-		EmployeeTO employeeTo = employeeService.getEmployeeDetailsById(1);
+		EmployeeTO employeeTo = employeeService
+				.getEmployeeDetailsById(Integer.parseInt(request.getSession().getAttribute("id").toString()));
 
 		// If employee not found then throw EmployeeNotFoundException
 		if (employeeTo == null)
@@ -156,7 +162,7 @@ public class EmployeeProfileController {
 			EmployeeTO employeeTo = new EmployeeTO();
 
 			// Set employeeId from session
-			employeeTo.setEmployeeId(1);
+			employeeTo.setEmployeeId(Integer.parseInt(request.getSession().getAttribute("id").toString()));
 
 			employeeTo.setFirstName(editEmployeeProfileCommand.getFirstName());
 			employeeTo.setMiddleName(editEmployeeProfileCommand.getMiddleName());
@@ -177,22 +183,110 @@ public class EmployeeProfileController {
 			String message = employeeService.editEmployeeProfile(employeeTo);
 
 			// If error does not occurs then message is empty
-			// session
 			if (message == null) {
-				logger.info("Employee Profile Edited Successfully, Employee Code: " + "asha-00001");
+				logger.info("Employee Profile Edited Successfully, Employee Code: "
+						+ request.getSession().getAttribute("empCode").toString());
 
 				// Sending the message and message type to the corresponding jsp page
 				redir.addFlashAttribute("message", "Profile Edited Successfully");
 				redir.addFlashAttribute("messageType", "Success");
 			} else {
-				// session
-				logger.error("Failed To Edit Employee Profile Having EmployeeCode: " + "asha-00001");
+				logger.error("Failed To Edit Employee Profile Having EmployeeCode: "
+						+ request.getSession().getAttribute("empCode").toString());
 				redir.addFlashAttribute("editEmployeeProfile", editEmployeeProfileCommand);
 				redir.addFlashAttribute("message", message);
 				redir.addFlashAttribute("messageType", "Error");
 			}
 
 			view = "redirect:/EmployeeProfile/showEmployeeProfile.abhi";
+		}
+
+		return view;
+	}
+
+	// Show setPassword page for employee
+	@RequestMapping(value = "/Reset/showSetPassword.abhi")
+	public String showSetPassword(Model model, HttpServletRequest request,
+			@RequestParam(name = "token", required = true) String token) throws InvalidTokenException {
+
+		String view = "";
+		// Token expiration time in milliseconds. 24h = 86400000 Milliseconds
+		Long expiration = 86400000l;
+
+		// Verify token and expired date
+		EmployeeTO employee = employeeService.verifyToken(token, expiration);
+
+		if (employee == null) {
+			throw new InvalidTokenException("Invalid Token");
+		}
+
+		if (!model.containsAttribute("password")) {
+			PasswordCommand password = new PasswordCommand();
+			password.setTokenUUID(employee.getTokenUUID());
+			model.addAttribute("password", password);
+		}
+
+		view = "setPassword";
+
+		return view;
+	}
+
+	// Saving password
+	@RequestMapping(value = "/Reset/setPassword.abhi")
+	public String setPassword(Model model, @Valid @ModelAttribute("password") PasswordCommand password,
+			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
+			throws InvalidTokenException, EmployeeNotFoundException {
+
+		String view = "";
+
+		// Checking data binding error
+		if (result.hasErrors()) {
+
+			// Logging DataBinding Error
+			for (FieldError error : result.getFieldErrors()) {
+				logger.error("Error In DataBinding For Field:- " + error.getField() + " FieldValue:- "
+						+ error.getRejectedValue());
+			}
+
+			// Redirect to show the error registration page
+			redir.addFlashAttribute("password", password);
+			redir.addFlashAttribute("org.springframework.validation.BindingResult.password", result);
+
+			view = "redirect:/EmployeeProfile/Reset/showSetPassword.abhi?token=" + password.getTokenUUID();
+		} else {
+
+			// Token expiration time in milliseconds. 24h = 86400000 Milliseconds
+			Long expiration = 86400000l;
+
+			// Verify token and expired date
+			EmployeeTO employee = employeeService.verifyToken(password.getTokenUUID(), expiration);
+
+			if (employee == null) {
+				throw new InvalidTokenException("Invalid Token");
+			}
+
+			// Setting value in Employee Transfer Object
+			EmployeeTO employeeTo = new EmployeeTO();
+
+			employeeTo.setEmployeeId(employee.getEmployeeId());
+			employeeTo.setEmployeeCode(employee.getEmployeeCode());
+			employeeTo.setPassword(password.getPassword());
+
+			// Saving the employee password
+			Integer noOfRecordUpdated = employeeService.savePassword(employeeTo);
+
+			// If employeeId not found then throw EmployeeNotFoundException
+			if (noOfRecordUpdated == 0)
+				throw new EmployeeNotFoundException(employeeTo.getEmployeeCode());
+
+			// Active the employee
+			employeeService.activeEmployee(employeeTo.getEmployeeId());
+
+			logger.info("Password Updated Successfully For Employee Having EmployeeId: " + employeeTo.getEmployeeId());
+			logger.info(
+					"Employee Activated Successfully For Employee Having EmployeeId: " + employeeTo.getEmployeeId());
+
+			view = "redirect:/Login/showLogin.abhi";
 		}
 
 		return view;

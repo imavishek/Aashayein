@@ -1,6 +1,5 @@
 package org.avishek.aashayein.command;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
 import org.avishek.aashayein.validator.PasswordMatches;

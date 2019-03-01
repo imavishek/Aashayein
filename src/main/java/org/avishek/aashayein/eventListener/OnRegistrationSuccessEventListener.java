@@ -29,7 +29,7 @@ public class OnRegistrationSuccessEventListener implements ApplicationListener<O
 		Employee employee = event.getEmployee();
 		MailRequestTO mailRequestTo = new MailRequestTO();
 
-		confirmationUrl = serverUtil.getServerUrl() + "EmployeeRegistration/showSetPassword.abhi?token="
+		confirmationUrl = serverUtil.getServerUrl() + "EmployeeProfile/Reset/showSetPassword.abhi?token="
 				+ employee.getTokenUUID();
 
 		logger.info("On Registration Success Event Published");

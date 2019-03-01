@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/Employee")
+@RequestMapping(value = "/Admin/Employee")
 public class EmployeeController {
 
 	@Autowired
@@ -51,7 +51,7 @@ public class EmployeeController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a>";
+				+ request.getContextPath() + "/Admin/Employee/showEmployees.abhi'>Employees</a>";
 
 		model.addAttribute("pageTitle", "Employees");
 		model.addAttribute("breadcrumb", breadcrumb);
@@ -80,8 +80,8 @@ public class EmployeeController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
-				+ request.getContextPath() + "/Employee/showEditEmployee.abhi?employeeId=" + id + "&employeeCode="
+				+ request.getContextPath() + "/Admin/Employee/showEmployees.abhi'>Employees</a> / <a href='"
+				+ request.getContextPath() + "/Admin/Employee/showEditEmployee.abhi?employeeId=" + id + "&employeeCode="
 				+ employeeCode + "'>Edit Employee: " + employeeCode + "</a>";
 
 		Integer employeeId = Integer.parseInt(id);
@@ -146,7 +146,7 @@ public class EmployeeController {
 			redir.addFlashAttribute("editEmployee", editEmployeeCommand);
 			redir.addFlashAttribute("org.springframework.validation.BindingResult.editEmployee", result);
 
-			view = "redirect:/Employee/showEditEmployee.abhi?employeeId=" + editEmployeeCommand.getEmployeeId()
+			view = "redirect:/Admin/Employee/showEditEmployee.abhi?employeeId=" + editEmployeeCommand.getEmployeeId()
 					+ "&employeeCode=" + editEmployeeCommand.getEmployeeCode();
 		} else {
 
@@ -171,14 +171,14 @@ public class EmployeeController {
 				redir.addFlashAttribute("message", "Employee Edited Successfully");
 				redir.addFlashAttribute("messageType", "Success");
 
-				view = "redirect:/Employee/showEmployees.abhi";
+				view = "redirect:/Admin/Employee/showEmployees.abhi";
 			} else {
 				logger.error("Failed To Edit Employee Having EmployeeCode: " + editEmployeeCommand.getEmployeeCode());
 				redir.addFlashAttribute("employee", editEmployeeCommand);
 				redir.addFlashAttribute("message", message);
 				redir.addFlashAttribute("messageType", "Error");
 
-				view = "redirect:/Employee/showEditEmployee.abhi";
+				view = "redirect:/Admin/Employee/showEditEmployee.abhi";
 			}
 		}
 
@@ -208,7 +208,7 @@ public class EmployeeController {
 		redir.addFlashAttribute("message", "Employee Archived Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
-		redirectUrl = "/Employee/showEmployees.abhi";
+		redirectUrl = "/Admin/Employee/showEmployees.abhi";
 
 		view = "redirect:" + redirectUrl;
 
@@ -238,7 +238,7 @@ public class EmployeeController {
 		redir.addFlashAttribute("message", "Employee UnArchived Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
-		redirectUrl = "/Employee/showEmployees.abhi";
+		redirectUrl = "/Admin/Employee/showEmployees.abhi";
 
 		view = "redirect:" + redirectUrl;
 

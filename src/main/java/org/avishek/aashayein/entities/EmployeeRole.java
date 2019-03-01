@@ -1,12 +1,17 @@
 package org.avishek.aashayein.entities;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,6 +34,10 @@ public class EmployeeRole {
 
 	@Column(name = "RecordUpdated", nullable = true, insertable = false)
 	private Date recordUpdated;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "TblEmployeeRoleAccess", joinColumns = @JoinColumn(name = "RoleId", referencedColumnName = "RoleId"), inverseJoinColumns = @JoinColumn(name = "ModuleId", referencedColumnName = "ModuleId"))
+	private Set<EmployeeModule> modules;
 
 	public Integer getRoleId() {
 		return roleId;
@@ -70,10 +79,18 @@ public class EmployeeRole {
 		this.recordUpdated = recordUpdated;
 	}
 
+	public Set<EmployeeModule> getModules() {
+		return modules;
+	}
+
+	public void setModules(Set<EmployeeModule> modules) {
+		this.modules = modules;
+	}
+
 	@Override
 	public String toString() {
 		return "EmployeeRole [roleId=" + roleId + ", roleName=" + roleName + ", archive=" + archive + ", recordCreated="
-				+ recordCreated + ", recordUpdated=" + recordUpdated + "]";
+				+ recordCreated + ", recordUpdated=" + recordUpdated + ", modules=" + modules + "]";
 	}
 
 }

@@ -52,7 +52,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackages = { "org.avishek.aashayein.*" })
 @EnableScheduling
 @EnableTransactionManagement
-//@Import({SpringSecurityConfiguration.class})
+@Import({ SpringSecurityConfiguration.class })
 public class SpringConfiguration implements WebMvcConfigurer {
 
 	@Autowired
@@ -150,12 +150,6 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		return multipartResolver;
 	}
 
-	/*// Adding BCryptPasswordEncoder
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-*/
 	// Adding JavaMailSender
 	@Bean
 	public JavaMailSender getJavaMailSender() {
@@ -170,7 +164,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
 		props.put("mail.transport.protocol", "smtp");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		//props.put("mail.debug", "true");
+		// props.put("mail.debug", "true");
 
 		return mailSender;
 	}

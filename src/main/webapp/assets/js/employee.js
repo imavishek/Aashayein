@@ -46,7 +46,7 @@ $(function() {
 		}
 	});
 	$("#tableGrid").jqGrid({
-		url : contextRoot + '/Employee/getEmployees.abhi',
+		url : contextRoot + '/Admin/Employee/getEmployees.abhi',
 		datatype: "json",
 		contentType: "application/json; charset=utf-8",
 		colModel: [

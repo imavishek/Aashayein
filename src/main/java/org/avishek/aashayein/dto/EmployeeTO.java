@@ -79,6 +79,8 @@ public class EmployeeTO {
 
 	private String tokenUUID;
 
+	private String password;
+
 	private Date tokenGeneratedDate;
 
 	// @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone
@@ -339,6 +341,14 @@ public class EmployeeTO {
 		this.tokenUUID = tokenUUID;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Date getTokenGeneratedDate() {
 		return tokenGeneratedDate;
 	}
@@ -382,9 +392,9 @@ public class EmployeeTO {
 				+ ", postalCode=" + postalCode + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2
 				+ ", jobTitleId=" + jobTitleId + ", jobTitleName=" + jobTitleName + ", roleId=" + roleId + ", roleName="
 				+ roleName + ", active=" + active + ", archive=" + archive + ", profilePhoto=" + profilePhoto
-				+ ", profilePhotoFile=" + profilePhotoFile + ", tokenUUID=" + tokenUUID + ", tokenGeneratedDate="
-				+ tokenGeneratedDate + ", joiningDate=" + joiningDate + ", recordCreated=" + recordCreated
-				+ ", recordUpdated=" + recordUpdated + "]";
+				+ ", profilePhotoFile=" + profilePhotoFile + ", tokenUUID=" + tokenUUID + ", password=" + password
+				+ ", tokenGeneratedDate=" + tokenGeneratedDate + ", joiningDate=" + joiningDate + ", recordCreated="
+				+ recordCreated + ", recordUpdated=" + recordUpdated + "]";
 	}
 
 }

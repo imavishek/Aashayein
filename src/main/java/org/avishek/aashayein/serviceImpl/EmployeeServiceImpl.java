@@ -247,4 +247,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employee;
 	}
 
+	// Saving password
+	@Override
+	@Transactional
+	public Integer savePassword(EmployeeTO employeeTo) {
+
+		return employeeDao.savePassword(employeeTo);
+	}
+
+	// Active employee
+	@Override
+	@Transactional
+	public Integer activeEmployee(Integer employeeId) {
+
+		return employeeDao.activeEmployee(employeeId);
+	}
+
 }

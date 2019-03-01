@@ -8,7 +8,7 @@
 <jstlCore:set var="tomorrow" value="<%=new Date(new Date().getTime() + 60*60*24*1000)%>"/>
 
 
-<jsp:include page="/header.jsp" />
+<jsp:include page="/WEB-INF/views/header.jsp" />
 
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
@@ -245,4 +245,4 @@ $(function() {
 </script>
 <script type="text/javascript" src="${contextRoot}/assets/js/employeeProfile.js"></script>
 
-<jsp:include page="/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footer.jsp" />

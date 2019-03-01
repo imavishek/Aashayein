@@ -19,11 +19,9 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.EmployeeRegistrationCommand;
-import org.avishek.aashayein.command.PasswordCommand;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.EmployeeTitleTO;
-import org.avishek.aashayein.exception.InvalidTokenException;
 import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
 import org.avishek.aashayein.service.EmployeeService;
@@ -40,7 +38,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -169,62 +166,6 @@ public class EmployeeRegistrationController {
 				view = "redirect:/EmployeeRegistration/showRegistration.abhi";
 			}
 		}
-
-		return view;
-	}
-
-	// Show setPassword page for employee
-	@RequestMapping(value = "/showSetPassword.abhi")
-	public String showSetPassword(Model model, HttpServletRequest request,
-			@RequestParam(name = "token", required = true) String token) throws InvalidTokenException {
-
-		String view = "";
-		// Token expiration time in milliseconds. 24h = 86400000 Milliseconds
-		Long expiration = 86400000l;
-
-		// Verify token and expired date
-		EmployeeTO employee = employeeService.verifyToken(token, expiration);
-
-		if (employee == null) {
-			throw new InvalidTokenException("Invalid Token");
-		}
-
-		if (!model.containsAttribute("password")) {
-			PasswordCommand password = new PasswordCommand();
-			password.setTokenUUID(employee.getTokenUUID());
-			model.addAttribute("password", password);
-		}
-
-		view = "setPassword";
-
-		return view;
-	}
-
-	// Saving password
-	@RequestMapping(value = "/setPassword.abhi")
-	public String setPassword(Model model, @Valid @ModelAttribute("password") PasswordCommand password,
-			BindingResult result, HttpServletRequest request, RedirectAttributes redir) {
-
-		String view = "";
-
-		// Checking data binding error
-		if (result.hasErrors()) {
-
-			// Logging DataBinding Error
-			for (FieldError error : result.getFieldErrors()) {
-				logger.error("Error In DataBinding For Field:- " + error.getField() + " FieldValue:- "
-						+ error.getRejectedValue());
-			}
-
-			// Redirect to show the error registration page
-			redir.addFlashAttribute("password", password);
-			redir.addFlashAttribute("org.springframework.validation.BindingResult.password", result);
-
-			view = "redirect:/EmployeeRegistration/showSetPassword.abhi?token=" + password.getTokenUUID();
-		} else {
-			System.out.println(password);
-		}
-		view = "setPassword";
 
 		return view;
 	}

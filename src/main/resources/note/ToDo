@@ -20,6 +20,9 @@ if no employee available den jqgrid throwing error (Ajax call error)
 if controller return null error in ajax cakk for getting cities
 
 
+When changing profile ...change session variable
+When edit role do logout
+
 
 https://free-jqgrid.github.io/getting-started/index.html#type_of_data_code
 http://www.guriddo.net/documentation/guriddo/javascript/user-guide/basic-grid/

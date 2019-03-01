@@ -111,6 +111,36 @@ public class Employee {
 	@Column(name = "RecordUpdated", nullable = true, insertable = false)
 	private Date recordUpdated;
 
+	public Employee() {
+	}
+
+	public Employee(Employee user) {
+		super();
+		this.employeeId = user.getEmployeeId();
+		this.employeeCode = user.getEmployeeCode();
+		this.firstName = user.getFirstName();
+		this.middleName = user.getMiddleName();
+		this.lastName = user.getLastName();
+		this.fullName = user.getFullName();
+		this.gender = user.getGender();
+		this.mobileNumber = user.getMobileNumber();
+		this.alternateMobileNumber = user.getAlternateMobileNumber();
+		this.email = user.getEmail();
+		this.alternateEmail = user.getAlternateEmail();
+		this.address = user.getAddress();
+		this.title = user.getTitle();
+		this.role = user.getRole();
+		this.active = user.getActive();
+		this.archive = user.getArchive();
+		this.password = user.getPassword();
+		this.profilePhoto = user.getProfilePhoto();
+		this.tokenUUID = user.getTokenUUID();
+		this.tokenGeneratedDate = user.getTokenGeneratedDate();
+		this.joiningDate = user.getJoiningDate();
+		this.recordCreated = user.getRecordCreated();
+		this.recordUpdated = user.getRecordUpdated();
+	}
+
 	public Integer getEmployeeId() {
 		return employeeId;
 	}

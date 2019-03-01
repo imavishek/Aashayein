@@ -30,10 +30,14 @@ public interface EmployeeService {
 
 	Integer unArchiveEmployee(Integer employeeId);
 
+	Integer savePassword(EmployeeTO employeeTo);
+
 	boolean emailExist(String email);
 
 	boolean mobileNumberExist(String mobileNumber);
 
 	EmployeeTO verifyToken(String token, Long expiration);
+
+	Integer activeEmployee(Integer employeeId);
 
 }

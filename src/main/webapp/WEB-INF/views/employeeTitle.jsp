@@ -4,7 +4,7 @@
 <%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
-<jsp:include page="/header.jsp" />
+<jsp:include page="/WEB-INF/views/header.jsp" />
 
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
@@ -120,4 +120,4 @@ $(function() {
 <script type="text/javascript" src="${contextRoot}/assets/js/employeeTitle.js"></script>
 
 
-<jsp:include page="/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footer.jsp" />

@@ -3,7 +3,7 @@
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 
 
-<jsp:include page="/header.jsp" />
+<jsp:include page="/WEB-INF/views/header.jsp" />
 
 
 <link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
@@ -67,4 +67,4 @@
 <script type="text/javascript" src="${contextRoot}/assets/js/addEmployeeRole.js"></script>
 
 
-<jsp:include page="/footer.jsp" />
+<jsp:include page="/WEB-INF/views/footer.jsp" />

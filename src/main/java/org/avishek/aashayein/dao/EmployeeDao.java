@@ -17,6 +17,8 @@ public interface EmployeeDao {
 
 	EmployeeTO getEmployeeByToken(String token);
 
+	Employee getEmployeeByUsername(String username);
+
 	String getLastEmployeeId();
 
 	Employee addEmployee(EmployeeTO employeeTo);
@@ -29,4 +31,7 @@ public interface EmployeeDao {
 
 	Integer unArchiveEmployee(Integer employeeId);
 
+	Integer savePassword(EmployeeTO employeeTo);
+
+	Integer activeEmployee(Integer employeeId);
 }
