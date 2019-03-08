@@ -1,6 +1,10 @@
 package org.avishek.aashayein.controller;
 
+import java.io.IOException;
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,9 +35,14 @@ public class LoginController {
 
 	// Shows login page
 	@RequestMapping(value = "/showLogin.abhi")
-	public String showLoginPage(Model model, HttpServletRequest request) {
+	public String showLoginPage(Model model, HttpServletRequest request, HttpServletResponse response,
+			Principal principal) throws IOException {
 
 		String view = "";
+
+		if (principal != null) {
+			response.sendRedirect(request.getContextPath() + "/home");
+		}
 
 		if (!model.containsAttribute("login")) {
 			model.addAttribute("login", new LoginCommand());

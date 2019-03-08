@@ -58,13 +58,13 @@
 							<jstlCore:choose>
 								<jstlCore:when test="${title.archive eq 0}">
 									<td class="alignCenter">
-										<a href='<jstlCore:url value="/EmployeeTitle/showEditJobTitleDialog.abhi?titleId=${title.titleId}"/>' class="auto-button editTitle" data-icon="ui-icon-custom-edit" title="Edit Title">Edit</a>
-										<a href='<jstlCore:url value="/EmployeeTitle/deleteTitle.abhi?titleId=${title.titleId}"/>' class="auto-button deleteTitle" data-icon="ui-icon-custom-delete" title="Delete Title">Delete</a>
+										<a href='<jstlCore:url value="/Admin/EmployeeTitle/showEditJobTitleDialog.abhi?titleId=${title.titleId}"/>' class="auto-button editTitle" data-icon="ui-icon-custom-edit" title="Edit Title">Edit</a>
+										<a href='<jstlCore:url value="/Admin/EmployeeTitle/deleteTitle.abhi?titleId=${title.titleId}"/>' class="auto-button deleteTitle" data-icon="ui-icon-custom-delete" title="Delete Title">Delete</a>
 									</td>
 								</jstlCore:when>
 								<jstlCore:otherwise>
 									<td class="alignCenter" colspan="2">
-										<a href='<jstlCore:url value="/EmployeeTitle/activeTitle.abhi?titleId=${title.titleId}"/>' class="auto-button" data-icon="ui-icon-custom-reset" title="Active Title">Active</a>
+										<a href='<jstlCore:url value="/Admin/EmployeeTitle/activeTitle.abhi?titleId=${title.titleId}"/>' class="auto-button" data-icon="ui-icon-custom-reset" title="Active Title">Active</a>
 									</td>
 								</jstlCore:otherwise>
 							</jstlCore:choose>

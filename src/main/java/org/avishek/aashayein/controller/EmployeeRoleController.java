@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/EmployeeRole")
+@RequestMapping(value = "/Admin/EmployeeRole")
 public class EmployeeRoleController {
 
 	private static final Logger logger = LogManager.getLogger(EmployeeRoleController.class);
@@ -48,7 +48,7 @@ public class EmployeeRoleController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
+				+ request.getContextPath() + "/Admin/EmployeeRole/showRoles.abhi'>Employee Roles</a>";
 
 		// Getting all the employee role details
 		List<EmployeeRoleTO> employeeRoles = employeeRoleAndAccessService.getAllRoles();
@@ -69,8 +69,8 @@ public class EmployeeRoleController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
-				+ request.getContextPath() + "/EmployeeRole/showEditRole.abhi?roleId=" + roleId
+				+ request.getContextPath() + "/Admin/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
+				+ request.getContextPath() + "/Admin/EmployeeRole/showEditRole.abhi?roleId=" + roleId
 				+ "'> Edit Employee Role</a>";
 
 		Integer employeeRoleId = Integer.parseInt(roleId);
@@ -111,8 +111,8 @@ public class EmployeeRoleController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
-				+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
+				+ request.getContextPath() + "/Admin/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
+				+ request.getContextPath() + "/Admin/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
 
 		// Getting all the modules present in application
 		List<EmployeeModuleTO> employeeModules = employeeRoleAndAccessService.getAllModules();
@@ -158,15 +158,15 @@ public class EmployeeRoleController {
 			if (addEmployeeRole.getRoleId() == "") {
 
 				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-						+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
-						+ request.getContextPath() + "/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
+						+ request.getContextPath() + "/Admin/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
+						+ request.getContextPath() + "/Admin/EmployeeRole/showAddRole.abhi'>Add Employee Role</a>";
 
 				model.addAttribute("pageTitle", "Add Employee Role");
 			} else {
 
 				breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-						+ request.getContextPath() + "/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
-						+ request.getContextPath() + "/EmployeeRole/showEditRole.abhi?roleId="
+						+ request.getContextPath() + "/Admin/EmployeeRole/showRoles.abhi'>Employee Roles</a> / <a href='"
+						+ request.getContextPath() + "/Admin/EmployeeRole/showEditRole.abhi?roleId="
 						+ addEmployeeRole.getRoleId() + "'> Edit Employee Role</a>";
 
 				model.addAttribute("pageTitle", "Edit Employee Role");
@@ -234,7 +234,7 @@ public class EmployeeRoleController {
 
 			}
 
-			redirectUrl = "/EmployeeRole/showRoles.abhi";
+			redirectUrl = "/Admin/EmployeeRole/showRoles.abhi";
 
 			view = "redirect:" + redirectUrl;
 		}
@@ -265,7 +265,7 @@ public class EmployeeRoleController {
 		redir.addFlashAttribute("message", "Employee Role Deleted Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
-		redirectUrl = "/EmployeeRole/showRoles.abhi";
+		redirectUrl = "/Admin/EmployeeRole/showRoles.abhi";
 
 		view = "redirect:" + redirectUrl;
 
@@ -295,7 +295,7 @@ public class EmployeeRoleController {
 		redir.addFlashAttribute("message", "Employee Role Activated Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
-		redirectUrl = "/EmployeeRole/showRoles.abhi";
+		redirectUrl = "/Admin/EmployeeRole/showRoles.abhi";
 
 		view = "redirect:" + redirectUrl;
 

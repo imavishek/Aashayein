@@ -62,7 +62,7 @@ public class EmployeeController {
 	}
 
 	// Get all employee details
-	@GetMapping(value = "/getEmployees.abhi", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/Asyn/getEmployees.abhi", headers = "X-Requested-With=XMLHttpRequest", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<EmployeeTO> getEmployees(Model model, HttpServletRequest request) {
 

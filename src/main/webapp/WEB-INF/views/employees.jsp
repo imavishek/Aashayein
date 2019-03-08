@@ -1,8 +1,8 @@
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%> 
-<%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%> 
+<%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <jsp:include page="/WEB-INF/views/header.jsp" />
@@ -25,7 +25,7 @@
 	<div class="notification-holder"></div>
 	
 	<div style="margin-bottom:.8em;">
-		<a href='<jstlCore:url value="/EmployeeRegistration/showRegistration.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee</a>
+		<a href='<jstlCore:url value="/Admin/EmployeeRegistration/showRegistration.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee</a>
 	</div>
 	
 	<div class="wrapper">

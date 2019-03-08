@@ -109,7 +109,7 @@ $(function() {
 		e.preventDefault();
 		$(".notification-holder").hide();
 
-		$("#dialogAddJobTitle").load('' + contextRoot + '/EmployeeTitle/showJobTitleDialog', function( response, status, xhr ) {
+		$("#dialogAddJobTitle").load('' + contextRoot + '/Admin/EmployeeTitle/showJobTitleDialog', function( response, status, xhr ) {
 			if ( status == "error" ) {
 				var errorText = "The page you are looking for might have been removed had its name changed or is temporarily unavailable";
 				

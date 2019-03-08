@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/EmployeeRegistration")
+@RequestMapping(value = "/Admin/EmployeeRegistration")
 public class EmployeeRegistrationController {
 
 	@Autowired
@@ -76,8 +76,8 @@ public class EmployeeRegistrationController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/Employee/showEmployees.abhi'>Employees</a> / <a href='"
-				+ request.getContextPath() + "/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
+				+ request.getContextPath() + "/Admin/Employee/showEmployees.abhi'>Employees</a> / <a href='"
+				+ request.getContextPath() + "/Admin/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
 
 		// Getting all the job title details
 		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
@@ -124,7 +124,7 @@ public class EmployeeRegistrationController {
 			redir.addFlashAttribute("employee", employeeCommand);
 			redir.addFlashAttribute("org.springframework.validation.BindingResult.employee", result);
 
-			view = "redirect:/EmployeeRegistration/showRegistration.abhi";
+			view = "redirect:/Admin/EmployeeRegistration/showRegistration.abhi";
 		} else {
 
 			// Setting value in Employee Transfer Object
@@ -155,7 +155,7 @@ public class EmployeeRegistrationController {
 				redir.addFlashAttribute("message", "Employee Added Successfully");
 				redir.addFlashAttribute("messageType", "Success");
 
-				view = "redirect:/Employee/showEmployees.abhi";
+				view = "redirect:/Admin/Employee/showEmployees.abhi";
 			} else {
 				logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
 						+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
@@ -163,7 +163,7 @@ public class EmployeeRegistrationController {
 				redir.addFlashAttribute("message", message);
 				redir.addFlashAttribute("messageType", "Error");
 
-				view = "redirect:/EmployeeRegistration/showRegistration.abhi";
+				view = "redirect:/Admin/EmployeeRegistration/showRegistration.abhi";
 			}
 		}
 

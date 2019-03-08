@@ -22,7 +22,7 @@
 <!-- Show InnerContent After Window Load -->
 <div class="innerContent">
 
-	<springForm:form action="${contextRoot}/EmployeeRegistration/saveEmployee.abhi" id="employeeRegistration" method="POST" modelAttribute="employee" enctype="multipart/form-data">
+	<springForm:form action="${contextRoot}/Admin/EmployeeRegistration/saveEmployee.abhi" id="employeeRegistration" method="POST" modelAttribute="employee" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td><springForm:label path="firstName" cssClass="field_label">First Name</springForm:label><span class="required">*</span></td>

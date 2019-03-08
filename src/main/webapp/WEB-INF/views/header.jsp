@@ -3,6 +3,7 @@
 <%@taglib prefix="jstlCore" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 
 <jstlCore:set var="contextRoot" value="${pageContext.request.contextPath}" scope="application"/>
@@ -13,6 +14,7 @@
 	<title>Aashayein</title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<sec:csrfMetaTags />
 
 	<!-- Common css file for every page -->
 	<link rel="shortcut icon" href="${contextRoot}/assets/img/logos/Aashayein_icon.ico">

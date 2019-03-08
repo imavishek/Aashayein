@@ -1,0 +1,28 @@
+What is a HandlerAdapter?
+
+The HandlerAdapter is basically an interface which facilitates the handling of HTTP requests in a very flexible manner in Spring MVC.
+It’s used in conjunction with the HandlerMapping, which maps a method to a specific URL.
+The DispatcherServlet then uses a HandlerAdapter to invoke this method. The servlet doesn’t invoke the method directly – it basically serves as a bridge between itself and the handler objects, leading to a loosely coupling design.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Spring Security
+------------------------
+
+
+
+
+
+Interceptor
+--------------------------
+ 

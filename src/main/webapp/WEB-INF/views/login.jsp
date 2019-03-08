@@ -3,6 +3,7 @@
 <%@taglib prefix="springForm" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="jstlFormat" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="jstlFn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <jstlCore:set var="contextRoot" value="${pageContext.request.contextPath}" scope="application"/>
 
@@ -12,6 +13,7 @@
 	<title>Aashayein</title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	
 
 	<link rel="shortcut icon" href="${contextRoot}/assets/img/logos/Aashayein_icon.ico">
 	<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
@@ -89,7 +91,9 @@
 						</div>
 					</div>
 					<div align="middle" style="margin-top:10px;">
-						<a href='<jstlCore:url value=""/>'>Reset password?</a>
+						<a href='<jstlCore:url value=""/>'>Active Account</a>
+						&nbsp; | &nbsp;
+						<a href='<jstlCore:url value=""/>'>Reset password</a>
 					</div>
 				</springForm:form>
 			</div>

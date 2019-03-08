@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping(value = "/EmployeeTitle")
+@RequestMapping(value = "/Admin/EmployeeTitle")
 public class EmployeeTitleController {
 
 	private static final Logger logger = LogManager.getLogger(EmployeeTitleController.class);
@@ -46,7 +46,7 @@ public class EmployeeTitleController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
-				+ request.getContextPath() + "/EmployeeTitle/showTitles.abhi'>Employee Titles</a>";
+				+ request.getContextPath() + "/Admin/EmployeeTitle/showTitles.abhi'>Employee Titles</a>";
 
 		// Getting all the job title details
 		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
@@ -173,7 +173,7 @@ public class EmployeeTitleController {
 			}
 		}
 
-		redirectUrl = "/EmployeeTitle/showTitles.abhi";
+		redirectUrl = "/Admin/EmployeeTitle/showTitles.abhi";
 
 		view = "redirect:" + redirectUrl;
 
@@ -203,7 +203,7 @@ public class EmployeeTitleController {
 		redir.addFlashAttribute("message", "Employee Title Deleted Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
-		redirectUrl = "/EmployeeTitle/showTitles.abhi";
+		redirectUrl = "/Admin/EmployeeTitle/showTitles.abhi";
 
 		view = "redirect:" + redirectUrl;
 
@@ -233,7 +233,7 @@ public class EmployeeTitleController {
 		redir.addFlashAttribute("message", "Employee Title Activated Successfully");
 		redir.addFlashAttribute("messageType", "Success");
 
-		redirectUrl = "/EmployeeTitle/showTitles.abhi";
+		redirectUrl = "/Admin/EmployeeTitle/showTitles.abhi";
 
 		view = "redirect:" + redirectUrl;
 

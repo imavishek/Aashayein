@@ -4,7 +4,7 @@
 <script type="text/javascript" src="${contextRoot}/assets/js/dialogAddJobTitle.js"></script>
 
 <springForm:form
-		action="${contextRoot}/EmployeeTitle/saveEmployeeTitle.abhi"
+		action="${contextRoot}/Admin/EmployeeTitle/saveEmployeeTitle.abhi"
 		id="saveEmployeeTitle" method="POST" modelAttribute="employeeTitle">
 		<springForm:hidden path="titleId"/>
 	

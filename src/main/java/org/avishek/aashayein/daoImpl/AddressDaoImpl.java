@@ -61,7 +61,7 @@ public class AddressDaoImpl implements AddressDao {
 	@Override
 	public List<StateTO> getAllActiveStates(Integer countryId) {
 
-		List<StateTO> stateTo = null;
+		List<StateTO> stateTo = new ArrayList<StateTO>();
 
 		String hql = "FROM State state WHERE state.archive=?1 AND state.countryId=?2 ORDER BY StateName ASC";
 		Query<State> query = sessionFactory.getCurrentSession().createQuery(hql, State.class);
@@ -70,7 +70,6 @@ public class AddressDaoImpl implements AddressDao {
 		List<State> states = query.list();
 
 		if (!states.isEmpty()) {
-			stateTo = new ArrayList<StateTO>();
 
 			for (State state : states) {
 				StateTO sTo = new StateTO();
@@ -88,7 +87,7 @@ public class AddressDaoImpl implements AddressDao {
 	@Override
 	public List<CityTO> getAllActiveCities(Integer stateId) {
 
-		List<CityTO> cityTo = null;
+		List<CityTO> cityTo = new ArrayList<CityTO>();
 
 		String hql = "FROM City city WHERE city.archive=?1 AND city.stateId=?2 ORDER BY CityName ASC";
 		Query<City> query = sessionFactory.getCurrentSession().createQuery(hql, City.class);
@@ -97,7 +96,6 @@ public class AddressDaoImpl implements AddressDao {
 		List<City> cities = query.list();
 
 		if (!cities.isEmpty()) {
-			cityTo = new ArrayList<CityTO>();
 
 			for (City city : cities) {
 				CityTO cTo = new CityTO();

@@ -9,9 +9,11 @@
 
 package org.avishek.aashayein.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.avishek.aashayein.dto.CityTO;
 import org.avishek.aashayein.dto.CountryTO;
@@ -41,10 +43,10 @@ public class AddressController {
 	}
 
 	// Get service provided states
-	@RequestMapping(value = "/getStates.abhi", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/Asyn/getStates.abhi", headers = "X-Requested-With=XMLHttpRequest", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<StateTO> getStates(Model model, HttpServletRequest request,
-			@RequestParam(name = "countryId") String countryId) {
+	public List<StateTO> getStates(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(name = "countryId") String countryId) throws IOException {
 
 		Integer id = Integer.parseInt(countryId);
 
@@ -53,10 +55,10 @@ public class AddressController {
 	}
 
 	// Get service provided cities
-	@RequestMapping(value = "/getCities.abhi", produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/Asyn/getCities.abhi", headers = "X-Requested-With=XMLHttpRequest", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<CityTO> getCities(Model model, HttpServletRequest request,
-			@RequestParam(name = "stateId") String stateId) {
+	public List<CityTO> getCities(Model model, HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(name = "stateId") String stateId) throws IOException {
 
 		Integer id = Integer.parseInt(stateId);
 

@@ -2,6 +2,9 @@ $(function() {
 
 	"use strict";
 
+	var csrfToken = $("meta[name='_csrf']").attr("content");
+	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 	$(".auto-button").button();
 	$("input[type=radio]").checkboxradio();
 	$("#country").pqSelect({
@@ -66,7 +69,7 @@ $(function() {
 		event.preventDefault();
 	});
 	
-	$("#editEmployeeProfile").validate({			
+	$("#editEmployeeProfile").validate({
 		rules : {
 			firstName : {
 				normalizer : function(value) {
@@ -254,11 +257,12 @@ $(function() {
 	function getCorrespondingStates(countryId){
 		$.ajax({
 			type : "GET",
-			url : '' + contextRoot + '/Address/getStates.abhi',
+			url : '' + contextRoot + '/Address/Asyn/getStates.abhi',
 			data: { countryId: countryId },
 			dataType : "json",
 			contentType: "application/json; charset=utf-8",
-			beforeSend : function() {
+			beforeSend : function(jqXHR) {
+				jqXHR.setRequestHeader(csrfHeader, csrfToken);
 				// Show loader
 				$('.customSpinner').show(); 
 				$(".notification-holder").hide();
@@ -302,11 +306,12 @@ $(function() {
 	function getCorrespondingCities(stateId){
 		$.ajax({
 			type : "GET",
-			url : '' + contextRoot + '/Address/getCities.abhi',
+			url : '' + contextRoot + '/Address/Asyn/getCities.abhi',
 			data: { stateId: stateId },
 			dataType : "json",
 			contentType: "application/json; charset=utf-8",
-			beforeSend : function() {
+			beforeSend : function(jqXHR) {
+				jqXHR.setRequestHeader(csrfHeader, csrfToken);
 				// Show loader
 				$('.customSpinner').show(); 
 				$(".notification-holder").hide();

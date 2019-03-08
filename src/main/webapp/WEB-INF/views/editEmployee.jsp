@@ -78,6 +78,12 @@
 						<td class="display_label">Alternate Email:</td>
 						<td class="displayfield">${not empty employee.alternateEmail ? employee.alternateEmail : 'N/A'}</td>
 					</tr>
+					<jstlCore:if test="${employee.active eq 1}">
+						<tr>
+							<td class="display_label">Joined On:</td>
+							<td class="displayfield"><jstlFormat:formatDate value="${employee.joiningDate}" pattern="dd-MM-yyyy"/></td>
+						</tr>
+					</jstlCore:if>
 					<tr>
 						<td class="display_label">Country:</td>
 						<td class="displayfield">${not empty employee.countryName ? employee.countryName : 'N/A'}</td>
@@ -106,7 +112,7 @@
 			</div>
 		</div>
 		<div style="width:50%;padding:5px 5px 5px 15px;margin-top:20px;">
-			<springForm:form action="${contextRoot}/Employee/saveEmployee.abhi" id="editEmployee" method="POST" modelAttribute="editEmployee">
+			<springForm:form action="${contextRoot}/Admin/Employee/saveEmployee.abhi" id="editEmployee" method="POST" modelAttribute="editEmployee">
 			
 				<springForm:hidden path="employeeId"/>
 				<springForm:errors path="employeeId" cssClass="error_message" element="span" />
@@ -137,20 +143,22 @@
 					</td>
 					<td><springForm:errors path="role" cssClass="error_message" element="span"/></td>
 				</tr>
-				<tr>
-					<td><springForm:label path="joiningDate" cssClass="field_label">Joining Date</springForm:label><span class="required">*</span></td>
-					<td>
-						<jstlFormat:formatDate value="${tomorrow}" pattern="dd-MM-yyyy" var="tomorrow" />
-						<jsp:include page="/WEB-INF/tags/date_picker.jsp">
-    						<jsp:param name="fieldName" value="joiningDate"/>
-    						<jsp:param name="defaultDate" value='${tomorrow}'/>
-    						<jsp:param name="minDate" value="1D"/>
-    						<jsp:param name="yearRange" value="+0:+10"/>
-						</jsp:include>
-						<span class="ui-icon ui-icon-custom-info-faded" title="Select Date Greater Than Today"></span>
-					</td>
-					<td><springForm:errors path="joiningDate" cssClass="error_message" element="span"/></td>
-				</tr>
+				<%-- <jstlCore:if test="${employee.active eq 0}"> --%>
+					<tr>
+						<td><springForm:label path="joiningDate" cssClass="field_label">Joining Date</springForm:label><span class="required">*</span></td>
+						<td>
+							<jstlFormat:formatDate value="${tomorrow}" pattern="dd-MM-yyyy" var="tomorrow" />
+							<jsp:include page="/WEB-INF/tags/date_picker.jsp">
+								<jsp:param name="fieldName" value="joiningDate"/>
+								<jsp:param name="defaultDate" value='${tomorrow}'/>
+								<jsp:param name="minDate" value="1D"/>
+								<jsp:param name="yearRange" value="+0:+10"/>
+							</jsp:include>
+							<span class="ui-icon ui-icon-custom-info-faded" title="Select Date Greater Than Today"></span>
+						</td>
+						<td><springForm:errors path="joiningDate" cssClass="error_message" element="span"/></td>
+					</tr>
+				<%-- </jstlCore:if> --%>
 				<tr>
 					<td style="padding-top:10px;"></td>
 					<td style="text-align:right;padding-top:10px;">

@@ -3,25 +3,28 @@ tomcat 404 and 500 error
 application level variable
 future date not working
 rearrange the jsp files
-
-ajax call validate
-ajax call error html render (Not working in jqgrid)
 continue tranction in fileuploading
-
-check edit profile details (session Ids)
 search field in employee list page
 mail on edit employee
-
 choose a picture over flow hidden
 table sorter table border
 
 
-if no employee available den jqgrid throwing error (Ajax call error)
-if controller return null error in ajax cakk for getting cities
-
-
+controll the setting of session attributes (avoid changing variable)
 When changing profile ...change session variable
 When edit role do logout
+
+active account
+resetpassword
+
+remember me change to hibernate
+controll the setting of session attributes (avoid changing variable)
+
+joining date edit in employee edit sesction
+
+
+
+
 
 
 https://free-jqgrid.github.io/getting-started/index.html#type_of_data_code

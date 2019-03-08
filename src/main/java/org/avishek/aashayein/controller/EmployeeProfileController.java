@@ -74,7 +74,8 @@ public class EmployeeProfileController {
 
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home /</a> <a href='" + request.getContextPath()
-				+ "/EmployeeProfile/showEmployeeProfile.abhi'>Avishek</a>";
+				+ "/EmployeeProfile/showEmployeeProfile.abhi'>" + request.getSession().getAttribute("name").toString()
+				+ "</a>";
 
 		EditEmployeeProfileCommand editEmployeeProfileCommand = null;
 		List<CountryTO> countries = null;
@@ -139,6 +140,14 @@ public class EmployeeProfileController {
 			@Valid @ModelAttribute("editEmployeeProfile") EditEmployeeProfileCommand editEmployeeProfileCommand,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
 			throws UploadingFailedException {
+
+		/*
+		 * To achieve multipart file upload using csrf, 1) You have to register
+		 * MultipartFilter before SpringSecurityFilterChain 2) Configure bean of class
+		 * CommonsMultipartResolver with bean name filterMultipartResolver 3) Update the
+		 * context.xml(Eclipse -> ProjectExplorer -> Server -> Tomcat v8.5.... ->
+		 * context.xml) file to <Context allowCasualMultipartParsing="true"></Context>
+		 */
 
 		String view = "";
 

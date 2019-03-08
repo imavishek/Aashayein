@@ -15,7 +15,7 @@
 <!-- Show InnerContent After Window Load -->
 <div class="innerContent">
 	<springForm:form
-		action="${contextRoot}/EmployeeRole/saveEmployeeRole.abhi"
+		action="${contextRoot}/Admin/EmployeeRole/saveEmployeeRole.abhi"
 		id="saveEmployeeRole" method="POST" modelAttribute="addEmployeeRole">
 		
 		<springForm:hidden path="roleId"/>
@@ -53,7 +53,7 @@
 				<td style="padding-top: 10px;"></td>
 				<td style="text-align: left;">
 					<button type="submit" class="auto-button actionButton" data-icon="ui-icon-custom-save">Save</button>
-					<a href='<jstlCore:url value="/EmployeeRole/showRoles.abhi"/>' class="auto-button" data-icon="ui-icon-custom-cancel">Cancel</a>
+					<a href='<jstlCore:url value="/Admin/EmployeeRole/showRoles.abhi"/>' class="auto-button" data-icon="ui-icon-custom-cancel">Cancel</a>
 				</td>
 			</tr>
 		</table>

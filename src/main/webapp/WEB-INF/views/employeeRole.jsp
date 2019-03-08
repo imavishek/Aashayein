@@ -25,7 +25,7 @@
 	<div class="notification-holder"></div>
 	
 	<div style="margin-bottom:.5em;float: left;">
-		<a href='<jstlCore:url value="/EmployeeRole/showAddRole.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee Role</a>
+		<a href='<jstlCore:url value="/Admin/EmployeeRole/showAddRole.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee Role</a>
 	</div>
 	
 	<div style="margin-bottom:.5em;float: right;">
@@ -60,13 +60,13 @@
 							<jstlCore:choose>
 								<jstlCore:when test="${role.archive eq 0}">
 									<td class="alignCenter">
-										<a href='<jstlCore:url value="/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit" title="Edit Role">Edit</a>
-										<a href='<jstlCore:url value="/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete" title="Delete Role">Delete</a>
+										<a href='<jstlCore:url value="/Admin/EmployeeRole/showEditRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-edit" title="Edit Role">Edit</a>
+										<a href='<jstlCore:url value="/Admin/EmployeeRole/deleteRole.abhi?roleId=${role.roleId}"/>' class="auto-button deleteRole" data-icon="ui-icon-custom-delete" title="Delete Role">Delete</a>
 									</td>
 								</jstlCore:when>
 								<jstlCore:otherwise>
 									<td class="alignCenter" colspan="2">
-										<a href='<jstlCore:url value="/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-reset" title="Active Role">Active</a>
+										<a href='<jstlCore:url value="/Admin/EmployeeRole/activeRole.abhi?roleId=${role.roleId}"/>' class="auto-button" data-icon="ui-icon-custom-reset" title="Active Role">Active</a>
 									</td>
 								</jstlCore:otherwise>
 							</jstlCore:choose>

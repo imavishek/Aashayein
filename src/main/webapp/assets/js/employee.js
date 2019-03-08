@@ -2,6 +2,9 @@ $(function() {
 
 	"use strict";
 
+	var csrfToken = $("meta[name='_csrf']").attr("content");
+	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
 	$(".auto-button").button();
 	$(document).tooltip({
 		hide: {
@@ -45,8 +48,9 @@ $(function() {
 			}
 		}
 	});
+
 	$("#tableGrid").jqGrid({
-		url : contextRoot + '/Admin/Employee/getEmployees.abhi',
+		url : contextRoot + '/Admin/Employee/Asyn/getEmployees.abhi',
 		datatype: "json",
 		contentType: "application/json; charset=utf-8",
 		colModel: [
@@ -81,7 +85,8 @@ $(function() {
 		idPrefix: "g1_",
 		sortname: "recordCreated",
 		sortorder: "desc",
-		loadBeforeSend: function(response) {
+		loadBeforeSend: function(jqXHR) {
+			jqXHR.setRequestHeader(csrfHeader, csrfToken);
 			$(".notification-holder").hide();
 		},
 		loadError: function(response, status, xhr) {
@@ -112,7 +117,7 @@ $(function() {
 		var employeeCode = rowObject.employeeCode;
 		if(rowObject.archive == 1){
 			return '<a href="' + contextRoot
-					+ '/Employee/unArchiveEmployee.abhi?employeeId='
+					+ '/Admin/Employee/unArchiveEmployee.abhi?employeeId='
 					+ employeeId
 					+ '" title="UnArchive" style="cursor: pointer;"><img src="'
 					+ contextRoot
@@ -121,7 +126,7 @@ $(function() {
 
 		return '<a href="'
 				+ contextRoot
-				+ '/Employee/showEditEmployee.abhi?employeeId='
+				+ '/Admin/Employee/showEditEmployee.abhi?employeeId='
 				+ employeeId
 				+ '&employeeCode='
 				+ employeeCode
@@ -160,7 +165,7 @@ function archiveEmployee(employeeId){
 	$(".notification-holder").hide();
 	
  
-	var url = contextRoot + "/Employee/archiveEmployee.abhi?employeeId=" + employeeId;
+	var url = contextRoot + "/Admin/Employee/archiveEmployee.abhi?employeeId=" + employeeId;
 	
 	$("#dialogDelete").load('' + contextRoot + '/Dialog/showDeleteDialog?message=employee', function( response, status, xhr ) {
 		if ( status == "error" ) {

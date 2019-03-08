@@ -44,14 +44,14 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	@Override
 	public List<EmployeeTO> getAllEmployees() {
 
-		List<EmployeeTO> employees = null;
+		List<EmployeeTO> employees = new ArrayList<EmployeeTO>();
+		;
 
 		String hql = "FROM Employee ORDER BY RecordCreated DESC";
 		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
 		List<Employee> employee = query.list();
 
 		if (!employee.isEmpty()) {
-			employees = new ArrayList<EmployeeTO>();
 
 			for (Employee emp : employee) {
 				EmployeeTO employeeTo = new EmployeeTO();
