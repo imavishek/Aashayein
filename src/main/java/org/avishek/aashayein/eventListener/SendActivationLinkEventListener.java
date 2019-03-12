@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.dto.MailRequestTO;
 import org.avishek.aashayein.entities.Employee;
-import org.avishek.aashayein.event.OnRegistrationSuccessEvent;
+import org.avishek.aashayein.event.SendActivationLinkEvent;
 import org.avishek.aashayein.utility.MailUtil;
 import org.avishek.aashayein.utility.ServerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class OnRegistrationSuccessEventListener implements ApplicationListener<OnRegistrationSuccessEvent> {
+public class SendActivationLinkEventListener implements ApplicationListener<SendActivationLinkEvent> {
 
 	@Autowired
 	private MailUtil mailUtil;
@@ -20,10 +20,10 @@ public class OnRegistrationSuccessEventListener implements ApplicationListener<O
 	@Autowired
 	private ServerUtil serverUtil;
 
-	private static final Logger logger = LogManager.getLogger(OnRegistrationSuccessEventListener.class);
+	private static final Logger logger = LogManager.getLogger(SendActivationLinkEventListener.class);
 
 	@Override
-	public void onApplicationEvent(OnRegistrationSuccessEvent event) {
+	public void onApplicationEvent(SendActivationLinkEvent event) {
 
 		String confirmationUrl = null;
 		Employee employee = event.getEmployee();
@@ -32,14 +32,14 @@ public class OnRegistrationSuccessEventListener implements ApplicationListener<O
 		confirmationUrl = serverUtil.getServerUrl() + "EmployeeProfile/Active/showSetPassword.abhi?token="
 				+ employee.getTokenUUID();
 
-		logger.info("On Registration Success Event Published");
+		logger.info("Send Activation Link Event Published");
 		logger.debug("Sending Mail...");
 
 		mailRequestTo.setRecipientName(employee.getFirstName());
 		mailRequestTo.setEmailTo(employee.getEmail());
 		mailRequestTo.setEmailSubject("Aashayein - Active Account");
 		mailRequestTo.setEmailForm("aashayein2019@gmail.com");
-		mailRequestTo.setEmailTemplateName("welcome.ftl");
+		mailRequestTo.setEmailTemplateName("activationLink.ftl");
 		mailRequestTo.setUrl(confirmationUrl);
 		mailRequestTo.setDetails(employee);
 
@@ -48,7 +48,7 @@ public class OnRegistrationSuccessEventListener implements ApplicationListener<O
 		if (success) {
 			logger.debug("Email Sent...");
 		} else {
-			logger.debug("Failure Sending Mail...");
+			logger.debug("Fail To Send Mail...");
 		}
 	}
 

@@ -50,8 +50,11 @@ public class WebConfig implements WebMvcConfigurer {
 		List<String> excludePathPatterns = new ArrayList<String>();
 		excludePathPatterns.add("/Maintenance/*");
 		excludePathPatterns.add("/assets/**");
-		registry.addInterceptor(weekBasedAccessInterceptor).excludePathPatterns(excludePathPatterns);
-		registry.addInterceptor(ajaxCallValidateInterceptor).addPathPatterns("/**/Asyn/**");
+		// registry.addInterceptor(weekBasedAccessInterceptor).excludePathPatterns(excludePathPatterns);
+		List<String> ajaxCallValidateInterceptorPathPatterns = new ArrayList<String>();
+		ajaxCallValidateInterceptorPathPatterns.add("/**/Asyn/**");
+		ajaxCallValidateInterceptorPathPatterns.add("/Login/Asyn/**");
+		registry.addInterceptor(ajaxCallValidateInterceptor).addPathPatterns(ajaxCallValidateInterceptorPathPatterns);
 		/*
 		 * registry.addInterceptor(new
 		 * WeekBasedAccessInterceptor()).addPathPatterns("/*");

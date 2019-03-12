@@ -14,7 +14,7 @@ public class CsrfTokenValidateUtil {
 
 		CsrfTokenRepository csrfTokenRepository = new HttpSessionCsrfTokenRepository();
 		CsrfToken csrfToken = csrfTokenRepository.loadToken(request);
-		
+
 		if (request.getHeader("X-CSRF-TOKEN") == null) {
 			return false;
 		}

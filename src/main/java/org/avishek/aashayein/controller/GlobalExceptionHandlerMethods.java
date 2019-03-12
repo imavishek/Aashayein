@@ -21,6 +21,7 @@ import org.avishek.aashayein.exception.UploadingFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.TransactionException;
 import org.springframework.ui.Model;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -42,7 +43,8 @@ public class GlobalExceptionHandlerMethods {
 	 * NoHandlerFoundException. So return HttpStatus.NOT_FOUND instead of
 	 * HttpStatus.INTERNAL_SERVER_ERROR
 	 */
-	@ExceptionHandler({ NoHandlerFoundException.class, MissingServletRequestParameterException.class })
+	@ExceptionHandler({ NoHandlerFoundException.class, MissingServletRequestParameterException.class,
+			HttpRequestMethodNotSupportedException.class })
 	public String handlerNoHandlerFoundException(Model model, Exception e) {
 
 		String view = "";
@@ -210,7 +212,8 @@ public class GlobalExceptionHandlerMethods {
 
 		model.addAttribute("title", "Invalid Token");
 		model.addAttribute("errorTitle", "Invalid Token");
-		model.addAttribute("errorMessage", "The link you are trying to access is expired. Please retry with a new link.");
+		model.addAttribute("errorMessage",
+				"The link you are trying to access is expired. Please retry with a new link.");
 
 		view = "error500";
 

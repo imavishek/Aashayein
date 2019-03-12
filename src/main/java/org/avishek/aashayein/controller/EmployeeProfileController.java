@@ -214,7 +214,7 @@ public class EmployeeProfileController {
 	}
 
 	// Show setPassword page for employee
-	@RequestMapping(value = "/Reset/showSetPassword.abhi")
+	@RequestMapping(value = "/Active/showSetPassword.abhi")
 	public String showSetPassword(Model model, HttpServletRequest request,
 			@RequestParam(name = "token", required = true) String token) throws InvalidTokenException {
 
@@ -235,13 +235,15 @@ public class EmployeeProfileController {
 			model.addAttribute("password", password);
 		}
 
+		model.addAttribute("action", "EmployeeProfile/Active/activeAccount.abhi");
+
 		view = "setPassword";
 
 		return view;
 	}
 
-	// Saving password
-	@RequestMapping(value = "/Reset/setPassword.abhi")
+	// Setting password to active account
+	@RequestMapping(value = "/Active/activeAccount.abhi")
 	public String setPassword(Model model, @Valid @ModelAttribute("password") PasswordCommand password,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
 			throws InvalidTokenException, EmployeeNotFoundException {
@@ -261,7 +263,7 @@ public class EmployeeProfileController {
 			redir.addFlashAttribute("password", password);
 			redir.addFlashAttribute("org.springframework.validation.BindingResult.password", result);
 
-			view = "redirect:/EmployeeProfile/Reset/showSetPassword.abhi?token=" + password.getTokenUUID();
+			view = "redirect:/EmployeeProfile/Active/showSetPassword.abhi?token=" + password.getTokenUUID();
 		} else {
 
 			// Token expiration time in milliseconds. 24h = 86400000 Milliseconds
@@ -300,4 +302,90 @@ public class EmployeeProfileController {
 
 		return view;
 	}
+
+	// Show Reset Password page for employee
+	@RequestMapping(value = "/Reset/showResetPassword.abhi")
+	public String showResetPassword(Model model, HttpServletRequest request,
+			@RequestParam(name = "token", required = true) String token) throws InvalidTokenException {
+
+		String view = "";
+		// Token expiration time in milliseconds. 1h = 3600000 Milliseconds
+		Long expiration = 3600000l;
+
+		// Verify token and expired date
+		EmployeeTO employee = employeeService.verifyToken(token, expiration);
+
+		if (employee == null) {
+			throw new InvalidTokenException("Invalid Token");
+		}
+
+		if (!model.containsAttribute("password")) {
+			PasswordCommand password = new PasswordCommand();
+			password.setTokenUUID(employee.getTokenUUID());
+			model.addAttribute("password", password);
+		}
+
+		model.addAttribute("action", "EmployeeProfile/Reset/resetPassword.abhi");
+
+		view = "setPassword";
+
+		return view;
+	}
+
+	// Saving password
+	@RequestMapping(value = "/Reset/resetPassword.abhi")
+	public String resetPassword(Model model, @Valid @ModelAttribute("password") PasswordCommand password,
+			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
+			throws InvalidTokenException, EmployeeNotFoundException {
+
+		String view = "";
+
+		// Checking data binding error
+		if (result.hasErrors()) {
+
+			// Logging DataBinding Error
+			for (FieldError error : result.getFieldErrors()) {
+				logger.error("Error In DataBinding For Field:- " + error.getField() + " FieldValue:- "
+						+ error.getRejectedValue());
+			}
+
+			// Redirect to show the error registration page
+			redir.addFlashAttribute("password", password);
+			redir.addFlashAttribute("org.springframework.validation.BindingResult.password", result);
+
+			view = "redirect:/EmployeeProfile/Reset/showResetPassword.abhi?token=" + password.getTokenUUID();
+		} else {
+
+			// Token expiration time in milliseconds. 1h = 3600000 Milliseconds
+			Long expiration = 3600000l;
+
+			// Verify token and expired date
+			EmployeeTO employee = employeeService.verifyToken(password.getTokenUUID(), expiration);
+
+			if (employee == null) {
+				throw new InvalidTokenException("Invalid Token");
+			}
+
+			// Setting value in Employee Transfer Object
+			EmployeeTO employeeTo = new EmployeeTO();
+
+			employeeTo.setEmployeeId(employee.getEmployeeId());
+			employeeTo.setEmployeeCode(employee.getEmployeeCode());
+			employeeTo.setPassword(password.getPassword());
+
+			// Saving the employee password
+			Integer noOfRecordUpdated = employeeService.savePassword(employeeTo);
+
+			// If employeeId not found then throw EmployeeNotFoundException
+			if (noOfRecordUpdated == 0)
+				throw new EmployeeNotFoundException(employeeTo.getEmployeeCode());
+
+			logger.info("Password Updated Successfully For Employee Having EmployeeId: " + employeeTo.getEmployeeId());
+
+			view = "redirect:/Login/showLogin.abhi";
+		}
+
+		return view;
+	}
+
 }

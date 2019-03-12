@@ -34,4 +34,6 @@ public interface EmployeeDao {
 	Integer savePassword(EmployeeTO employeeTo);
 
 	Integer activeEmployee(Integer employeeId);
+
+	Employee updateTokenUUID(Integer employeeId);
 }

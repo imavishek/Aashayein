@@ -19,6 +19,8 @@ import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.dto.MailCheckerTO;
 import org.avishek.aashayein.entities.Employee;
 import org.avishek.aashayein.event.OnRegistrationSuccessEvent;
+import org.avishek.aashayein.event.SendActivationLinkEvent;
+import org.avishek.aashayein.event.SendResetPasswordEvent;
 import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeService;
 import org.avishek.aashayein.uniquekeyGenerator.UniquekeyGenerator;
@@ -64,6 +66,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public EmployeeTO getEmployeeDetailsById(Integer employeeId) {
 
 		return employeeDao.getEmployeeDetailsById(employeeId);
+	}
+
+	// Getting employee details by emailId
+	@Override
+	@Transactional
+	public EmployeeTO getEmployeeByEmail(String email) {
+
+		return employeeDao.getEmployeeByEmail(email);
 	}
 
 	// Adding Employee Details
@@ -261,6 +271,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Integer activeEmployee(Integer employeeId) {
 
 		return employeeDao.activeEmployee(employeeId);
+	}
+
+	// Send Activation Link
+	@Override
+	@Transactional
+	public void sendActivationLink(Integer employeeId) {
+
+		Employee employee = employeeDao.updateTokenUUID(employeeId);
+
+		// Publish an event to send activation link mail
+		eventPublisher.publishEvent(new SendActivationLinkEvent(this, employee));
+
+	}
+
+	// Send Reset Password Link
+	@Override
+	@Transactional
+	public void sendResetPasswordLink(Integer employeeId) {
+
+		Employee employee = employeeDao.updateTokenUUID(employeeId);
+
+		// Publish an event to send reset password link mail
+		eventPublisher.publishEvent(new SendResetPasswordEvent(this, employee));
+
 	}
 
 }

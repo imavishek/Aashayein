@@ -42,7 +42,8 @@
 		<!-- Show InnerContent After Window Load -->
 		<div class="innerContent">
 			<div class="wrap-login100" style="background-color: #a7a4a4bf;">
-				<springForm:form action="${contextRoot}/EmployeeProfile/Reset/setPassword.abhi" cssClass="login100-form" id="passwordForm" method="POST" modelAttribute="password">
+				<jstlCore:url value="/${action}" var="url"/>
+				<springForm:form action="${url}" cssClass="login100-form" id="passwordForm" method="POST" modelAttribute="password">
 					<span class="login100-form-title p-b-48">
 						<img src="${contextRoot}/assets/img/logos/Aashayein.png" style="margin-bottom:25px;" height="60" width="240" alt="Aashayein"/>
 					</span>

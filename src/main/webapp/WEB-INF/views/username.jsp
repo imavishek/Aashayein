@@ -10,10 +10,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Aashayein - Log In</title>
+	<title>Aashayein - ${pageTitle}</title>
 
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	
+	<sec:csrfMetaTags />
 
 	<link rel="shortcut icon" href="${contextRoot}/assets/img/logos/Aashayein_icon.ico">
 	<link rel="stylesheet" type="text/css" href="${contextRoot}/assets/css/jquery/jquery-ui.css">
@@ -31,10 +31,11 @@
 	<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui.js"></script>
 	<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate.js"></script>
 	<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
+	<script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-ui-notification.js"></script>
 	<script type="text/javascript" src="${contextRoot}/assets/js/common.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
-	<script type="text/javascript" src="${contextRoot}/assets/js/login.js"></script>
+	<script type="text/javascript" src="${contextRoot}/assets/js/username.js"></script>
 </head>
 <body>
 	<div class="limiter">
@@ -43,59 +44,49 @@
 		<div class="customSpinner-spinner customSpinner-spin customSpinner"></div>
 		<!-- Show InnerContent After Window Load -->
 		<div class="innerContent">
-			<div class="wrap-login100" style="background-color: #a7a4a4bf;height: 450px;">
-				<jstlCore:url value="/Login/doLogin.abhi" var="loginUrl"/>
-				<springForm:form action="${loginUrl}" cssClass="login100-form" id="loginForm" method="POST" modelAttribute="login">
+			<div class="wrap-login100" style="background-color: #a7a4a4bf;height: 420px;">
+				<jstlCore:url value="/${action}" var="url"/>
+				<form action="${url}" class="login100-form" id="activeResetForm" method="POST">
 					<span class="login100-form-title p-b-48">
 						<img src="${contextRoot}/assets/img/logos/Aashayein.png" style="margin-bottom:25px;" height="60" width="240" alt="Aashayein"/>
 					</span>
 
-					<jstlCore:if test="${param.error != null}">
-						<span class="error_message" style="font-weight:bold;">Invalid username and password</span>
-					</jstlCore:if>
+					<div style="font-weight:bold; text-align:center; font-size:16px; color:#413de6;">${pageTitle}</div>
 					
-					<jstlCore:if test="${param.logout != null}">
-						<span class="success_message" style="font-weight:bold;">You have been logged out</span>
-					</jstlCore:if>
-					
-					<table>
-					<tr>
-						<td><springForm:label path="username" cssClass="field_label">Username</springForm:label><span class="required">*</span></td>
-					</tr>
-					<tr>
-						<td><springForm:input path="username" cssClass="field-input" placeholder="Username"/></td>
-					</tr>
-					<tr>
-						<td><springForm:errors path="username" cssClass="error_message" element="span"/></td>
-					</tr>
-					<tr>
-						<td><springForm:label path="password" cssClass="field_label">Password</springForm:label><span class="required">*</span></td>
-					</tr>
-					<tr>
-						<td><springForm:password path="password" maxlength="25" cssClass="field-input" placeholder="Password"/></td>
-					</tr>
-					<tr>
-						<td><springForm:errors path="password" cssClass="error_message" element="span"/></td>
-					</tr>
-					<tr>
-						<td style="padding-top: 8px">
-							<springForm:checkbox id="rememberMe" path="rememberMe" value="true"/>
-							<springForm:label path="rememberMe" cssClass="field_label">Remember Me</springForm:label>
-						</td>
-					</tr>
-					</table>
-					<div class="container-login100-form-btn">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button type="submit" class="login100-form-btn">LOGIN</button>
+					<div style="padding:10px 0px;">
+						<!-- Div for showing error -->
+						<div class="notification-holder"></div>
+
+						<jstlCore:if test="${param.error != null}">
+							<span class="error_message" style="font-weight:bold;">Invalid username and password</span>
+						</jstlCore:if>
+						
+						<jstlCore:if test="${param.logout != null}">
+							<span class="success_message" style="font-weight:bold;">You have been logged out</span>
+						</jstlCore:if>
+						
+						<table>
+						<tr>
+							<td><label for="username" class="field_label">Username</label><span class="required">*</span></td>
+						</tr>
+						<tr>
+							<td><input type="text" name="username" id="username" class="field-input" placeholder="EmailId"/></td>
+						</tr>
+						<tr>
+							<td><span id="username" class="error_message"></span></td>
+						</tr>
+						</table>
+						<div class="container-login100-form-btn">
+							<div class="wrap-login100-form-btn">
+								<div class="login100-form-bgbtn"></div>
+								<button type="submit" class="login100-form-btn">Send Link</button>
+							</div>
 						</div>
 					</div>
 					<div align="middle" style="margin-top:10px;">
-						<a href='<jstlCore:url value="/Login/Active/showUsername.abhi"/>'>Active Account</a>
-						&nbsp; | &nbsp;
-						<a href='<jstlCore:url value="/Login/Reset/showUsername.abhi"/>'>Reset password</a>
+						<a href='<jstlCore:url value="${contextRoot}/Login/showLogin.abhi"/>'>Go Back To Login</a>
 					</div>
-				</springForm:form>
+				</form>
 			</div>
 		</div>
 	</div>

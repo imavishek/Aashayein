@@ -66,7 +66,7 @@ public class MailUtil {
 			mailSender.send(mimeMessage);
 
 			logger.info("Mail Sent Successfully. To:- " + mailRequest.getRecipientName() + "<"
-					+ mailRequest.getEmailTo() + ">," + " Subject:-" + mailRequest.getEmailSubject());
+					+ mailRequest.getEmailTo() + ">," + " Subject: " + mailRequest.getEmailSubject());
 			success = true;
 
 		} catch (MessagingException | IOException | TemplateException e) {

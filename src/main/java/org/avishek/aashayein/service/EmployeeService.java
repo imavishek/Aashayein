@@ -20,6 +20,8 @@ public interface EmployeeService {
 
 	EmployeeTO getEmployeeDetailsById(Integer employeeId);
 
+	EmployeeTO getEmployeeByEmail(String email);
+
 	String addEmployee(EmployeeTO employeeTo) throws UploadingFailedException;
 
 	String editEmployee(EmployeeTO employeeTo);
@@ -39,5 +41,9 @@ public interface EmployeeService {
 	EmployeeTO verifyToken(String token, Long expiration);
 
 	Integer activeEmployee(Integer employeeId);
+
+	void sendActivationLink(Integer employeeId);
+
+	void sendResetPasswordLink(Integer employeeId);
 
 }

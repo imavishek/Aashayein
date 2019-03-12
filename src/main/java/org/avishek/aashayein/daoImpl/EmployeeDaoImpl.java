@@ -152,7 +152,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		if (employee != null) {
 			employeeTo = new EmployeeTO();
 
+			employeeTo.setEmployeeId(employee.getEmployeeId());
 			employeeTo.setFirstName(employee.getFirstName());
+			employeeTo.setActive(employee.getActive());
+			employeeTo.setArchive(employee.getArchive());
 		}
 
 		return employeeTo;
@@ -422,6 +425,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
 		noOfRecordUpdated = query.executeUpdate();
 
 		return noOfRecordUpdated;
+	}
+
+	@Override
+	public Employee updateTokenUUID(Integer employeeId) {
+
+		Employee employee = null;
+
+		employee = (Employee) sessionFactory.getCurrentSession().get(Employee.class, employeeId);
+		employee.setTokenUUID(UUID.randomUUID().toString());
+		employee.setTokenGeneratedDate(dateTime.getCurrentDateTime());
+		employee.setRecordUpdated(dateTime.getCurrentDateTime());
+
+		return employee;
 	}
 
 }
