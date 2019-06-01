@@ -26,6 +26,7 @@
 	
 	<div style="margin-bottom:.8em;">
 		<a href='<jstlCore:url value="/Admin/EmployeeRegistration/showRegistration.abhi"/>' class="auto-button" data-icon="ui-icon-plusthick">Add Employee</a>
+		<a href='<jstlCore:url value="/Admin/Employee/exportToExcel.abhi"/>' class="auto-button" data-icon="ui-icon-custom-excel">Export to Excel</a>
 	</div>
 	
 	<div class="wrapper">

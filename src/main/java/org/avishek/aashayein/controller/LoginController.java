@@ -145,20 +145,20 @@ public class LoginController {
 		employee = employeeService.getEmployeeByEmail(username);
 
 		if (employee == null || employee.getArchive().intValue() == 1) {
-			msg = "User Not Found";
+			msg = "User not found";
 
 			return msg;
 		}
 
 		if (employee.getActive().intValue() == 1) {
-			msg = "Profile Already Activated";
+			msg = "Profile already activated";
 
 			return msg;
 		}
 
 		employeeService.sendActivationLink(employee.getEmployeeId());
 
-		msg = "An Activation Link Has Been Sent To Your Registered MailId";
+		msg = "An activation link has been sent to your registered MailId";
 
 		return msg;
 	}
@@ -195,20 +195,20 @@ public class LoginController {
 		employee = employeeService.getEmployeeByEmail(username);
 
 		if (employee == null || employee.getArchive().intValue() == 1) {
-			msg = "User Not Found";
+			msg = "User not found";
 
 			return msg;
 		}
 
 		if (employee.getActive().intValue() == 0) {
-			msg = "Profile Not Activated";
+			msg = "Profile not activated";
 
 			return msg;
 		}
 
 		employeeService.sendResetPasswordLink(employee.getEmployeeId());
 
-		msg = "An Reset Link Has Been Sent To Your Registered MailId";
+		msg = "A reset link has been sent to your registered MailId";
 
 		return msg;
 	}

@@ -62,7 +62,8 @@ $(function() {
 	$('#title, #role').pqSelect({}).on("change", function (e) {
         $(this).valid();
     })
-	var validator = $("#employeeRegistration").validate({			
+    
+	var validator = $("#employeeRegistration").validate({
 		rules : {
 			firstName : {
 				normalizer : function(value) {
@@ -129,6 +130,9 @@ $(function() {
 				accept: "image/jpg,image/jpeg",
 				extension : "jpg|jpeg",
 				maxsize : 1048576
+			},
+			recaptcha_response_field : {
+				checkCaptcha : true
 			}
 		},
 		messages : {
@@ -210,6 +214,13 @@ $(function() {
 				$(element).removeClass('error_box');
 			}
 			$(element).parent().parent().removeClass('error_row');
+		},
+		submitHandler: function(form) {
+			if (grecaptcha.getResponse()) {
+				form.submit();
+			} else {
+				$('#recaptcha').html("Please confirm captcha to proceed");
+			}
 		}
 	});
 

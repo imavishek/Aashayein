@@ -106,7 +106,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		// SMTP verification of mailId
 		mailCheckerTO = mailUtil.checkEmailExistence(employeeTo.getEmail());
 
-		if (mailCheckerTO.getSmtp_check() == false) {
+		if (mailCheckerTO.getSmtp_check() == false && mailCheckerTO.getMx_found() == false) {
 			logger.info("SMTP verification failed for mailId:- " + mailCheckerTO.getEmail());
 			message = "EmailId SMTP verification failed";
 

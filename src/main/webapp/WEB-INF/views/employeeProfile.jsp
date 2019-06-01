@@ -201,6 +201,10 @@
 						<td class="displayfield">${employee.fullName}</td>
 					</tr>
 					<tr>
+						<td class="display_label">Designation:</td>
+						<td class="displayfield">${employee.jobTitleName}</td>
+					</tr>
+					<tr>
 						<td class="display_label">Email:</td>
 						<td class="displayfield">${employee.email}</td>
 					</tr>

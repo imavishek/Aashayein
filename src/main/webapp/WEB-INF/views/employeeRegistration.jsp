@@ -96,10 +96,10 @@
 				<td>
 					<jstlFormat:formatDate value="${tomorrow}" pattern="dd-MM-yyyy" var="tomorrow" />
 					<jsp:include page="/WEB-INF/tags/date_picker.jsp">
-    					<jsp:param name="fieldName" value="joiningDate"/>
-    					<jsp:param name="defaultDate" value='${tomorrow}'/>
-    					<jsp:param name="minDate" value="1D"/>
-    					<jsp:param name="yearRange" value="+0:+10"/>
+						<jsp:param name="fieldName" value="joiningDate"/>
+						<jsp:param name="defaultDate" value='${tomorrow}'/>
+						<jsp:param name="minDate" value="1D"/>
+						<jsp:param name="yearRange" value="+0:+10"/>
 					</jsp:include>
 					<span class="ui-icon ui-icon-custom-info-faded" title="Default date set to tomorrow, Select Date Greater Than Today"></span>
 				</td>
@@ -118,10 +118,14 @@
 				</td>
 				<td><springForm:errors path="profilePhoto" cssClass="error_message" element="span"/></td>
 			</tr>
-			
 			<tr>
 				<td style="padding-top:10px;"></td>
-				<td style="text-align:right;padding-top:10px;">
+				<td class="g-recaptcha" data-size="normal" data-theme="light " data-sitekey="${captchaSettings.getSiteKey()}"></td>
+				<td><span id="recaptcha" class="error_message"></span></td>
+			</tr>
+			<tr>
+				<td style="padding-top:10px;"></td>
+				<td style="text-align:center;padding-top:10px;">
 					<button type="submit" class="auto-button actionButton" data-icon="ui-icon-custom-save">Save</button>
 					<button type="reset" class="auto-button actionButton" id="reset" data-icon="ui-icon-custom-reset">Reset</button>
 				</td>
@@ -138,6 +142,7 @@
 <script type="text/javascript" src="${contextRoot}/assets/plugins/jquery/jquery-validate-additional-methods.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pNotify/pnotify-custom.js"></script>
 <script type="text/javascript" src="${contextRoot}/assets/plugins/pqSelect/pqselect.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script type="text/javascript">
 
 var contextRoot = '${contextRoot}';

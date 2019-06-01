@@ -18,7 +18,7 @@ public class LoginServiceImpl implements UserDetailsService {
 
 	// Loading User By Username
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Employee employee = employeeDao.getEmployeeByUsername(username);
 

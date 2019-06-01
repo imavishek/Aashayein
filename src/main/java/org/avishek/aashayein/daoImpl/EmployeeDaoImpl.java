@@ -45,7 +45,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 	public List<EmployeeTO> getAllEmployees() {
 
 		List<EmployeeTO> employees = new ArrayList<EmployeeTO>();
-		;
 
 		String hql = "FROM Employee ORDER BY RecordCreated DESC";
 		Query<Employee> query = sessionFactory.getCurrentSession().createQuery(hql, Employee.class);
@@ -69,6 +68,13 @@ public class EmployeeDaoImpl implements EmployeeDao {
 				employeeTo.setAlternateEmail(emp.getAlternateEmail());
 				employeeTo.setJobTitleName(emp.getTitle().getTitleName());
 				employeeTo.setRoleName(emp.getRole().getRoleName());
+				if(emp.getAddress() != null) {
+					employeeTo.setCountryName(emp.getAddress().getCountry().getCountryName());
+					employeeTo.setStateName(emp.getAddress().getState().getStateName());
+					employeeTo.setCityName(emp.getAddress().getCity().getCityName());
+					employeeTo.setPostalCode(emp.getAddress().getPostalCode());
+					employeeTo.setAddressLine1(emp.getAddress().getAddressLine1());
+				}
 				employeeTo.setActive(emp.getActive());
 				employeeTo.setArchive(emp.getArchive());
 				employeeTo.setProfilePhoto(emp.getProfilePhoto());

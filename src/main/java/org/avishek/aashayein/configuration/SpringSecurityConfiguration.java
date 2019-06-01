@@ -9,9 +9,6 @@
 
 package org.avishek.aashayein.configuration;
 
-import javax.sql.DataSource;
-
-import org.avishek.aashayein.eventListener.AuthenticationSuccessHandlerImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,24 +21,38 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private DataSource dataSource;
-
-	@Autowired
 	private UserDetailsService userDetailsService;
 
 	@Autowired
-	private AuthenticationSuccessHandlerImpl successHandler;
+	PersistentTokenRepository tokenRepository;
+
+	@Autowired
+	private AuthenticationSuccessHandler successHandler;
+
+	@Autowired
+	private AuthenticationFailureHandler failureHandler;
+
+	@Autowired
+	private LogoutSuccessHandler logoutSuccessHandler;
+
 
 	@Autowired
 	private AccessDeniedHandler accessDeniedHandler;
+
+	@Autowired
+	private SecurityContextRepository securityContextRepository;
 
 	@Override
 	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -68,18 +79,25 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/EmployeeProfile/Active/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
+			.securityContext()
+				.securityContextRepository(securityContextRepository)
+				.and()
 			.formLogin()
+				.usernameParameter("username")
+				.passwordParameter("password")
 				.loginPage("/Login/showLogin.abhi")
 				.loginProcessingUrl("/Login/doLogin.abhi")
 				/* .defaultSuccessUrl("/home", true) */
-				.failureUrl("/Login/showLogin.abhi?error")
+				/* .failureUrl("/Login/showLogin.abhi?error") */
 				.successHandler(successHandler)
+				.failureHandler(failureHandler)
 				.and()
 			.logout()
 				.logoutUrl("/Login/logout.abhi")
-				.logoutSuccessUrl("/Login/showLogin.abhi?logout")
+				/* .logoutSuccessUrl("/Login/showLogin.abhi?logout") */
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
+				.logoutSuccessHandler(logoutSuccessHandler)
 				/*
 				 * .deleteCookies(Base64.getEncoder().encodeToString("rememberMeCookiesAvishek".
 				 * getBytes()))
@@ -95,13 +113,13 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			 * private key to prevent modification of the remember-me token
 			 */
 			.rememberMe()
-				.key("$2y$12$1PrxhSySDhg.f17cQkAIleYnFjRh9o0nZg1Nr6aso2Jt36nmaWr0C")
+				.key("$2y$12$ia5x2GGvcthvT3NCx3wSzuqlSdGOEirUmLweUw25cAP0L9bISazPy")
 				.rememberMeParameter("rememberMe")
 				/*
 				 * .rememberMeCookieName(Base64.getEncoder().encodeToString(
 				 * "rememberMeCookiesAvishek".getBytes()))
 				 */
-				.tokenRepository(persistentTokenRepository())
+				.tokenRepository(tokenRepository)
 				.tokenValiditySeconds(24 * 60 * 60)
 				.and()
 			.exceptionHandling()
@@ -118,10 +136,17 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	/*
 	@Bean
 	public PersistentTokenRepository persistentTokenRepository() {
 		JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
 		tokenRepositoryImpl.setDataSource(dataSource);
 		return tokenRepositoryImpl;
+	}
+	*/
+
+	@Bean
+	public HttpSessionSecurityContextRepository httpSessionSecurityContextRepository() {
+		return new HttpSessionSecurityContextRepository();
 	}
 }

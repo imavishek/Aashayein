@@ -12,14 +12,14 @@
 	
 			</div>
 			<div class="content" style="font-family: &quot;Times New Roman&quot;, Times, serif;background: rgb(226, 226, 225);border: 1px solid rgb(221, 221, 221);padding: 9px;font-size: 14px;line-height: 18px;color: rgb(17, 17, 17);word-wrap: break-word;">
-				<b><span>Hi ${recipientName}</span></b>
+				<b><span>Hi ${recipientName},</span></b>
 				<p>Please <a href="${url}">Click Here<a/> to reset your password.</p>
 				
 				<p>
-					If you're having trouble clicking the above link then copy and paste the URL below into your web browser:<br><br>
+					If you're having trouble clicking the above link then copy and paste the below URL into your web browser:<br><br>
 					<a href="${url}">${url}<a/>
 				</p>
-				<p>This link is  valid for the next 1h.</p>
+				<p>This link is  valid for the next 1hr.</p>
 			</div>
 			<div class="footer" style="margin: 0 auto;background: #9a9898;padding: 8px;border-radius: 0px 0px 9px 9px;">
 				<div style="display: flex; justify-content: space-between; align-items: center;">

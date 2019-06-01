@@ -1,12 +1,15 @@
 package org.avishek.aashayein.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.avishek.aashayein.command.EditEmployeeCommand;
 import org.avishek.aashayein.dto.EmployeeRoleTO;
 import org.avishek.aashayein.dto.EmployeeTO;
@@ -16,6 +19,7 @@ import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
 import org.avishek.aashayein.service.EmployeeService;
 import org.avishek.aashayein.service.EmployeeTitleService;
+import org.avishek.aashayein.service.ExportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -42,6 +46,9 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeService employeeService;
+
+	@Autowired
+	ExportService exportService;
 
 	private static final Logger logger = LogManager.getLogger(EmployeeController.class);
 
@@ -70,6 +77,35 @@ public class EmployeeController {
 		List<EmployeeTO> employees = employeeService.getAllEmployees();
 
 		return employees;
+	}
+
+	// Export Employees To Excel
+	@RequestMapping(value = "/exportToExcel.abhi")
+	public void exportToExcel(Model model, HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+
+		String fileName = "employees.xlsx";
+		Workbook workbook = null;
+
+		try {
+			workbook = exportService.buildWorkbookForEmployees();
+
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", fileName);
+			response.setContentType("application/vnd.ms-excel");
+			response.setHeader(headerKey, headerValue);
+			workbook.write(response.getOutputStream());
+
+			logger.info("SpreedSheet written successfully");
+		} catch (IOException ioe) {
+			logger.error("Error writing spreadsheet to output stream");
+			throw new RuntimeException("Error writing spreadsheet to output stream");
+		} finally {
+
+			if (workbook != null) {
+				workbook.close();
+			}
+		}
 	}
 
 	// Shows edit employee page

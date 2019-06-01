@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.avishek.aashayein.command.EditEmployeeProfileCommand;
 import org.avishek.aashayein.command.PasswordCommand;
 import org.avishek.aashayein.dto.CountryTO;
+import org.avishek.aashayein.dto.EmployeeDetails;
 import org.avishek.aashayein.dto.EmployeeTO;
 import org.avishek.aashayein.exception.EmployeeNotFoundException;
 import org.avishek.aashayein.exception.InvalidTokenException;
@@ -28,6 +29,7 @@ import org.avishek.aashayein.service.AddressService;
 import org.avishek.aashayein.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -70,12 +72,13 @@ public class EmployeeProfileController {
 
 	// Shows employee profile
 	@RequestMapping(value = "/showEmployeeProfile.abhi")
-	public String showEmployeeProfile(Model model, HttpServletRequest request) throws EmployeeNotFoundException {
+	public String showEmployeeProfile(Model model, HttpServletRequest request, Authentication authentication)
+			throws EmployeeNotFoundException {
 
 		String view = "";
+		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home /</a> <a href='" + request.getContextPath()
-				+ "/EmployeeProfile/showEmployeeProfile.abhi'>" + request.getSession().getAttribute("name").toString()
-				+ "</a>";
+				+ "/EmployeeProfile/showEmployeeProfile.abhi'>" + employeeDetails.getUser().getFullName() + "</a>";
 
 		EditEmployeeProfileCommand editEmployeeProfileCommand = null;
 		List<CountryTO> countries = null;
@@ -83,8 +86,7 @@ public class EmployeeProfileController {
 		// Checking if the employee is logged in or not
 
 		// Getting the logged in employee details
-		EmployeeTO employeeTo = employeeService
-				.getEmployeeDetailsById(Integer.parseInt(request.getSession().getAttribute("id").toString()));
+		EmployeeTO employeeTo = employeeService.getEmployeeDetailsById(employeeDetails.getUser().getEmployeeId());
 
 		// If employee not found then throw EmployeeNotFoundException
 		if (employeeTo == null)
@@ -136,7 +138,7 @@ public class EmployeeProfileController {
 
 	// Edit profile details of employee
 	@PostMapping(value = "/saveEmployeeProfile.abhi")
-	public String saveEmployeeProfile(Model model,
+	public String saveEmployeeProfile(Authentication authentication, Model model,
 			@Valid @ModelAttribute("editEmployeeProfile") EditEmployeeProfileCommand editEmployeeProfileCommand,
 			BindingResult result, HttpServletRequest request, RedirectAttributes redir)
 			throws UploadingFailedException {
@@ -150,6 +152,7 @@ public class EmployeeProfileController {
 		 */
 
 		String view = "";
+		EmployeeDetails employeeDetails = (EmployeeDetails) authentication.getPrincipal();
 
 		// Checking data binding error
 		if (result.hasErrors()) {
@@ -171,7 +174,7 @@ public class EmployeeProfileController {
 			EmployeeTO employeeTo = new EmployeeTO();
 
 			// Set employeeId from session
-			employeeTo.setEmployeeId(Integer.parseInt(request.getSession().getAttribute("id").toString()));
+			employeeTo.setEmployeeId(employeeDetails.getUser().getEmployeeId());
 
 			employeeTo.setFirstName(editEmployeeProfileCommand.getFirstName());
 			employeeTo.setMiddleName(editEmployeeProfileCommand.getMiddleName());
@@ -194,14 +197,14 @@ public class EmployeeProfileController {
 			// If error does not occurs then message is empty
 			if (message == null) {
 				logger.info("Employee Profile Edited Successfully, Employee Code: "
-						+ request.getSession().getAttribute("empCode").toString());
+						+ employeeDetails.getUser().getEmployeeCode());
 
 				// Sending the message and message type to the corresponding jsp page
 				redir.addFlashAttribute("message", "Profile Edited Successfully");
 				redir.addFlashAttribute("messageType", "Success");
 			} else {
 				logger.error("Failed To Edit Employee Profile Having EmployeeCode: "
-						+ request.getSession().getAttribute("empCode").toString());
+						+ employeeDetails.getUser().getEmployeeCode());
 				redir.addFlashAttribute("editEmployeeProfile", editEmployeeProfileCommand);
 				redir.addFlashAttribute("message", message);
 				redir.addFlashAttribute("messageType", "Error");

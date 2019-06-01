@@ -35,6 +35,9 @@ public class WebConfig implements WebMvcConfigurer {
 	public ViewResolver getResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
 		// viewResolver.setViewClass(JstlView.class);
+
+		// To get Spring bean in JSP file 
+		viewResolver.setExposeContextBeansAsAttributes(true);
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 
@@ -50,7 +53,7 @@ public class WebConfig implements WebMvcConfigurer {
 		List<String> excludePathPatterns = new ArrayList<String>();
 		excludePathPatterns.add("/Maintenance/*");
 		excludePathPatterns.add("/assets/**");
-		// registry.addInterceptor(weekBasedAccessInterceptor).excludePathPatterns(excludePathPatterns);
+		//registry.addInterceptor(weekBasedAccessInterceptor).excludePathPatterns(excludePathPatterns);
 		List<String> ajaxCallValidateInterceptorPathPatterns = new ArrayList<String>();
 		ajaxCallValidateInterceptorPathPatterns.add("/**/Asyn/**");
 		ajaxCallValidateInterceptorPathPatterns.add("/Login/Asyn/**");

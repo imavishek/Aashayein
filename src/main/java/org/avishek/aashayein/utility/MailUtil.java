@@ -37,6 +37,9 @@ public class MailUtil {
 	@Autowired
 	private ServletContext servletContext;
 
+	@Autowired
+	private RestTemplate restTemplate;
+
 	private static final Logger logger = LogManager.getLogger(MailUtil.class);
 
 	public Boolean sendEmail(MailRequestTO mailRequest) {
@@ -88,7 +91,6 @@ public class MailUtil {
 		String mailBoxlayerUrl = "http://apilayer.net/api/check?access_key=3978ea99a6d5573639b61d4c93cdd174&email="
 				+ mailId + "&smtp=1";
 
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<MailCheckerTO> response = restTemplate.exchange(mailBoxlayerUrl, HttpMethod.GET, null,
 				MailCheckerTO.class);
 		logger.info("Mailboxlayer API Response:- " + response);

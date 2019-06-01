@@ -8,21 +8,18 @@ search field in employee list page
 mail on edit employee
 choose a picture over flow hidden
 table sorter table border
+on delete role and titile , should not available in add employee drop and down
 
 
 controll the setting of session attributes (avoid changing variable)
 When changing profile ...change session variable
 When edit role do logout
 
-joining date in welcome mail
-
-remember me change to hibernate
-controll the setting of session attributes (avoid changing variable)
 
 joining date edit in employee edit sesction
 
 
-
+add google recaptcha
 
 
 

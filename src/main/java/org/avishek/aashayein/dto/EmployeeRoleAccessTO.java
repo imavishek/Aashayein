@@ -1,7 +1,6 @@
 package org.avishek.aashayein.dto;
 
 import java.util.Date;
-import java.util.List;
 
 public class EmployeeRoleAccessTO {
 

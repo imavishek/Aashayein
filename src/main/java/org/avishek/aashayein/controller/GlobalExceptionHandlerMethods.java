@@ -222,22 +222,22 @@ public class GlobalExceptionHandlerMethods {
 	}
 
 	// Generic Exception Handler
-//	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-//	@ExceptionHandler(value = Exception.class)
-//	public String handleException(Model model, Exception e) {
-//
-//		String view = "";
-//
-//		logger.error(e.getMessage() + " [Exception " + e.getClass() + "]");
-//
-//		model.addAttribute("title", "Server Error");
-//		model.addAttribute("errorTitle", "Internal Server Error");
-//		model.addAttribute("errorMessage",
-//				"The server has encountered an unexpected error. Please contact administrator.");
-//
-//		view = "error500";
-//
-//		return view;
-//
-//	}
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(value = Exception.class)
+	public String handleException(Model model, Exception e) {
+
+		String view = "";
+
+		logger.error(e.getMessage() + " [Exception " + e.getClass() + "]");
+
+		model.addAttribute("title", "Server Error");
+		model.addAttribute("errorTitle", "Internal Server Error");
+		model.addAttribute("errorMessage",
+				"The server has encountered an unexpected error. Please contact administrator.");
+
+		view = "error500";
+
+		return view;
+
+	}
 }

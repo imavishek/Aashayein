@@ -31,12 +31,14 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 @Configuration
-@PropertySource({ "classpath:properties/database.properties", "classpath:properties/hibernate.properties" })
+@PropertySource({ "classpath:properties/database.properties", "classpath:properties/hibernate.properties",
+		"classpath:properties/captcha.properties" })
 @ComponentScan(basePackages = { "org.avishek.aashayein.*" })
 @EnableTransactionManagement
 public class SpringConfiguration {
@@ -96,7 +98,7 @@ public class SpringConfiguration {
 	@Bean
 	public LocaleResolver localeResolver() {
 		CookieLocaleResolver localeResolver = new CookieLocaleResolver();
-		localeResolver.setDefaultLocale(new Locale("hi"));
+		localeResolver.setDefaultLocale(new Locale("en"));
 
 		return localeResolver;
 	}
@@ -143,4 +145,17 @@ public class SpringConfiguration {
 	public HibernateTransactionManager txManager(SessionFactory sessionFactory) {
 		return new HibernateTransactionManager(sessionFactory);
 	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+	// @value requires PropertySourcesPlaceholderConfigurer to resolve ${...}
+	// placeholders
+	/*
+	 * @Bean public static PropertySourcesPlaceholderConfigurer
+	 * propertySourcesPlaceholderConfigurer() { return new
+	 * PropertySourcesPlaceholderConfigurer(); }
+	 */
 }

@@ -26,6 +26,7 @@ import org.avishek.aashayein.exception.UploadingFailedException;
 import org.avishek.aashayein.service.EmployeeRoleAndAccessService;
 import org.avishek.aashayein.service.EmployeeService;
 import org.avishek.aashayein.service.EmployeeTitleService;
+import org.avishek.aashayein.utility.CaptchaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -53,6 +54,9 @@ public class EmployeeRegistrationController {
 	@Autowired
 	EmployeeService employeeService;
 
+	@Autowired
+	CaptchaUtil captchaUtil;
+
 	private static final Logger logger = LogManager.getLogger(EmployeeRegistrationController.class);
 
 	@InitBinder("employee")
@@ -77,7 +81,8 @@ public class EmployeeRegistrationController {
 		String view = "";
 		String breadcrumb = "<a href='" + request.getContextPath() + "'>Home</a> / Admin / <a href='"
 				+ request.getContextPath() + "/Admin/Employee/showEmployees.abhi'>Employees</a> / <a href='"
-				+ request.getContextPath() + "/Admin/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
+				+ request.getContextPath()
+				+ "/Admin/EmployeeRegistration/showRegistration.abhi'>Employee Registration</a>";
 
 		// Getting all the job title details
 		List<EmployeeTitleTO> jobTitles = employeeTitleService.getAllJobTitles();
@@ -110,6 +115,7 @@ public class EmployeeRegistrationController {
 			HttpServletRequest request, RedirectAttributes redir) throws UploadingFailedException {
 
 		String view = "";
+		String recaptcha_response = request.getParameter("g-recaptcha-response");
 
 		// Checking data binding error
 		if (result.hasErrors()) {
@@ -126,48 +132,58 @@ public class EmployeeRegistrationController {
 
 			view = "redirect:/Admin/EmployeeRegistration/showRegistration.abhi";
 		} else {
+			String captchaResponse = captchaUtil.validateCaptcha(recaptcha_response);
 
-			// Setting value in Employee Transfer Object
-			EmployeeTO employeeTo = new EmployeeTO();
-
-			employeeTo.setFirstName(employeeCommand.getFirstName());
-			employeeTo.setMiddleName(employeeCommand.getMiddleName());
-			employeeTo.setLastName(employeeCommand.getLastName());
-			employeeTo.setGender(employeeCommand.getGender());
-			employeeTo.setMobileNumber(employeeCommand.getMobileNumber());
-			employeeTo.setAlternateMobileNumber(employeeCommand.getAlternateMobileNumber());
-			employeeTo.setEmail(employeeCommand.getEmail());
-			employeeTo.setAlternateEmail(employeeCommand.getAlternateEmail());
-			employeeTo.setJobTitleId(employeeCommand.getTitle());
-			employeeTo.setRoleId(employeeCommand.getRole());
-			employeeTo.setJoiningDate(employeeCommand.getJoiningDate());
-			employeeTo.setProfilePhotoFile(employeeCommand.getProfilePhoto());
-
-			// Adding the employee
-			String message = employeeService.addEmployee(employeeTo);
-
-			// If error does not occurs then message is empty
-			if (message == null) {
-				logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName() + " "
-						+ employeeCommand.getLastName() + " Added Successfully");
-
-				// Sending the message and message type to the corresponding jsp page
-				redir.addFlashAttribute("message", "Employee Added Successfully");
-				redir.addFlashAttribute("messageType", "Success");
-
-				view = "redirect:/Admin/Employee/showEmployees.abhi";
-			} else {
-				logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
-						+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
+			// Validation Google Re-Captcha
+			if (captchaResponse != "") {
+				logger.error("Captcha Validation Failed. Reason: " + captchaResponse);
 				redir.addFlashAttribute("employee", employeeCommand);
-				redir.addFlashAttribute("message", message);
+				redir.addFlashAttribute("message", captchaResponse);
 				redir.addFlashAttribute("messageType", "Error");
 
 				view = "redirect:/Admin/EmployeeRegistration/showRegistration.abhi";
+			} else {
+				// Setting value in Employee Transfer Object
+				EmployeeTO employeeTo = new EmployeeTO();
+
+				employeeTo.setFirstName(employeeCommand.getFirstName());
+				employeeTo.setMiddleName(employeeCommand.getMiddleName());
+				employeeTo.setLastName(employeeCommand.getLastName());
+				employeeTo.setGender(employeeCommand.getGender());
+				employeeTo.setMobileNumber(employeeCommand.getMobileNumber());
+				employeeTo.setAlternateMobileNumber(employeeCommand.getAlternateMobileNumber());
+				employeeTo.setEmail(employeeCommand.getEmail());
+				employeeTo.setAlternateEmail(employeeCommand.getAlternateEmail());
+				employeeTo.setJobTitleId(employeeCommand.getTitle());
+				employeeTo.setRoleId(employeeCommand.getRole());
+				employeeTo.setJoiningDate(employeeCommand.getJoiningDate());
+				employeeTo.setProfilePhotoFile(employeeCommand.getProfilePhoto());
+
+				// Adding the employee
+				String message = employeeService.addEmployee(employeeTo);
+
+				// If error does not occurs then message is empty
+				if (message == null) {
+					logger.info("Employee " + employeeCommand.getFirstName() + " " + employeeCommand.getMiddleName()
+							+ " " + employeeCommand.getLastName() + " Added Successfully");
+
+					// Sending the message and message type to the corresponding jsp page
+					redir.addFlashAttribute("message", "Employee Added Successfully");
+					redir.addFlashAttribute("messageType", "Success");
+
+					view = "redirect:/Admin/Employee/showEmployees.abhi";
+				} else {
+					logger.error("Failed To Add Employee " + employeeCommand.getFirstName() + " "
+							+ employeeCommand.getMiddleName() + " " + employeeCommand.getLastName());
+					redir.addFlashAttribute("employee", employeeCommand);
+					redir.addFlashAttribute("message", message);
+					redir.addFlashAttribute("messageType", "Error");
+
+					view = "redirect:/Admin/EmployeeRegistration/showRegistration.abhi";
+				}
 			}
 		}
 
 		return view;
 	}
-
 }

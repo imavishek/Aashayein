@@ -53,7 +53,7 @@
 					<jstlCore:if test="${param.error != null}">
 						<span class="error_message" style="font-weight:bold;">Invalid username and password</span>
 					</jstlCore:if>
-					
+
 					<jstlCore:if test="${param.logout != null}">
 						<span class="success_message" style="font-weight:bold;">You have been logged out</span>
 					</jstlCore:if>

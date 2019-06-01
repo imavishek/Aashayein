@@ -26,6 +26,7 @@
 		<javaxMail.version>1.4.7</javaxMail.version>
 		<jacksonDatabind.version>2.9.8</jacksonDatabind.version>
 		<freemarker.version>2.3.28</freemarker.version>
+		<apachePOI.version>3.17</apachePOI.version>
 		<maven.war.plugin.version>3.2.2</maven.war.plugin.version>
 		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
@@ -167,6 +168,19 @@
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
 			<version>${freemarker.version}</version>
+		</dependency>
+
+		<!-- Apache POI For Report Generation -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${apachePOI.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${apachePOI.version}</version>
 		</dependency>
 
 	</dependencies>
