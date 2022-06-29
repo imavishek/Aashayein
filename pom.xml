@@ -26,7 +26,7 @@
 		<javaxMail.version>1.4.7</javaxMail.version>
 		<jacksonDatabind.version>2.9.8</jacksonDatabind.version>
 		<freemarker.version>2.3.28</freemarker.version>
-		<apachePOI.version>3.17</apachePOI.version>
+		<apachePOI.version>4.1.1</apachePOI.version>
 		<maven.war.plugin.version>3.2.2</maven.war.plugin.version>
 		<maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
